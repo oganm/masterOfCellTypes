@@ -2,17 +2,23 @@
 #essential parts of the file are
 #1. the first collumn must include the GSMs
 #2. platform must be written to the Platform collumn
-
-source('https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r')
-source('https://raw.githubusercontent.com/oganm/toSource/master/mergeChips.R')
+require(RCurl)
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+                               ssl.verifypeer=FALSE) ))
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/mergeChips.R",
+    ssl.verifypeer=FALSE) ))
+#source('https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r')
+#source('https://raw.githubusercontent.com/oganm/toSource/master/mergeChips.R')
 require(affy)
 require(compare)
 
-desFile='Data2/Design.csv'
+desFile='Design.csv'
 # just selects S1s of dopaminergics   (((?<=:)|(?<=[,]))A\d.*?S1_M430A)
 celRegex='(GSM.*?(?=,|$))|(PC\\d....)|(Y[+].*?((?=(,))|\\d+))|((?<=:)|(?<=[,]))A((9)|(10))_[0-9]{1,}_Chee_S1_M430A|(v2_(?![G,H,r]).*?((?=(,))|($)))|(SSC.*?((?=(,))|($)))|(MCx.*?((?=(,))|($)))|(Cbx.*?((?=(,))|($)))'
 celDir ='cel'
-outFolder='Data2'
+outFolder='Data'
 
 design = read.table(desFile,quote='',header=T,sep='\t')
 gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
@@ -31,9 +37,9 @@ for (i in 1:len(affies)){
     celsNoExtension = gsub('[.](C|c)(E|e)(L|l)','',celsInFolder)
     gsms = regmatches(design[design$Platform == platforms[i], 1], gregexpr(celRegex, design[design$Platform == platforms[i], 1],perl=T))
     gsms = unlist(gsms)
-    
+
     relevant = celsInFolder[celsNoExtension %in% gsms]
-    
+
     affies[i] = ReadAffy(filenames = paste0(celDir,'/',platforms[i],'/',relevant))
 }
 
@@ -67,6 +73,7 @@ colnames(sadf) <- c("Probe","Gene Symbol","Annotation")
 aned <- merge(sadf,ned, by.x="Probe", by.y="row.names", all.x=TRUE, sort=FALSE)
 header = gsub('.cel', '', gsub('.CEL','', colnames(aned)[4:ncol(aned)]))
 colnames(aned) = c(colnames(aned)[1:3], header)
+dir.create(outFolder, recursive = T)
 write.csv(aned, paste0(outFolder,"/allNormalized"), row.names=FALSE)
 boxplot(aned[,4:ncol(aned)])
 gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
