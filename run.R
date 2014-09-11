@@ -18,7 +18,7 @@ groupNames = 'ourNaming'
 # executing stuff and things -----
 source('readDesignMergeCel.R')
 
-readDesignMergeCel(desFile, namingCol, celRegex, celDir,tinyChip, outfolder)
+readDesignMergeCel(desFile, namingCol, celRegex, celDir,tinyChip, outFolder)
 
 source('quantileNormalize.R')
 quantileNorm(paste0(outFolder,'/allNormalized'),
@@ -41,8 +41,16 @@ geneSelect(paste0(outFolder,'/normalizedDesign'),
            groupNames)
 
 
+source('microglialException.R')
+microglialException(groupNames, geneOut)
+
+
+
+
 function(designLoc,exprLoc,outLoc,groupNames)
     designLoc= paste0(outFolder,'/normalizedDesign')
 exprLoc = paste0(outFolder,'/mostVariableQuantileNormalized')
 outLoc = geneOut
 groupNames = groupNames
+
+# microglia exception
