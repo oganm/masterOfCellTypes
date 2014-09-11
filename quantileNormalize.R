@@ -1,11 +1,8 @@
-whichFile = 'Data2/allNormalized'
-outFile = 'Data2/mostQuantileNormalized'
-
 quantileNorm = function(whichFile,outFile){
     require(preprocessCore)
-    
+
     allDataPre = read.csv(whichFile, header = T)
-    
+
     geneData = allDataPre[,1:3]
     exprData = allDataPre[,4:ncol(allDataPre)]
     newExprData = normalize.quantiles(as.matrix(exprData))
@@ -16,4 +13,4 @@ quantileNorm = function(whichFile,outFile){
     write.csv(newAllData, file = outFile, row.names=FALSE)
 }
 
-quantileNorm(whichFile,outFile)
+

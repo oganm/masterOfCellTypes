@@ -1,25 +1,25 @@
-input = 'Data2/normalizedDesign'
-output = input
-expr = 'Data2/mostVariableQuantileNormalized'
+sexFind = function(input, output, expr){
 
-allDataPre = read.csv(expr, header = T)
-design = read.table(input,header=T,sep='\t')
+    allDataPre = read.csv(expr, header = T)
+    design = read.table(input,header=T,sep='\t')
 
-geneData = allDataPre[,1:3]
-exprData = allDataPre[,4:ncol(allDataPre)]
+    geneData = allDataPre[,1:3]
+    exprData = allDataPre[,4:ncol(allDataPre)]
 
-design = design[match(colnames(exprData),gsub('[+]','.',gsub('-','.',design$sampleName))),]
+    design = design[match(colnames(exprData),gsub('[+]','.',gsub('-','.',design$sampleName))),]
 
 
-Xist = which(geneData$Gene.Symbol %in% 'Xist')
+    Xist = which(geneData$Gene.Symbol %in% 'Xist')
 
-sex = rep('varys', ncol(exprData))
+    sex = rep('varys', ncol(exprData))
 
-sex[exprData[Xist,]>=7] = 'female'
-sex[exprData[Xist,]<7] = 'male'
+    sex[exprData[Xist,]>=7] = 'female'
+    sex[exprData[Xist,]<7] = 'male'
 
 
-newDesign = cbind(design,sex)
-newDesign = newDesign[order(as.numeric(rownames(newDesign))),]
+    newDesign = cbind(design,sex)
+    newDesign = newDesign[order(as.numeric(rownames(newDesign))),]
 
-write.table(newDesign,file=output, quote=F, sep= '\t',row.names=F) 
+    write.table(newDesign,file=output, quote=F, sep= '\t',row.names=F)
+
+}
