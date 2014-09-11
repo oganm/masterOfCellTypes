@@ -96,7 +96,6 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames){
     exprData = exprData
     design = design[match(colnames(exprData),make.names(design$sampleName),),]
     rowmax = apply(exprData, 1, max)
-    discludeGenes = which(rowmax<5)
 
     exprData = t(exprData)
 
