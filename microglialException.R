@@ -1,4 +1,5 @@
-microglialException = function(groupNames,restDir){
+microglialException = function(restDir){
+    groupNames = list.files(restDir)
     microGenes =  unlist(read.table('microgliaList.txt'))
     for (i in groupNames){
         if (!'Microglia' %in% list.files(paste0(restDir,'/',i))){
