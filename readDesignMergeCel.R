@@ -26,6 +26,10 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     design = design[!is.na(design[,namingCol]),]
 
     gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
+    if (any(lapply(gsms,len)==0)){
+        print('No cel names could be captured from the following rows')
+        print((1:len(gsms))[lapply(gsms,len)==0])
+    }
 
     platforms = unique(design$Platform)
 
@@ -81,7 +85,7 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     header = gsub('.cel', '', gsub('.CEL','', colnames(aned)[4:ncol(aned)]))
     colnames(aned) = c(colnames(aned)[1:3], header)
     dir.create(outFolder, recursive = T)
-    write.csv(aned, paste0(outFolder,"/allNormalized"), row.names=FALSE)
+    write.csv(aned, paste0(outFolder,"/rmaExp"), row.names=FALSE)
     #boxplot(aned[,4:ncol(aned)])
     gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
 
@@ -104,6 +108,38 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     #newDesign$age = as.numeric(newDesign$age)
     newDesign = newDesign[order(as.numeric(rownames(newDesign))),]
 
-    write.table(newDesign, paste0(outFolder,"/normalizedDesign"), row.names=FALSE,sep = '\t', quote=F)
+    write.table(newDesign, paste0(outFolder,"/meltedDesign"), row.names=FALSE,sep = '\t', quote=F)
+}
+
+
+# for changes in original design file that only involves naming. do not run the whole thing again
+meltDesign = function(desFile, namingCol, celRegex, exprFile, outFile){
+    expr = read.csv(exprFile , header = T)
+    header =  colnames(expr)[4:ncol(expr)]
+
+    design = read.table(desFile,quote='',header=T,sep='\t')
+    design = design[!is.na(design[,namingCol]),]
+    gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
+    if (any(lapply(gsms,len)==0)){
+        print('No cel names could be captured from the following rows')
+        print((1:len(gsms))[lapply(gsms,len)==0])
+    }
+
+    indexes = vector()
+    for (i in 1:length(header)){
+        indexes = c(indexes, findInList(header[i], lapply(gsms,function(gsms,first,second){gsub(first,second,gsms)},'[+]','.')))
+    }
+
+
+    if (len(header[!header %in% gsub('[+]','.',unlist(gsms))])>0){
+        print("what the fuck man! I can't find some GSMs in your design file")
+        print(header[!header %in% gsub('[+]','.',unlist(gsms))])
+    }
+
+    newDesign = data.frame(sampleName = header, originalIndex = indexes, design[indexes,])
+    colnames(newDesign) = c('sampleName','originalIndex',names(design))
+    newDesign = newDesign[order(as.numeric(rownames(newDesign))),]
+    write.table(newDesign, paste0(outFile), row.names=FALSE,sep = '\t', quote=F)
+
 }
 

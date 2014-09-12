@@ -10,8 +10,8 @@
 
 #groupNames = 'someNaming'
 
-geneSelect = function(designLoc,exprLoc,outLoc,groupNames){
-
+geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
+    require(RCurl)
     eval( expr = parse( text = getURL(
         "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
         ssl.verifypeer=FALSE) ))
@@ -99,6 +99,25 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames){
 
     exprData = t(exprData)
 
+    # deal with region stuff ----
+    regions =
+        trimNAs(
+            trimElement(
+                unique(
+                    unlist(
+                        strsplit(as.character(design[,regionNames]),',')))
+                ,c('ALL','All','all')))
+    regionBased = expand.grid(groupNames, regions)
+    regionGroups = vector(mode = 'list', length = nrow(regionBased))
+    names(regionGroups) = paste0(regionBased$Var2,'_',regionBased$Var1)
+
+    for (i in 1:nrow(regionBased)){
+        regionGroups[[i]] = design[,as.character(regionBased$Var1[i])]
+        regionGroups[[i]][!grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])] = NA
+    }
+
+    design = cbind(design,regionGroups)
+    groupNames = c(groupNames, names(regionGroups))
 
     # get replicate means
     # a terrible way to preallocate
@@ -110,8 +129,13 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames){
 
     newDesign = design[match(indexes,design$originalIndex),]
 
+
+
+
     nameGroups = vector(mode = 'list', length = len(groupNames))
-    names(nameGroups) = groupNames
+
+
+    names(nameGroups) = c(groupNames)
 
     for (i in 1:len(groupNames)){
         nameGroups[[i]] = newDesign[,groupNames[i]]
@@ -119,6 +143,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames){
 
 
 
+    nameGroups = nameGroups[unlist(lapply(lapply(lapply(nameGroups,unique),trimNAs),length)) > 1]
 
     stepi = 1
     for (i in nameGroups){
@@ -142,10 +167,10 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames){
         names(groupAverages)= groupNames
         groupAverages = t(as.data.frame(groupAverages))
 
-        dir.create(outLoc)
-        dir.create(paste0(outLoc,'/Marker'))
-        dir.create(paste0(outLoc  , '/', names(nameGroups)[stepi] , '/'))
-        dir.create(paste0(outLoc , '/Marker/' , names(nameGroups)[stepi] , '/'))
+        dir.create(outLoc, showWarnings = F)
+        dir.create(paste0(outLoc,'/Marker'), showWarnings = F)
+        dir.create(paste0(outLoc  , '/', names(nameGroups)[stepi] , '/'), showWarnings = F)
+        dir.create(paste0(outLoc , '/Marker/' , names(nameGroups)[stepi] , '/'), showWarnings = F)
 
         for (j in 1:nrow(groupAverages)){
             fileName = paste0(outLoc  , '/', names(nameGroups)[stepi], '/',  names(realGroups)[j])
