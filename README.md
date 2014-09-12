@@ -40,3 +40,5 @@ Scheme of the Pipeline
 =====================
 (Might be incomplete)
 ![A display of epicness](images/pipeline.png)
+
+I'm lilah and I change stuff
