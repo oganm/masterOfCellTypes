@@ -55,7 +55,7 @@ geneSelect(paste0(outFolder,'/meltedDesign'),
 source('microglialException.R')
 # intersecting with genes from
 # http://www.nature.com/neuro/journal/v17/n1/pdf/nn.3599.pdf
-microglialException(groupNames, geneOut)
+microglialException(geneOut)
 
 # calculates specificity index as describe in
 # https://www.landesbioscience.com/journals/systemsbiomedicine/article/25630/
