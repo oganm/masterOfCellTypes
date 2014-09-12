@@ -3,14 +3,7 @@
 
 
 specIndex = function(designLoc, exprLoc, outLoc, groupNames){
-    giveSilhouette = function(daGeneIndex, groupInfo1, groupInfo2){
-        clustering = as.integer(rep(1,nrow(design))*(1:nrow(design) %in% groupInfo1)+1)
-        clustering = clustering[1:nrow(design) %in% c(groupInfo1, groupInfo2)]
-        data = (exprData[ (1:nrow(design) %in% c(groupInfo1, groupInfo2)),  daGeneIndex])
-        cluster = list(clustering = clustering, data = data)
-        silo = silhouette(cluster,dist(data))
-        return(mean(silo[,3]))
-    }
+
     # Specificity_index functions, version 1.0
     # Created by Joe Dougherty, jdougherty_at_mail.rockefeller.edu or
     # jodoc_a_ucla.edu
@@ -162,9 +155,27 @@ specIndex = function(designLoc, exprLoc, outLoc, groupNames){
     rowmax = apply(exprData, 1, max)
 
     exprData = t(exprData)
+    # deal with region stuff ----
+    regions =
+        trimNAs(
+            trimElement(
+                unique(
+                    unlist(
+                        strsplit(as.character(design[,regionNames]),',')))
+                ,c('ALL','All','all')))
+    regionBased = expand.grid(groupNames, regions)
+    regionGroups = vector(mode = 'list', length = nrow(regionBased))
+    names(regionGroups) = paste0(regionBased$Var2,'_',regionBased$Var1)
 
+    for (i in 1:nrow(regionBased)){
+        regionGroups[[i]] = design[,as.character(regionBased$Var1[i])]
+        regionGroups[[i]][!grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])] = NA
+    }
 
-    # get replicate means
+    design = cbind(design,regionGroups)
+    groupNames = c(groupNames, names(regionGroups))
+
+    # get replicate means ----
     # a terrible way to preallocate
     newExpr = exprData[1:length(unique(design$originalIndex)),]
     indexes = unique(design$originalIndex)
@@ -187,7 +198,7 @@ specIndex = function(designLoc, exprLoc, outLoc, groupNames){
 
     stepi = 1
     for (i in nameGroups){
-        dir.create(paste0(outLoc,'/',fileNames[stepi]),recursive = T)
+        dir.create(paste0(outLoc,'/',fileNames[stepi]),recursive = T, showWarnings = F)
         groupNames = trimNAs(unique(i))
         realGroups = vector(mode = 'list', length = length(groupNames))
         names(realGroups) = groupNames

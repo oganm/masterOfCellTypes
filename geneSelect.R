@@ -119,7 +119,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
     design = cbind(design,regionGroups)
     groupNames = c(groupNames, names(regionGroups))
 
-    # get replicate means
+    # get replicate means -----
     # a terrible way to preallocate
     newExpr = exprData[1:length(unique(design$originalIndex)),]
     indexes = unique(design$originalIndex)

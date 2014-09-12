@@ -14,6 +14,18 @@ geneOutIndex = 'Data/Index'
 groupNames = 'ourNaming'
 regionNames = 'Region'
 
+# file names ----
+finalExp = 'finalExp'
+qnormExp= 'qnormExp'
+
+# heatMap ----
+heatFile = 'heatmap.png'
+heatProps = c('ourNaming',
+              'Reference',
+              'Age.of.Mouse..postnatal.day.)
+
+
+
 # dependencies ------
 # install.packages('reshape')
 
@@ -24,29 +36,29 @@ readDesignMergeCel(desFile, namingCol, celRegex, celDir,tinyChip, outFolder)
 
 source('quantileNormalize.R')
 quantileNorm(paste0(outFolder,'/rmaExp'),
-             paste0(outFolder,'/qnormExp'))
+             paste0(outFolder,'/',qnormExp))
 
 source('mostVariable.R')
-mostVariable(paste0(outFolder,'/qnormExp'),
-             paste0(outFolder,'/finalExp'))
+mostVariable(paste0(outFolder,'/',qnormExp),
+             paste0(outFolder,'/',finalExp))
 }
 
 if (skipNorm == T){
     source('readDesignMergeCel.R')
-    meltDesign(desFile, namingCol, celRegex, paste0(outFolder,'/finalExp'), paste0(outFolder,'/meltedDesign'))
+    meltDesign(desFile, namingCol, celRegex, paste0(outFolder,'/',finalExp), paste0(outFolder,'/meltedDesign'))
 }
 
 
 source('sexFind.R')
 sexFind(paste0(outFolder,'/meltedDesign'),
         paste0(outFolder,'/meltedDesign'),
-        paste0(outFolder,'/finalExp'))
+        paste0(outFolder,'/',finalExp))
 
 # SHREEJOY COMMENT OUT AFTER THIS
 
 source('geneSelect.R')
 geneSelect(paste0(outFolder,'/meltedDesign'),
-           paste0(outFolder,'/finalExp'),
+           paste0(outFolder,'/',finalExp),
            geneOut,
            groupNames,
            regionNames)
@@ -56,6 +68,13 @@ source('microglialException.R')
 # intersecting with genes from
 # http://www.nature.com/neuro/journal/v17/n1/pdf/nn.3599.pdf
 microglialException(geneOut)
+
+source('heatUp.R')
+heatUp(paste0(outFolder,'/',finalExp),
+       paste0(outFolder,'/meltedDesign'),
+       geneOut,
+       heatFile,
+       heatProps)
 
 # calculates specificity index as describe in
 # https://www.landesbioscience.com/journals/systemsbiomedicine/article/25630/
