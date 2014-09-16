@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Pathway xmlns="http://pathvisio.org/GPML/2013a" Name="New Pathway" Version="20140225">
-  <Graphics BoardWidth="1120.9431187383989" BoardHeight="1682.8384279475983" />
+  <Graphics BoardWidth="1707.1919191919192" BoardHeight="1690.8384279475983" />
   <DataNode TextLabel="CEL Directory" GraphId="d3230" Type="GeneProduct" GroupRef="ab7a8">
     <Graphics CenterX="235.7660535514107" CenterY="117.39995663741716" Width="163.46374278517175" Height="63.80492086352672" ZOrder="32971" FillColor="df5a49" FontSize="20" Valign="Middle" Color="fffad5" />
     <Xref Database="" ID="" />
@@ -78,7 +78,7 @@
     <Xref Database="" ID="" />
   </DataNode>
   <DataNode TextLabel="microglialException.R" GraphId="ef35a" Type="GeneProduct">
-    <Graphics CenterX="880.3112204380978" CenterY="901.2376638448486" Width="255.39568345323687" Height="43.91604025950028" ZOrder="33018" FillColor="fffad5" FontSize="20" Valign="Middle" />
+    <Graphics CenterX="880.3112204380978" CenterY="863.3588759660606" Width="255.39568345323687" Height="43.91604025950028" ZOrder="33018" FillColor="fffad5" FontSize="20" Valign="Middle" />
     <Xref Database="" ID="" />
   </DataNode>
   <DataNode TextLabel="Fold Change Based&#xA;Cell Type Specific &#xA;Gene Selection&#xA;(fold)" GraphId="a8748" Type="GeneProduct">
@@ -95,6 +95,14 @@
   </DataNode>
   <DataNode TextLabel="Specificity Index Based&#xA;Cell Type Specific&#xA;Gene Selection&#xA;(index)&#xA;" GraphId="f136f" Type="GeneProduct">
     <Graphics CenterX="900.311220438098" CenterY="1334.013145581359" Width="252.98008556742352" Height="119.30602686800361" ZOrder="33027" FillColor="df5a49" FontSize="20" Valign="Middle" Color="fffad5" />
+    <Xref Database="" ID="" />
+  </DataNode>
+  <DataNode TextLabel="heatUp.R" GraphId="d11dd" Type="GeneProduct">
+    <Graphics CenterX="1186.1409886224526" CenterY="1094.9653189246435" Width="200.43165467625903" Height="43.91604025950028" ZOrder="33029" FillColor="fffad5" FontSize="20" Valign="Middle" />
+    <Xref Database="" ID="" />
+  </DataNode>
+  <DataNode TextLabel="heatmap.png" GraphId="c9376" Type="GeneProduct">
+    <Graphics CenterX="1495.5537316321593" CenterY="1094.9653189246437" Width="167.8751400319946" Height="67.0948482474206" ZOrder="33033" FillColor="df5a49" FontSize="20" Valign="Middle" Color="fffad5" />
     <Xref Database="" ID="" />
   </DataNode>
   <Interaction GraphId="a5092" GroupRef="ab7a8">
@@ -234,13 +242,13 @@
   <Interaction GraphId="a83c2">
     <Graphics ZOrder="33019" LineThickness="3.0" Color="fffad5">
       <Point X="880.3112204380978" Y="700.5055205821454" GraphRef="eb7f6" RelX="0.0" RelY="1.0" />
-      <Point X="880.3112204380978" Y="879.2796437150985" GraphRef="ef35a" RelX="0.0" RelY="-1.0" ArrowHead="Arrow" />
+      <Point X="880.3112204380978" Y="841.4008558363105" GraphRef="ef35a" RelX="0.0" RelY="-1.0" ArrowHead="Arrow" />
     </Graphics>
     <Xref Database="" ID="" />
   </Interaction>
   <Interaction GraphId="e77c4">
     <Graphics ZOrder="33020" LineThickness="3.0" Color="fffad5">
-      <Point X="880.3112204380978" Y="923.1956839745988" GraphRef="ef35a" RelX="0.0" RelY="1.0" />
+      <Point X="880.3112204380978" Y="885.3168960958108" GraphRef="ef35a" RelX="0.0" RelY="1.0" />
       <Point X="880.311220438098" Y="1012.194788792682" GraphRef="aa974" RelX="0.0" RelY="-1.0" ArrowHead="Arrow" />
     </Graphics>
     <Xref Database="" ID="" />
@@ -248,13 +256,41 @@
   <Interaction GraphId="b1d39">
     <Graphics ConnectorType="Elbow" ZOrder="33025" LineThickness="3.0" Color="fffad5">
       <Point X="773.3457085446606" Y="1043.5800538586627" GraphRef="aa974" RelX="-1.0" RelY="-0.5" />
-      <Point X="715.8273381294963" Y="972.4088588517557" />
-      <Point X="752.6133787114794" Y="901.2376638448486" GraphRef="ef35a" RelX="-1.0" RelY="0.0" ArrowHead="Arrow" />
+      <Point X="715.8273381294963" Y="953.4694649123617" />
+      <Point X="752.6133787114794" Y="863.3588759660606" GraphRef="ef35a" RelX="-1.0" RelY="0.0" ArrowHead="Arrow" />
+    </Graphics>
+    <Xref Database="" ID="" />
+  </Interaction>
+  <Interaction GraphId="ffce5">
+    <Graphics ConnectorType="Elbow" ZOrder="33028" LineThickness="3.0" Color="fffad5">
+      <Point X="312.1331729604546" Y="1227.3932609091162" GraphRef="ddd30" RelX="1.0" RelY="0.0" />
+      <Point X="1186.1409886224528" Y="1116.9233390543936" GraphRef="d11dd" RelX="0.0" RelY="1.0" ArrowHead="Arrow" />
+    </Graphics>
+    <Xref Database="" ID="" />
+  </Interaction>
+  <Interaction GraphId="d5db5">
+    <Graphics ZOrder="33030" LineThickness="3.0" Color="fffad5">
+      <Point X="1007.2767323315353" Y="1094.9653189246437" GraphRef="a5b4c" RelX="1.0" RelY="0.0" />
+      <Point X="1085.9251612843232" Y="1094.9653189246435" GraphRef="d11dd" RelX="-1.0" RelY="0.0" ArrowHead="Arrow" />
+    </Graphics>
+    <Xref Database="" ID="" />
+  </Interaction>
+  <Interaction GraphId="e0c0b">
+    <Graphics ConnectorType="Elbow" ZOrder="33031" LineThickness="3.0" Color="fffad5">
+      <Point X="553.0283698635361" Y="931.1785006577525" GraphRef="d85ad" RelX="1.0" RelY="0.5" />
+      <Point X="1186.1409886224528" Y="1073.0072987948934" GraphRef="d11dd" RelX="0.0" RelY="-1.0" ArrowHead="Arrow" />
+    </Graphics>
+    <Xref Database="" ID="" />
+  </Interaction>
+  <Interaction GraphId="c8d51">
+    <Graphics ZOrder="33032" LineThickness="3.0" Color="fffad5">
+      <Point X="1286.3568159605825" Y="1094.9653189246435" GraphRef="d11dd" RelX="1.0" RelY="0.0" />
+      <Point X="1411.6161616161621" Y="1094.9653189246437" GraphRef="c9376" RelX="-1.0" RelY="0.0" ArrowHead="Arrow" />
     </Graphics>
     <Xref Database="" ID="" />
   </Interaction>
   <Shape GraphId="a2a57" GroupRef="ab7a8">
-    <Graphics CenterX="554.6910068768418" CenterY="834.7050518325093" Width="1072.5042237231141" Height="1636.266752230178" ZOrder="32970" FillColor="334d5c" FontSize="10" Valign="Middle" ShapeType="RoundedRectangle" Color="334d5c" Rotation="0.0" />
+    <Graphics CenterX="830.1871894431263" CenterY="834.7050518325093" Width="1623.496588855683" Height="1636.266752230178" ZOrder="32970" FillColor="334d5c" FontSize="10" Valign="Middle" ShapeType="RoundedRectangle" Color="334d5c" Rotation="0.0" />
   </Shape>
   <Group GroupId="ab7a8" Style="Group" />
   <InfoBox CenterX="0.0" CenterY="0.0" />
