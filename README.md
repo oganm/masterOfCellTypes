@@ -41,4 +41,6 @@ Scheme of the Pipeline
 (Might be incomplete)
 ![A display of epicness](images/pipeline.png)
 
-I'm lilah and I change stuff
+
+Latest clusters. Coloring of ages sucks right now because I was so smart.
+![AAARGH](images/heatmap.png)
