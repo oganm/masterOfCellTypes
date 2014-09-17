@@ -53,7 +53,7 @@ heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, h
     }
 
     # heatmap draw ----
-    if (!is.na(geneList)){
+    if (!is.na(geneList[1])){
     exprData=exprData[geneData$Gene.Symbol %in% geneList,]
     geneData=geneData[geneData$Gene.Symbol %in% geneList,]
     }

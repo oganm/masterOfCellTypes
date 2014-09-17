@@ -74,10 +74,8 @@ CHECK SAMPLES!!! MIGHT BE WRONGLY LABELED GSM281245,GSM281246,GSM281249	Neuron	G
 GSM1259969,GSM1259970,GSM1259971	Neuron	NA	NA	DL nucleus motor neuron	????	dorsolateral nucleus	7	LCM			Affymetrix 430 2.0	Spiller et al 2014
 GSM1321391,GSM1321398,GSM1321395	Neuron	Spiny	SpinyDrd1	Drd1+ Medium Spiny Neurons	Striatum	Striatum	210	TRAP			Affymetrix 430 2.0	Maze et al 2014
 GSM1329516,GSM1329517,GSM1329521,GSM1329522,GSM1329523,GSM1329524,GSM1329527,GSM1329528,GSM1329529,GSM1329530	Neuron	Spiny	SpinyDrd1	Drd1a+ Medium Spiny Neurons	Striatum	Striatum	80.5	TRAP			Affymetrix 430 2.0	Heiman et al 2014
-GSM338151,GSM338152,GSM338153	Neuron	Spiny	SpinyDrd1	Drd1a+ Medium Spiny Neurons	Striatum	Striatum	56	TRAP			Affymetrix 430 2.0	Heiman et al 2008
 GSM1185170,GSM1185171,GSM1185172,GSM1185173,GSM1185174,GSM1185175,GSM1185176	Neuron	Spiny	SpinyDrd1	Drd1a+ Medium Spiny Neurons	Striatum	Striatum	180	TRAP			Affymetrix 430 2.0	Tan et al 2013
 GSM1329477,GSM1329478,GSM1329479,GSM1329485,GSM1329486,GSM1329488,GSM1329489,GSM1329490,GSM1329491,GSM1329492	Neuron	Spiny	SpinyDrd2	Drd2+ Medium Spiny Neurons	Striatum	Striatum	80.5	TRAP			Affymetrix 430 2.0	Heiman et al 2014
-GSM338154,GSM338155,GSM338156	Neuron	Spiny	SpinyDrd2	Drd2+ Medium Spiny Neurons	Striatum	Striatum	56	TRAP			Affymetrix 430 2.0	Heiman et al 2008
 GSM1321400,GSM1321402,GSM1321405	Neuron	Spiny	SpinyDrd2	Drd2+ Medium Spiny Neurons	Striatum	Striatum	105	TRAP			Affymetrix 430 2.0	Maze et al 2014
 GSM874480,GSM874481,GSM874482	Neuron	Pyramidal	Pyramidal	Glt25d2 positive pyramidal cells	PontineNuc	Layer 5b corticopontine	60	TRAP			Affymetrix 430 2.0	Schmidt et al 2012
 GSM465760,GSM465761	Neuron	Stem	Stem	hGFAP and Prominin 1+ (neural stem)	Ependymal	sub ependymal zone	56	FACS			Affymetrix 430 2.0	Beckervordersandforth et al 2010
@@ -103,7 +101,7 @@ GSM909434,GSM909435,GSM909436,GSM909437	Neuron	Purkinje	Purkinje	Purkinje Cells	
 GSM1373408,GSM1373409,GSM1373410	Neuron	Purkinje	Purkinje	Purkinje Cells	Cerebellum	Cerebellum	28	TRAP			Affymetrix 430 2.0	Galloway et al 2014
 GSM1373414,GSM1373415,GSM1373416	Neuron	Purkinje	Purkinje	Purkinje Cells	Cerebellum	Cerebellum	56	TRAP			Affymetrix 430 2.0	Galloway et al 2014
 GSM1373399,GSM1373400,GSM1373401	Neuron	Purkinje	Purkinje	Purkinje Cells	Cerebellum	Cerebellum	84	TRAP			Affymetrix 430 2.0	Galloway et al 2014
-GSM874416,GSM874418,GSM874420,GSM874483,GSM874484,GSM874485	Neuron	Pyramidal	Pyramidal	S100a10 positive pyramidal cells	Striatum	Layer 5a corticostriatal	60	TRAP			Affymetrix 430 2.0	Schmidt et al 2012
+GSM874416,GSM874418,GSM874420	Neuron	Pyramidal	Pyramidal	S100a10 positive pyramidal cells	Striatum	Layer 5a corticostriatal	60	TRAP			Affymetrix 430 2.0	Schmidt et al 2012
 GSM880683,GSM880684,GSM880685	Neuron	Serotonergic	Serotonergic	Serotonergic Neurons	Midbrain,Brainstem	Midbrain and brainstem	63	TRAP			Affymetrix 430 2.0	Dougherty et al 2013
 *GSM485238,GSM485242,GSM485246	Neuron	NA	NA	Serotonergic Neurons	NA	Rostral	-12.5	FACS			Affymetrix 430 2.0	Wylie et al 2010
 *GSM485240,GSM485244,GSM485248	Neuron	NA	NA	Serotonergic Neurons	NA	Caudal	-12.5	FACS			Affymetrix 430 2.0	Wylie et al 2010

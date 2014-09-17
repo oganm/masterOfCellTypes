@@ -19,8 +19,9 @@ finalExp = 'finalExp'
 qnormExp= 'qnormExp'
 
 #  for heatMap ----
-heatFile = 'images/heatmap.tiff'
+heatFile = 'images/heatmap.png'
 heatProps = c('ourNaming',
+              'Type',
               'Reference',
               'Age.of.Mouse..postnatal.day.')
 heatGenes = 'ourNaming'
@@ -57,9 +58,11 @@ ageColors = c(method = 'gradient', lo = 'blue', hi = 'red', gradFine = 10000,
               legendLoc = 'bottomright',
               cex = 1)
 
-refColors = c(method = 'def', legendLoc = 'none')
+typeColors = c(method = 'def', legendLoc = 'none')
+
+refColors = c(method = 'def', legendLoc = 'topleft', cex = 1)
 # names are not important
-heatColors = list(ourNaming = namingColors, Reference = refColors, Age.of.Mouse..postnatal.day. = ageColors)
+heatColors = list(ourNaming = namingColors, typeColors = typeColors, Reference = refColors, Age.of.Mouse..postnatal.day. = ageColors)
 
 # dependencies ------
 # install.packages('reshape')
@@ -133,11 +136,20 @@ heatUp(paste0(outFolder,'/',finalExp),
        heatFile,
        heatProps,
        heatColors,
-       genes,
-       heatPalette)
+       heatPalette,
+       genes
+       )
+heatUp(paste0(outFolder,'/',finalExp),
+       paste0(outFolder,'/meltedDesign'),
+       geneOut,
+       'images/noFilter.png',
+       heatProps,
+       heatColors,
+       heatPalette,
+       NA
+       )
 
 
-heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, geneList, heatColors){
 
 
 # calculates specificity index as describe in
