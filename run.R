@@ -19,7 +19,7 @@ finalExp = 'finalExp'
 qnormExp= 'qnormExp'
 
 #  for heatMap ----
-heatFile = 'images/heatmap.png'
+heatFile = 'images/heatmap.tiff'
 heatProps = c('ourNaming',
               'Reference',
               'Age.of.Mouse..postnatal.day.')
@@ -29,7 +29,7 @@ heatPalette = colorRampPalette(c("darkred",'white', "blue"))(n = 1000)
 # extra cell types will not cause problems if in list
 namingColors = c(method = 'direct',
                  legendLoc = 'bottomleft',
-                 cex = 0.6,
+                 cex = 1,
                  Oligo = 'darkgreen',
                  Bergmann = 'palegreen',
                  MotorCholin = 'red',
@@ -55,7 +55,7 @@ namingColors = c(method = 'direct',
 
 ageColors = c(method = 'gradient', lo = 'blue', hi = 'red', gradFine = 10000,
               legendLoc = 'bottomright',
-              cex = 0.6)
+              cex = 1)
 
 refColors = c(method = 'def', legendLoc = 'none')
 # names are not important
@@ -137,7 +137,7 @@ heatUp(paste0(outFolder,'/',finalExp),
        heatPalette)
 
 
-heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, geneList){
+heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, geneList, heatColors){
 
 
 # calculates specificity index as describe in

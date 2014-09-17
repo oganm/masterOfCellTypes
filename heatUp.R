@@ -4,7 +4,7 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
     ssl.verifypeer=FALSE) ))
 
-heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, geneList, heatPalette){
+heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, heatPalette, geneList = NA){
     #heatColors is a list
     allDataPre = read.csv(expLoc, header = T)
     design = read.table(designLoc,header=T,sep='\t')
@@ -53,8 +53,10 @@ heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, g
     }
 
     # heatmap draw ----
+    if (!is.na(geneList)){
     exprData=exprData[geneData$Gene.Symbol %in% geneList,]
     geneData=geneData[geneData$Gene.Symbol %in% geneList,]
+    }
     corr = cor(exprData)
 
     justColors = list()
