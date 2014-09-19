@@ -1,0 +1,18 @@
+GSM	GSE	ourNaming	Description	RegionOfOrigin	Age	species	gsmRegex	Platform	PlatformName	Type	Reference
+	GSE18740	Microglia	BV2 Cell line			Mouse	Control	GPL1261	Affymetrix 430 2.0	culture	Dirscherl 2010
+	GSE8498	Dopaminergic, noradrenergic	CAD cell line. Apparently a combination of Dopaminergic and noradrenergic cell groups			Mouse	D_C	GPL1261	Affymetrix 430 2.0	culture	Makeyev 2007
+	GSE47516	Granule	Cultured cerebellar granule cells	Cerebellum		Mouse	granule cells wild type	GPL1261	Affymetrix 430 2.0	culture	Jonsuu 2014
+	GSE47516	Cerebellum	mouse cerebellum at P30 wild type	Cerebellum	30	Mouse	cerebellum at P30 wild type	GPL1261	Affymetrix 430 2.0	region	Jonsuu 2014
+	GSE44331	Brain	Harvested brain	Head	61	Mouse	WT uninfected	GPL1261	Affymetrix 430 2.0	region	Hou 2013
+	GSE51365	Brain	Harvested brain	Head	56	Mouse	BRAIN[|]MOCK	GPL1261	Affymetrix 430 2.0	region	Canny 2014
+	GSE40377	hippocampus	hippocampus	hippocampus	75	Mouse	WT HPC Veh	GPL1261	Affymetrix 430 2.0	region	Kleiman 2011
+	GSE40377	striatum	striatum	striatum	75	Mouse	WT STR Veh	GPL1261	Affymetrix 430 2.0	region	Kleiman 2011
+	GSE19780	Huntington Striatum	Huntington Striatum	striatum	45.5	Mouse	Hdh[+]/Hdh[+] striatum	GPL1261	Affymetrix 430 2.0	region	Lee 2010
+	GSE19780	Huntington Striatum	Huntington Striatum	striatum	45.5	Mouse	HdhQ111/HdhQ111	GPL1261	Affymetrix 430 2.0	region	Lee 2010
+	GSE19780	Huntington Cerebellum	Huntington Cerebellum	Cerebellum	45.5	Mouse	Hdh[+]/Hdh[+] cerebellum	GPL1261	Affymetrix 430 2.0	region	Lee 2010
+	GSE19780	Huntington Cerebellum	Huntington Cerebellum	Cerebellum	45.5	Mouse	HdhQ111/HdhQ111	GPL1261	Affymetrix 430 2.0	region	Lee 2010
+	GSE26025	hippocampus	hippocampus	hippocampus		Mouse	wild type, control,	GPL1261	Affymetrix 430 2.0	region	Van den Hove 2011
+	GSE24793	Cerebellum culture	Primary culture of cerebellum neurons	Cerebellum	21	Mouse	h_untreated	GPL1261	Affymetrix 430 2.0	cultural region	Chatonnet 2012
+	GSE34126	Cerebral stem	Freshly isolated cerebral stem cells	Cerebellum	6	Mouse	normal	GPL1261	Affymetrix 430 2.0	cell type	Pei 2012
+	GSE25926	Prefrontal cortex	Prefrontal cortex	Prefrontal cortex	182	Mouse	WT_	GPL1261	Affymetrix 430 2.0	region	Aydin 2010
+	GSE39621	Brain	Harvested brain	Head	60	Mouse	WT Brain 60d Mouse	GPL1261	Affymetrix 430 2.0	region	Alam 2012
