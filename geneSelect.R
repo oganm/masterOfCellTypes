@@ -95,7 +95,6 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
     exprData = allDataPre[,4:ncol(allDataPre)]
     exprData = exprData
     design = design[match(colnames(exprData),make.names(design$sampleName),),]
-    rowmax = apply(exprData, 1, max)
 
     exprData = t(exprData)
 

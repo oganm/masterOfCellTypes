@@ -13,6 +13,10 @@ geneOut = 'Data/Fold'
 geneOutIndex = 'Data/Index'
 groupNames = 'ourNaming'
 regionNames = 'Region'
+rotationOut = 'Data/Rotation'
+
+# contamination indeces ----
+defMarkers = 'defMarkers.csv'
 
 # file names ----
 finalExp = 'finalExp'
@@ -92,6 +96,14 @@ sexFind(paste0(outFolder,'/meltedDesign'),
         paste0(outFolder,'/meltedDesign'),
         paste0(outFolder,'/',finalExp))
 
+
+source('contaminate.R')
+contamination(paste0(outFolder,'/meltedDesign'),
+              paste0(outFolder,'/',finalExp),
+              defMarkers,
+              paste0(outFolder,'/meltedDesign'))
+
+
 # SHREEJOY COMMENT OUT AFTER THIS
 
 # gene selection -----
@@ -107,6 +119,8 @@ source('microglialException.R')
 # intersecting with genes from
 # http://www.nature.com/neuro/journal/v17/n1/pdf/nn.3599.pdf
 microglialException(geneOut)
+microglialException(paste0(geneOut,'/Marker'))
+
 
 
 # heatmap ----
@@ -148,7 +162,6 @@ heatUp(paste0(outFolder,'/',finalExp),
        heatPalette,
        NA
        )
-
 
 
 
