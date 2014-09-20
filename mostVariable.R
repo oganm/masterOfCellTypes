@@ -1,4 +1,12 @@
 mostVariable = function(whichFile,outFile){
+    require(foreach)
+    require(doMC)
+    require(parallel)
+    cores = 4
+    # so that I wont fry my laptop
+    if (detectCores()<cores){ cores = detectCores()}
+    registerDoMC(cores)
+
     allDataPre = read.csv(whichFile, header = T)
 
 
@@ -17,18 +25,31 @@ mostVariable = function(whichFile,outFile){
     dim(newExprData) = c(length(unique(geneData$Gene.Symbol)), ncol(exprData))
     colnames(newExprData) = colnames(exprData)
 
-    prog = txtProgressBar(min = 1, max = length(unique(geneData$Gene.Symbol)),style=3)
-
-    for (i in 1:length(unique(geneData$Gene.Symbol))){
+    newExprData <<- foreach (i = 1:length(unique(geneData$Gene.Symbol)), .combine=cbind) %dopar% {
         indexes = which(geneData$Gene.Symbol %in% unique(geneData$Gene.Symbol)[i])
         groupData = exprData[indexes,]
         chosen = which.max(apply(groupData,1,var))
-        newExprData[i,] = as.double(groupData[chosen,])
-        setTxtProgressBar(prog, i)
+        as.double(groupData[chosen,])
     }
-    close(prog)
+    newExprData = t(newExprData)
 
-    newExprData = as.data.frame(newExprData)
+    colnames(newExprData) = colnames(exprData)
+# non parallel version
+#     dim(newExprData) = c(length(unique(geneData$Gene.Symbol)), ncol(exprData))
+#     c=system.time({
+#      prog = txtProgressBar(min = 1, max = length(unique(geneData$Gene.Symbol)),style=3)
+#
+#     for (i in 1:length(unique(geneData$Gene.Symbol))){
+#         indexes = which(geneData$Gene.Symbol %in% unique(geneData$Gene.Symbol)[i])
+#         groupData = exprData[indexes,]
+#         chosen = which.max(apply(groupData,1,var))
+#         newExprData[i,] = as.double(groupData[chosen,])
+#         setTxtProgressBar(prog, i)
+#     }
+#     close(prog)
+#
+#     newExprData = as.data.frame(newExprData)
+#     })
 
     newGeneData = geneData[match(unique(geneData$Gene.Symbol),geneData$Gene.Symbol),]
 
