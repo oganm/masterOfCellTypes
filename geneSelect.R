@@ -156,9 +156,10 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
 
         #take average of every group, tryCatch is for groups with a single member
         for (j in realGroups){
-            groupAverage = tryCatch({apply(newExpr[j,], 2, mean)},
+            groupAverage = tryCatch({apply(newExpr[j,], 2, mean)}, #if by itself just output it. but it shouldnt be by itself
                                     error = function(cond){
                                         return(newExpr[j,])
+                                        print('something\'s weird, a single replicate for a whole group?')
                                     })
             groupAverages = c(groupAverages, list(groupAverage))
         }
@@ -180,7 +181,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
             for (t in 1:ncol(groupAverages)){
                 isMarker[t] = all(groupAverages[-j, t] + log(10, base=2) < groupAverages[j,t])
             }
-            fMarker = data.frame(geneData$Gene.Symbol[isMarker], groupAverages[j,isMarker], tryCatch({apply(groupAverages[-j,isMarker],2,max)}, error = function(e){groupAverages[-j,isMarker]}))
+            fMarker = data.frame(geneData$Gene.Symbol[isMarker], groupAverages[j,isMarker], tryCatch({apply(groupAverages[-j,isMarker],2,max)}, error = function(e){max(groupAverages[-j,isMarker])}))
             fChange = foldChange(groupAverages[j, ], groupAverages[-j,] )
             fChangePrint = data.frame(geneNames = geneData$Gene.Symbol[fChange$index], geneFoldChange= fChange$foldChange )
             fChangePrint = fChangePrint[order(fChangePrint$geneFoldChange, decreasing=T) ,]
@@ -199,7 +200,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
             fChangePrint = cbind(fChangePrint, silo)
 
             print(fileName)
-            print(i)
+            # print(i)
             write.table(fChangePrint, quote = F, row.names = F, col.names = F, fileName)
             write.table(fMarker, quote = F, row.names = F, col.names = F, fileName2)
 
