@@ -169,11 +169,14 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
 
         dir.create(outLoc, showWarnings = F)
         dir.create(paste0(outLoc,'/Marker'), showWarnings = F)
-        dir.create(paste0(outLoc  , '/', names(nameGroups)[stepi] , '/'), showWarnings = F)
+        dir.create(paste0(outLoc,'/Relax'), showWarnings = F)
+        # dir.create(paste0(outLoc  , '/', names(nameGroups)[stepi] , '/'), showWarnings = F)
         dir.create(paste0(outLoc , '/Marker/' , names(nameGroups)[stepi] , '/'), showWarnings = F)
+        dir.create(paste0(outLoc , '/Relax/' , names(nameGroups)[stepi] , '/'), showWarnings = F)
+
 
         for (j in 1:nrow(groupAverages)){
-            fileName = paste0(outLoc  , '/', names(nameGroups)[stepi], '/',  names(realGroups)[j])
+            fileName = paste0(outLoc  , '/Relax/', names(nameGroups)[stepi], '/',  names(realGroups)[j])
             fileName2 = paste0(outLoc , '/Marker/' , names(nameGroups)[stepi] , '/' , names(realGroups)[j])
 
             #find markers
@@ -181,7 +184,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
             for (t in 1:ncol(groupAverages)){
                 isMarker[t] = all(groupAverages[-j, t] + log(10, base=2) < groupAverages[j,t])
             }
-            fMarker = data.frame(geneData$Gene.Symbol[isMarker], groupAverages[j,isMarker], tryCatch({apply(groupAverages[-j,isMarker],2,max)}, error = function(e){max(groupAverages[-j,isMarker])}))
+            fMarker = data.frame(geneData$Gene.Symbol[isMarker], groupAverages[j,isMarker], tryCatch({apply(groupAverages[-j,isMarker],2,max)}, error = function(e){max(groupAverages[-j,isMarker])}),tryCatch({apply(groupAverages[-j,isMarker],2,min)}, error = function(e){min(groupAverages[-j,isMarker])}))
             fChange = foldChange(groupAverages[j, ], groupAverages[-j,] )
             fChangePrint = data.frame(geneNames = geneData$Gene.Symbol[fChange$index], geneFoldChange= fChange$foldChange )
             fChangePrint = fChangePrint[order(fChangePrint$geneFoldChange, decreasing=T) ,]

@@ -36,6 +36,17 @@ Cell type specific gene selection
 
 **Note:** Right now even if you have many NA's in groupNames other that the `namingCol` they will still be normalized together with the rest of the samples included in the namingCol. A for loop that changes `namingCol`, `outFolder` and `geneOut` will help combat this if some groups are drastically exclusive.
 
+About Files
+========
+Selected genes are stored in Data/Fold directory. Names of the folders always relate to the collumns of Design.xls,csv, tdf. Their versions with a region name appended to the end uses that naming scheme only inside that region.
+Currently the naming shcemes represent:
+
+**CellType:** Includes mainstream cell type but does not include interneurons and stem cells.
+
+**FullCellType:** Includes inter and stem cells as well
+
+**GabaDeep** Same as **CellType** but has a deeper resolution of gabaergic neurons. 
+
 Scheme of the Pipeline
 =====================
 (Might be incomplete)

@@ -8,9 +8,15 @@ heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, h
     #heatColors is a list
     allDataPre = read.csv(expLoc, header = T)
     design = read.table(designLoc,header=T,sep='\t')
+
     geneData = allDataPre[, 1:3]
     exprData = allDataPre[, 4:ncol(allDataPre)]
     design = design[match(colnames(exprData),gsub('[-]','.',(gsub('[+]','.',design$sampleName)))),]
+
+    remove = apply(is.na(design[heatProps]),1,any)
+    design = design [!remove,]
+
+    exprData = exprData[,!remove]
 
     allColors = vector(mode = 'list', length = len(heatProps))
     names(allColors) = heatProps
@@ -37,7 +43,7 @@ heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, h
                    uniq = sort(trimNAs(unique(des)))
                    palette = vector(length = len(uniq))
                    names(palette) = uniq
-                   hailInefficiency = seq(mi,ma,length.out=10000)
+                   hailInefficiency = seq(mi,ma,length.out=fine)
                    for (j in 1:len(uniq)){
                        # find closest number
                        palette[j] = gradCols[which(abs(hailInefficiency-uniq[j])==min(abs(hailInefficiency-uniq[j])))]
@@ -47,6 +53,22 @@ heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, h
                    temp[!is.na(des)] = precursor$cols
                    allColors[[i]] = list(cols = temp, palette = precursor$palette[order(as.numeric(names(precursor$palette)))])
                },
+               gradFactor = {
+                   # doesn't deal with NAs
+                   if (is.na(heatColors[[i]]['factorOrd'])){
+                       des = factor(design[, heatProps[i]])
+                   } else {
+                       des = factor(design[, heatProps[i]], levels = heatColors[[i]]['factorOrd'])
+                   }
+                   uniq = levels(des)
+                   palette = vector (length = len(uniq))
+                   gradCols = colorRampPalette(c(heatColors[[i]]['lo'], heatColors[[i]]['hi']))(len(uniq))
+                   palette = gradCols
+                   names(palette) = uniq
+                   precursor = toColor(des,palette)
+                   allColors[[i]] = list(cols = precursor$cols, palette = precursor$palette[sort(names(precursor$palette))])
+               },
+
                def = {
                    allColors[[i]] = toColor(design[, heatProps[[i]]])
                }) # end o' switch
@@ -70,14 +92,14 @@ heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, h
     justColors = t(apply(justColors,1,rev))
     png(filename = heatFile, width = 1200, height = 1200)
     heatmap.3(corr, trace = "none", Rowv = T, Colv = T,
-                  col = heatPalette, ColSideColors = justColors, cexCol=1,margins = c(7,5),dendrogram = 'column')
+                  col = heatPalette, ColSideColors = justColors, cexCol=1,margins = c(7,5),dendrogram = 'column',key = F)
     # add the legends
     for (i in 1:len(heatColors)){
         if (heatColors[[i]]['legendLoc'] == 'none'){
             next
         }
 
-        legend(heatColors[[i]]['legendLoc'], legend= names(allColors[[i]]$palette),
+        legend(title = names(heatColors)[i], heatColors[[i]]['legendLoc'], legend= names(allColors[[i]]$palette),
                fill = allColors[[i]]$palette, cex=as.numeric(heatColors[[i]]['cex']))
     }
 
