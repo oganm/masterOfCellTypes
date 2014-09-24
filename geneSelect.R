@@ -93,7 +93,12 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
     allDataPre = read.csv(exprLoc, header = T)
     geneData = allDataPre[,1:3]
     exprData = allDataPre[,4:ncol(allDataPre)]
-    exprData = exprData
+
+    if (!all(colnames(exprData) %in% design$sampleName)){
+        print('Unless you are rotating samples, something has gone terribly wrong!')
+        exprData = exprData[,colnames(exprData) %in% design$sampleName]
+    }
+
     design = design[match(colnames(exprData),make.names(design$sampleName),),]
 
     exprData = t(exprData)
@@ -123,7 +128,13 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
     newExpr = exprData[1:length(unique(design$originalIndex)),]
     indexes = unique(design$originalIndex)
     for (i in 1:length(indexes)){
-        newExpr[i, ] = apply(exprData[design$originalIndex == indexes[i],], 2,mean)
+        newExpr[i, ] = tryCatch({
+            apply(exprData[design$originalIndex == indexes[i],], 2,mean)},
+            error= function(e){
+                print('unless you are rotating its not nice that you have single replicate groups')
+                print('you must be ashamed!')
+                exprData[design$originalIndex == indexes[i],]
+            })
     }
 
     newDesign = design[match(indexes,design$originalIndex),]

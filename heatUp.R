@@ -4,7 +4,7 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
     ssl.verifypeer=FALSE) ))
 
-heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, heatPalette, geneList = NA){
+heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, heatPalette, geneList = NA, heig,widt){
     #heatColors is a list
     allDataPre = read.csv(expLoc, header = T)
     design = read.table(designLoc,header=T,sep='\t')
@@ -90,7 +90,7 @@ heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, h
     names(justColors) = names(allColors)
     justColors = as.matrix(as.data.frame(justColors))
     justColors = t(apply(justColors,1,rev))
-    png(filename = heatFile, width = 1200, height = 1200)
+    png(filename = heatFile, width = widt, height = heig)
     heatmap.3(corr, trace = "none", Rowv = T, Colv = T,
                   col = heatPalette, ColSideColors = justColors, cexCol=1,margins = c(7,5),dendrogram = 'column',key = F)
     # add the legends

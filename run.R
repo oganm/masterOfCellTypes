@@ -1,5 +1,5 @@
 # for loading and normalization -----
-desFile='Design.xls'
+desFile='Data/Design.xls'
 xls = TRUE
 # just selects S1s of dopaminergics   (((?<=:)|(?<=[,]))A\d.*?S1_M430A)
 celRegex='(GSM.*?(?=,|$))|(PC\\d....)|(Y[+].*?((?=(,))|\\d+))|((?<=:)|(?<=[,]))A((9)|(10))_[0-9]{1,}_Chee_S1_M430A|(v2_(?![G,H,r]).*?((?=(,))|($)))|(SSC.*?((?=(,))|($)))|(MCx.*?((?=(,))|($)))|(Cbx.*?((?=(,))|($)))'
@@ -17,8 +17,8 @@ regionNames = 'Region'
 rotationOut = 'Data/Rotation'
 
 # contamination indeces ----
-defMarkers = 'defMarkers.csv'
-
+defMarkers = 'Data/defMarkers.csv'
+apContOut = 'Data/UsedMarkers'
 # file names ----
 finalExp = 'finalExp'
 qnormExp= 'qnormExp'
@@ -69,14 +69,19 @@ refColors = c(method = 'def', legendLoc = 'topleft', cex = 1)
 # names are not important
 heatColors = list(CellType = namingColors, typeColors = typeColors, Reference = refColors, Age = ageColors)
 
-# dependencies ------
+# dependencies (not complete. will migrate and see) ------
 # install.packages('reshape')
 
 # convert to tab delimeted ----
 if (xls == TRUE){
     system(paste0('libreoffice --headless --convert-to csv ',desFile))
-    write.table(read.csv(paste0(substr(desFile,1,nchar(desFile)-4),'.csv')), sep = '\t', quote = F, row.names = F,
+
+    splPath = strsplit(desFile,'/')[[1]]
+    splPath = splPath[len(splPath)]
+
+    write.table(read.csv(paste0(substr(splPath,1,nchar(splPath)-4),'.csv')), sep = '\t', quote = F, row.names = F,
                 file = paste0(substr(desFile,1,nchar(desFile)-4),'.tdf'))
+    file.remove(paste0(substr(splPath,1,nchar(splPath)-4),'.csv'))
     desFile = paste0(substr(desFile,1,nchar(desFile)-4),'.tdf')
 }
 
@@ -132,15 +137,23 @@ system('beep')
 # contamination -----
 source('appendCont.R')
 appendCont(defMarkers,paste0(outFolder,'/meltedDesign'),
-           paste0(geneOut, '/Marker/', groupNames[1]), contanimName)
+           paste0(geneOut, '/Marker'), contanimName, apContOut)
 
 source('contaminate.R')
 contamination(paste0(outFolder,'/meltedDesign'),
            paste0(outFolder,'/',finalExp),
-           defMarkers,
+           apContOut,
            paste0(outFolder,'/meltedDesign'))
 
 
+source('sampRotate.R')
+for (i in 1:10){
+    sampRotate(paste0(outFolder,'/meltedDesign'),
+               paste0(outFolder,'/',finalExp),
+               paste0(rotationOut,'/',i),
+               groupNames,
+               regionNames)
+}
 
 
 # heatmap ----
@@ -179,7 +192,9 @@ heatUp(paste0(outFolder,'/',finalExp),
        heatProps,
        heatColors,
        heatPalette,
-       genes
+       genes,
+       2000,
+       2000
        )
 
 genes = vector()
@@ -208,7 +223,9 @@ heatUp(paste0(outFolder,'/',finalExp),
        heatProps,
        heatColors,
        heatPalette,
-       genes
+       genes,
+       2000,
+       2000
 )
 
 
