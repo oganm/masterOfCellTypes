@@ -1,30 +1,30 @@
-Gabaergic	Astrocyte	Oligodendrocyte	Bergmann	Cholin	Dopaminergic	Ependymal	GabaPV	Gluta	Golgi	Hyprocretinergic	Microglia	MotorCholin	Purkinje	Serotonergic	Spiny
-Slc32a1	Aqp4	Mbp	Dao	Lhx8	Slc6a3	Uhrf1	Rbp4	Grp	Sgcg	Avpr1a	Crybb1	Prph	Smpx	Slc6a4	Ido1
-Gad1	Gfap	Sox10	Cd70	Crabp2	Th	Dpysl3	Prss23			Lhx9	Cttnbp2nl	Uts2	Casq2	Fev	Gpr88
-Gad2	Fgfr3	Mag				Rrm2				Hcrt	Pon3	Calcb	Ptprr		
-	Slc1a2	Mog				Nusap1				Cckar	C3ar1	Sh3bgr	Ppp1r17		
-	Gjb6					Dcx				Nnat	Fgd2	Calca			
-	Tnfrsf19					Mki67					Tlr7	Spp1			
-	Vcam1					Cenpf					Ccl2	Kcnj14			
-	Cyr61					Top2a					Cd86				
-	Bcan					Cdca7					Trem2				
-	Slco1c1					Kif2c					Il1a				
-	Cd38					Sox11					Ccl4				
-	Cyp4f15					Cenpe					Ccr5				
-						Pbk					Pla2g15				
-						Dlx2					Gpr34				
-						Dlx1					Entpd1				
-						Ube2c					F11r				
-											P2ry6				
-											Tgfbr2				
-											Pros1				
-											Abcc3				
-											Lair1				
-											Il10ra				
-											Olfml3				
-											Fcrls				
-											Lag3				
-											Stab1				
-											Ang				
-											Havcr2				
-											Blnk				
+Astrocyte	Oligodendrocyte	Cholin	Dopaminergic	Gluta	Golgi	Hyprocretinergic	Microglia	MotorCholin	Purkinje	Serotonergic	Spiny
+Aqp4	Mbp	Lhx8	Slc6a3	Grp	Sgcg	Avpr1a	Crybb1	Prph	Smpx	Slc6a4	Pde7b
+Gfap	Sox10	Crabp2	Th			Lhx9	Cttnbp2nl	Uts2	Ptprr	Fev	Gpr88
+Fgfr3	Mag		Foxa2			Hcrt	Pon3	Calcb	Ppp1r17	Gata3	
+Slc1a2	Mog					Cckar	C3ar1	Sh3bgr			
+Gjb6	Ppp1r14a					Nnat	Fgd2	Calca			
+Slc7a10							Tlr7	Spp1			
+							Ccl2	Kcnj14			
+							Cd86				
+							Trem2				
+							Il1a				
+							Ccl4				
+							Ccr5				
+							Pla2g15				
+							Gpr34				
+							Entpd1				
+							F11r				
+							P2ry6				
+							Tgfbr2				
+							Pros1				
+							Abcc3				
+							Lair1				
+							Il10ra				
+							Olfml3				
+							Fcrls				
+							Lag3				
+							Stab1				
+							Ang				
+							Havcr2				
+							Blnk				

@@ -15,13 +15,16 @@ contamination = function(desFile, exprLoc, defMarkers, outDes){
     for (i in 1:len(defMarkers)){
         newExprData = t(scale(t(exprData)))
         mi = apply(exprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),!design[,names(cindexes)[i]]],1,min)
-        ma = apply(exprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),!design[,names(cindexes)[i]]],1,max)
+        ma = apply(exprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]), design[,names(cindexes)[i]]],1,max)
 
         contaminations = apply((exprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),]-mi)/(ma-mi),2,mean)
         cindexes[[i]] = contaminations
 
     }
     cindexes = as.data.frame(cindexes)
+
+    cindexes = cbind(cindexes,apply(cindexes,1,mean))
+    names(cindexes)[len(cindexes)] = 'MeanCont'
 
     newDesign = cbind(design,cindexes)
     newDesign = newDesign[order(as.numeric(rownames(newDesign))),]

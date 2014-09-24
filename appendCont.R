@@ -1,12 +1,12 @@
-appendCont = function(defMarkers, designLoc, markerLoc,contanName){
+appendCont = function(defMarkers, designLoc, markerLoc, contanName, outFile){
     # appends new markers from a folder to a list of known markers also add classification to design file
     # consider separating them
     defM = read.table(defMarkers,header=T,sep='\t')
     defM = lapply(as.list(defM),trimElement,'')
     design = read.table(designLoc,header=T,sep='\t')
 
-    files = list.files(markerLoc,include.dirs = FALSE)
-    fileContents = lapply(paste0(markerLoc,'/', files), function(x){
+    files = list.files(paste0(markerLoc,'/',contanName),include.dirs = FALSE)
+    fileContents = lapply(paste0(markerLoc,'/',contanName,'/', files), function(x){
         tryCatch({
             read.table(x)},
             error = function(e){
@@ -36,5 +36,5 @@ appendCont = function(defMarkers, designLoc, markerLoc,contanName){
         defM[[i]] = c(as.character(defM[[i]]) ,rep ('', maxLen - len(defM[[i]])))
     }
 
-    write.table(as.data.frame(defM), file = 'Data/UsedMarkers',  row.names=FALSE,sep = '\t', quote=F)
+    write.table(as.data.frame(defM), file = outFile,  row.names=FALSE,sep = '\t', quote=F)
 }
