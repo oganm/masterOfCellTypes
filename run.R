@@ -147,13 +147,14 @@ contamination(paste0(outFolder,'/meltedDesign'),
 
 
 source('sampRotate.R')
-for (i in 1:10){
+for (i in 1:20){
     sampRotate(paste0(outFolder,'/meltedDesign'),
                paste0(outFolder,'/',finalExp),
                paste0(rotationOut,'/',i),
                groupNames,
                regionNames)
 }
+
 
 
 # heatmap ----

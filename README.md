@@ -2,6 +2,9 @@ masterOfCellTypes
 =================
 
 Use and modify run.R to do stuff. Variables in the first lines dictate what will it do. Most are self explanatory
+
+Don't try running it with xls=TRUE and openoffice on.
+
 Normalization
 -----
 **desFile:** Location of the original design file. Exact structure of the design file is mostly unimportant. Only rules are:

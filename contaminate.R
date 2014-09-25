@@ -11,13 +11,16 @@ contamination = function(desFile, exprLoc, defMarkers, outDes){
     cindexes = vector(mode = 'list', length= len(defMarkers))
     names(cindexes) = names(defMarkers)
 
+    newExprData = t(scale(t(exprData)))
 
     for (i in 1:len(defMarkers)){
-        newExprData = t(scale(t(exprData)))
-        mi = apply(exprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),!design[,names(cindexes)[i]]],1,min)
-        ma = apply(exprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]), design[,names(cindexes)[i]]],1,max)
+        mi = tryCatch({apply(newExprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]), !design[,names(cindexes)[i]]],1,min)},
+                      error = function(e){min(newExprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]), !design[,names(cindexes)[i]]])})
+        ma = tryCatch({apply(newExprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),!!design[,names(cindexes)[i]]],1,max)},
+                      error = function(e){max(newExprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),!!design[,names(cindexes)[i]]])})
 
-        contaminations = apply((exprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),]-mi)/(ma-mi),2,mean)
+        contaminations = tryCatch({apply((newExprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),]-mi)/(ma-mi),2,mean)},
+                                  error = function(e){(newExprData[which(geneData$Gene.Symbol %in% defMarkers[[i]]),]-mi)/(ma-mi)})
         cindexes[[i]] = contaminations
 
     }

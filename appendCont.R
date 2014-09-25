@@ -19,12 +19,14 @@ appendCont = function(defMarkers, designLoc, markerLoc, contanName, outFile){
         defM[[files[i]]] = tryCatch({unique(c(as.character(defM[[files[i]]]),
                                               as.character(fileContents[[i]]$V1)))},
                                     error = function(e){
-                                        NULL
+                                        c(as.character(defM[[files[i]]]),NULL)
                                     })
-        if(!is.null(defM[[files[i]]])){
+        if(!len(defM[[files[i]]])==0){
             if (all(names(design) !=  files[[i]])){
                 design[files[[i]]] = design[,contanName] == files[[i]]
             }
+        } else {
+            defM = defM[-which(names(defM)==files[i])]
         }
 
     }
