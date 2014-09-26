@@ -4,13 +4,20 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
     ssl.verifypeer=FALSE) ))
 
-heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, heatPalette, geneList = NA, heig,widt){
+heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalette, geneList = NA, heig,widt){
     #heatColors is a list
     allDataPre = read.csv(expLoc, header = T)
     design = read.table(designLoc,header=T,sep='\t')
 
     geneData = allDataPre[, 1:3]
     exprData = allDataPre[, 4:ncol(allDataPre)]
+
+    if (!all(colnames(exprData) %in% design$sampleName)){
+        print('Unless you are rotating samples, something has gone terribly wrong!')
+        exprData = exprData[,colnames(exprData) %in% design$sampleName]
+    }
+
+
     design = design[match(colnames(exprData),gsub('[-]','.',(gsub('[+]','.',design$sampleName)))),]
 
     remove = apply(is.na(design[heatProps]),1,any)
@@ -18,15 +25,11 @@ heatUp = function(expLoc, designLoc, geneOut, heatFile, heatProps, heatColors, h
 
     exprData = exprData[,!remove]
 
+
     allColors = vector(mode = 'list', length = len(heatProps))
     names(allColors) = heatProps
     # color prep ----
     for (i in 1:len(heatProps)){
-        if (heatColors[[i]]['method'] == 'direct'){
-            toCol = heatColors[[i]][!names(heatColors[[i]]) %in% c('method','legendLoc', 'cex')]
-            allColors[[i]] = toColor(design[, heatProps[i]], toCol)
-        }
-
         # switch isn't supposed to be a function! damn you R!
         switch(heatColors[[i]]['method'],
                direct = {

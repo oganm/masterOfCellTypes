@@ -157,38 +157,45 @@ for (i in 1:20){
 
 
 
+
 # heatmap ----
-# might migrate into it's own file if more complicated stuff is required
-expandedHeat = vector()
-for (i in heatGenes){
-    expandedHeat = c(expandedHeat,
-                     list.files(paste0(geneOut,'/Relax/'),include.dirs = T) [grepl(i,list.files(paste0(geneOut,'/Relax/'),include.dirs = T))]
-                     )
-}
-expandedHeat = expandedHeat[-5]
-
-genes = vector()
-for (i in expandedHeat){
-    filenames = list.files(paste0(geneOut,'/Relax/',i),include.dirs = FALSE)
-    fileContents = lapply(paste0(geneOut,'/Relax/',i,'/', filenames), read.table)
-    geneList = vector(mode = 'list', length = length(fileContents))
-    names(geneList) = filenames
-    for (j in 1:length(fileContents)){
-        geneList[[j]] = as.character(fileContents[[j]]$V1[(as.numeric(as.character(fileContents[[j]]$V3))>0.5)&(as.numeric(as.character(fileContents[[j]]$V2))>0)])
-    }
-
-    puristList = vector(mode = 'list', length = length(geneList))
-    for (i in 1:length(geneList)){
-        puristList[[i]] = trimElement(geneList[[i]], unlist(geneList[-i]))
-    }
-    genes = c(genes, unlist(puristList))
-}
-genes= unique(genes)
-
 source('heatUp.R')
+source('heatGeneOut.R')
+for (i in 1:20){
+
+    genes = heatGeneOut(paste0(rotationOut,'/',i,'/Relax/'), heatGenes,2,T)
+    heatUp(paste0(outFolder,'/',finalExp),
+           paste0(rotationOut,'/',i,'/rotateElim'),
+           paste0(rotationOut,'/',i,'/heatmapElim.png'),
+           heatProps,
+           heatColors,
+           heatPalette,
+           genes,
+           2000,
+           2000
+           )
+
+    heatUp(paste0(outFolder,'/',finalExp),
+           paste0(rotationOut,'/',i,'/rotateForward'),
+           paste0(rotationOut,'/',i,'/heatmapForward.png'),
+           heatProps,
+           heatColors,
+           heatPalette,
+           genes,
+           2000,
+           2000
+           )
+}
+
+
+
+
+
+genes = heatGeneOut(paste0(geneOut,'/Relax/'), heatGenes, 2, T)
+
+
 heatUp(paste0(outFolder,'/',finalExp),
        paste0(outFolder,'/meltedDesign'),
-       geneOut,
        heatFile,
        heatProps,
        heatColors,
@@ -219,7 +226,6 @@ genes = unique(genes)
 
 heatUp(paste0(outFolder,'/',finalExp),
        paste0(outFolder,'/meltedDesign'),
-       geneOut,
        'images/heatmapMult',
        heatProps,
        heatColors,
@@ -232,7 +238,6 @@ heatUp(paste0(outFolder,'/',finalExp),
 
 heatUp(paste0(outFolder,'/',finalExp),
        paste0(outFolder,'/meltedDesign'),
-       geneOut,
        'images/noFilter.png',
        heatProps,
        heatColors,

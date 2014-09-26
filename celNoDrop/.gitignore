@@ -1,0 +1,4 @@
+*.CEL
+/GSE46706_RAW.tar
+*.soft
+*.soft.gz
