@@ -147,7 +147,7 @@ contamination(paste0(outFolder,'/meltedDesign'),
 
 
 source('sampRotate.R')
-for (i in 1:20){
+for (i in 1:100){
     sampRotate(paste0(outFolder,'/meltedDesign'),
                paste0(outFolder,'/',finalExp),
                paste0(rotationOut,'/',i),
@@ -161,7 +161,7 @@ for (i in 1:20){
 # heatmap ----
 source('heatUp.R')
 source('heatGeneOut.R')
-for (i in 1:20){
+for (i in 1:100){
 
     genes = heatGeneOut(paste0(rotationOut,'/',i,'/Relax/'), heatGenes,2,T)
     heatUp(paste0(outFolder,'/',finalExp),
@@ -188,7 +188,8 @@ for (i in 1:20){
 }
 
 
-
+source('rotateCheck.R')
+rotateCheck(rotationOut)
 
 
 genes = heatGeneOut(paste0(geneOut,'/Relax/'), heatGenes, 2, T)
@@ -256,4 +257,4 @@ heatUp(paste0(outFolder,'/',finalExp),
 #          geneOutIndex,
 #          groupNames)
 
-system('while true; do beep; sleep 2; done')
+system('while true; do echo "eloo"; sleep 2; done')

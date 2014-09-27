@@ -5,6 +5,10 @@ rotateCheck = function(rotationOut){
         ssl.verifypeer=FALSE) ))
 
     dirFols = list.dirs(rotationOut, recursive = F)
+    if (any(grepl('Confidence',dirFols))){
+        dirFols = dirFols[-which(grepl('Confidence',dirFols))]
+    }
+
     loopAround = list.dirs(dirFols[1],full.names = F)
     loopAround = loopAround [-which(loopAround %in% c('Relax','Marker',''))]
     dir.create(paste0(rotationOut,'/Confidence'), showWarnings = F)
@@ -16,9 +20,16 @@ rotateCheck = function(rotationOut){
         for (j in files){
             genes = vector()
             for (k in dirFols){
-                daFile = read.table(paste0(k,'/',i,'/',j) ,header=F)
-
+                daFile = tryCatch({read.table(paste0(k,'/',i,'/',j) ,header=F)},
+                                  error=function(e){
+                                    daFile=data.frame()
+                                  })
+                genes = c(genes, as.character(daFile$V1))
             }
+            geneCounts = table(genes)
+            confidence = geneCounts/len(dirFols)
+
+            write.table(as.df(confidence), file = paste0(rotationOut,'/Confidence/',i,'/',j), row.names = F, quote=F, sep='\t')
         }
     }
 
