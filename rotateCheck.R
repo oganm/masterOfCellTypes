@@ -1,8 +1,10 @@
+require(RCurl)
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+    ssl.verifypeer=FALSE) ))
+
 rotateCheck = function(rotationOut){
-    require(RCurl)
-    eval( expr = parse( text = getURL(
-        "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
-        ssl.verifypeer=FALSE) ))
+
 
     dirFols = list.dirs(rotationOut, recursive = F)
     if (any(grepl('Confidence',dirFols))){
@@ -29,7 +31,7 @@ rotateCheck = function(rotationOut){
             geneCounts = table(genes)
             confidence = geneCounts/len(dirFols)
 
-            write.table(as.df(confidence), file = paste0(rotationOut,'/Confidence/',i,'/',j), row.names = F, quote=F, sep='\t')
+            write.table(as.df(confidence), file = paste0(rotationOut,'/Confidence/',i,'/',j), row.names = F, col.names = F, quote=F, sep='\t')
         }
     }
 

@@ -35,7 +35,7 @@ heatPalette = colorRampPalette(c("darkred",'white', "blue"))(n = 1000)
 # extra cell types will not cause problems if in list
 namingColors = c(method = 'direct',
                  legendLoc = 'bottomleft',
-                 cex = 1,
+                 cex = 1.5,
                  Oligo = 'darkgreen',
                  Bergmann = 'palegreen',
                  MotorCholin = 'darkorange4',
@@ -47,7 +47,8 @@ namingColors = c(method = 'direct',
                  Pyramidal = 'turquoise',
                  Purkinje = 'purple',
                  Inter = 'pink',
-                 Granule = 'thistle',
+                 CerebGranule = 'thistle',
+                 DentateGranule = 'thistle3',
                  Microglia = 'white',
                  Gaba = 'firebrick4',
                  Astrocyte = 'yellow',
@@ -61,13 +62,17 @@ namingColors = c(method = 'direct',
 
 ageColors = c(method = 'gradFactor', lo = 'blue', hi = 'red',
               legendLoc = 'bottomright',factorOrd = NA,
-              cex = 1)
+              cex = 1.5)
 
 typeColors = c(method = 'def', legendLoc = 'none')
 
-refColors = c(method = 'def', legendLoc = 'topleft', cex = 1)
+refColors = c(method = 'def', legendLoc = 'topleft', cex = 1.5)
 # names are not important
 heatColors = list(CellType = namingColors, typeColors = typeColors, Reference = refColors, Age = ageColors)
+
+# for bipol ----
+bipolLoc = 'Data/GSE5388_GSE12649_for_Ogan.RData'
+bipolOut = 'Data/BipolPC'
 
 # dependencies (not complete. will migrate and see) ------
 # install.packages('reshape')
@@ -146,6 +151,24 @@ contamination(paste0(outFolder,'/meltedDesign'),
            paste0(outFolder,'/meltedDesign'))
 
 
+# heatmap -----
+source('heatUp.R')
+source('heatGeneOut.R')
+genes = heatGeneOut(paste0(geneOut,'/Relax/'), heatGenes, 2, T)
+
+
+heatUp(paste0(outFolder,'/',finalExp),
+       paste0(outFolder,'/meltedDesign'),
+       heatFile,
+       heatProps,
+       heatColors,
+       heatPalette,
+       genes,
+       2000,
+       2000)
+
+
+# sample rotate -----
 source('sampRotate.R')
 for (i in 1:100){
     sampRotate(paste0(outFolder,'/meltedDesign'),
@@ -156,11 +179,6 @@ for (i in 1:100){
 }
 
 
-
-
-# heatmap ----
-source('heatUp.R')
-source('heatGeneOut.R')
 for (i in 1:100){
 
     genes = heatGeneOut(paste0(rotationOut,'/',i,'/Relax/'), heatGenes,2,T)
@@ -188,64 +206,14 @@ for (i in 1:100){
 }
 
 
+
 source('rotateCheck.R')
 rotateCheck(rotationOut)
 
+paste0(geneOut,'/Relax/')
 
-genes = heatGeneOut(paste0(geneOut,'/Relax/'), heatGenes, 2, T)
-
-
-heatUp(paste0(outFolder,'/',finalExp),
-       paste0(outFolder,'/meltedDesign'),
-       heatFile,
-       heatProps,
-       heatColors,
-       heatPalette,
-       genes,
-       2000,
-       2000
-       )
-
-genes = vector()
-for (i in expandedHeat){
-    filenames = list.files(paste0(geneOut,'/Relax/',i),include.dirs = FALSE)
-    fileContents = lapply(paste0(geneOut,'/Relax/',i,'/', filenames), read.table)
-    geneList = vector(mode = 'list', length = length(fileContents))
-    names(geneList) = filenames
-    for (j in 1:length(fileContents)){
-        geneList[[j]] = as.character(fileContents[[j]]$V1[as.numeric(as.character(fileContents[[j]]$V3))*as.numeric(as.character(fileContents[[j]]$V2))>2])
-    }
-
-    puristList = vector(mode = 'list', length = length(geneList))
-    for (i in 1:length(geneList)){
-        puristList[[i]] = trimElement(geneList[[i]], unlist(geneList[-i]))
-    }
-    genes = c(genes, unlist(puristList))
-}
-
-genes = unique(genes)
-
-heatUp(paste0(outFolder,'/',finalExp),
-       paste0(outFolder,'/meltedDesign'),
-       'images/heatmapMult',
-       heatProps,
-       heatColors,
-       heatPalette,
-       genes,
-       2000,
-       2000
-)
-
-
-heatUp(paste0(outFolder,'/',finalExp),
-       paste0(outFolder,'/meltedDesign'),
-       'images/noFilter.png',
-       heatProps,
-       heatColors,
-       heatPalette,
-       NA
-       )
-
+source('humanBipol.R')
+humanBipol(paste0(geneOut,'/Relax/Cortex_CellType'), bipolLoc, bipolOut)
 
 
 # calculates specificity index as describe in
@@ -256,5 +224,3 @@ heatUp(paste0(outFolder,'/',finalExp),
 #          paste0(outFolder,'/finalExp'),
 #          geneOutIndex,
 #          groupNames)
-
-system('while true; do echo "eloo"; sleep 2; done')
