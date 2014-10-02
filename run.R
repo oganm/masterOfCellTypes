@@ -19,9 +19,17 @@ rotationOut = 'Data/Rotation'
 # contamination indeces ----
 defMarkers = 'Data/defMarkers.csv'
 apContOut = 'Data/UsedMarkers'
+
+# coexpression stuff
+humanDes = 'Data/hugeHumanSoft'
+regionMapping = 'Data/regionMapping.csv'
+humanDat = 'Data/HumanExpr'
+humanOrtho = 'Data/HT_HG-U133A.na34.ortholog.csv'
 # file names ----
 finalExp = 'finalExp'
 qnormExp= 'qnormExp'
+
+
 
 #  for heatMap ----
 heatFile = 'images/heatmap.png'
@@ -214,6 +222,11 @@ paste0(geneOut,'/Relax/')
 
 source('humanBipol.R')
 humanBipol(paste0(geneOut,'/Relax/Cortex_CellType'), bipolLoc, bipolOut)
+
+
+
+quantileNorm(paste0(outFolder,'/rmaExp'),
+             paste0(outFolder,'/',qnormExp))
 
 
 # calculates specificity index as describe in
