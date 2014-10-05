@@ -48,12 +48,19 @@ coexpAna = function(humanDes, genesOut, regionMapping, humanDat){
         geneLists = lapply(regionMouseLocs, puristOut)
         names(geneLists) = basename(regionMouseLocs)
 
-        tresh = quantile(unlist(regionCor),probs = c(0.95))
+        commons = which(humanGene$Gene_Symbol %in%
+                        fullOrtho$hgnc_symbol[fullOrtho$mgi_symbol %in% unlist(geneLists)])
+
+
+
+        tresh = quantile(unlist(regionCor[,commons]),probs = c(0.95))
         network = regionCor>tresh
         a=as(network, 'sparseMatrix')
         rm(network)
 
         for (j in 1:len(geneLists)){
+            commons = which(humanGene$Gene_Symbol %in%
+                                fullOrtho$hgnc_symbol[fullOrtho$mgi_symbol %in% unlist(geneLists[[i]])])
 
         }
 
