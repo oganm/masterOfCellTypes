@@ -40,28 +40,45 @@ coexpAna = function(humanDes, genesOut, regionMapping, humanDat){
     source('humanMouseOrthologue.R')
     fullOrtho = humanMouseOrthologue(humanGene$Gene_Symbol)
 
+    source('puristOut.R')
+
     for (i in 1:len(regionMap[,1])){
 
         regionExpr = humanExpr[names(humanExpr) %in% humanDes$GSM[humanDes$Region == regionMap[i,2]]]
         regionCor = cor(t(regionExpr))
         regionMouseLocs = allGenLocs[grepl(regionMap[i, 1], allGenLocs)]
+        # uses purist out
         geneLists = lapply(regionMouseLocs, puristOut)
         names(geneLists) = basename(regionMouseLocs)
-
-        commons = which(humanGene$Gene_Symbol %in%
-                        fullOrtho$hgnc_symbol[fullOrtho$mgi_symbol %in% unlist(geneLists)])
-
 
 
         tresh = quantile(unlist(regionCor[,commons]),probs = c(0.95))
         network = regionCor>tresh
-        a=as(network, 'sparseMatrix')
-        rm(network)
+        rownames(network) = humanGene$Gene_Symbol
+        colnames(network) = humanGene$Gene_Symbol
 
         for (j in 1:len(geneLists)){
+            for (k in 1:len(geneList[[j]])){
             commons = which(humanGene$Gene_Symbol %in%
-                                fullOrtho$hgnc_symbol[fullOrtho$mgi_symbol %in% unlist(geneLists[[i]])])
+                                fullOrtho$hgnc_symbol[fullOrtho$mgi_symbol %in% unlist(geneLists[[j]][[k]])])
+            cellTypeRegionCor = regionCor[,commons]
+            tresh = quantile(unlist(cellTypeRegionCor),probs = c(0.95))
+            rownames(cellTypeRegionCor) = humanGene$Gene_Symbol
+            colnames(cellTypeRegionCor) = humanGene$Gene_Symbol[
+                which(humanGene$Gene_Symbol %in%
+                          fullOrtho$hgnc_symbol[fullOrtho$mgi_symbol %in% unlist(geneLists[[j]][[k]])])]
 
+            connections = vector(mode = 'list', length = ncol(cellTypeRegionCor))
+            names(connections) = colnames(cellTypeRegionCor)
+            for (l in 1:ncol(cellTypeRegionCor)){
+                connections[[l]] = rownames(cellTypeRegionCor)[cellTypeRegionCor[,l]>tresh]
+            }
+
+            interConnect = sapply(names(connections),findInList,connections)
+
+            unique(unlist(connections[interConnect[[which.max(sapply(interConnect,len))]]]))
+
+            }
         }
 
         # hat the fk is goingwon right ncw. ser ously R woat the fuci. are hou insane kr something?
