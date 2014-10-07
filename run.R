@@ -1,3 +1,8 @@
+require(RCurl)
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+    ssl.verifypeer=FALSE) ))
+
 # for loading and normalization -----
 desFile='Data/Design.xls'
 xls = TRUE
@@ -96,6 +101,8 @@ if (xls == TRUE){
                 file = paste0(substr(desFile,1,nchar(desFile)-4),'.tdf'))
     file.remove(paste0(substr(splPath,1,nchar(splPath)-4),'.csv'))
     desFile = paste0(substr(desFile,1,nchar(desFile)-4),'.tdf')
+    #desFile = paste0(substr(desFile,1,nchar(desFile)-4),'.xls')
+    
 }
 
 

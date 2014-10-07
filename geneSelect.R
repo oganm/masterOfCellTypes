@@ -70,7 +70,9 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
         add2 = g29 & g16 & tempGroupAv2>groupAverage1
 
 
-        fold = (groupAverage1 - groupAverage2)
+        fold = groupAverage1 - groupAverage2
+        # take everything below 6 as the same when selecting
+        # fold =  sapply(groupAverage1,max,6) - sapply(groupAverage2,max,6)
         chosen =  which({(fold >= (log(f)/log(2))) & !(g19 & g26) } | {(fold <= log(1/f)/log(2)) &  !(g29 & g16)}| add1 | add2)
         return(
             data.frame(index = chosen, foldChange = fold[chosen])
@@ -110,14 +112,32 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
                 unique(
                     unlist(
                         strsplit(as.character(design[,regionNames]),',')))
-                ,c('ALL','All','all')))
+                ,c('ALL','All','all','Cerebrum'))) #S pecial names
     regionBased = expand.grid(groupNames, regions)
     regionGroups = vector(mode = 'list', length = nrow(regionBased))
     names(regionGroups) = paste0(regionBased$Var2,'_',regionBased$Var1)
 
     for (i in 1:nrow(regionBased)){
         regionGroups[[i]] = design[,as.character(regionBased$Var1[i])]
-        regionGroups[[i]][!grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])] = NA
+
+        # remove everything except the region and ALL labeled ones. for anything but cerebellum, add Cerebrum labelled ones as well
+        if (regionBased$Var2[i] == 'Cerebellum'){
+            regionGroups[[i]][!grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])] = NA
+        } else {
+            # look for cerebrums
+            cerebrums = unique(regionGroups[[i]][grepl('(Cerebrum)',design[,regionNames])])
+
+            # find which cerebrums are not represented in the region
+            cerebString = paste(cerebrums[!cerebrums %in% regionGroups[[i]][grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])]],
+                                collapse = ')|(')
+
+            # add them as well (or not remove them as well) with all the rest of the region samples
+            regionGroups[[i]][(!grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])
+                              & !(grepl(paste0('(',cerebString,')'),design[,as.character(regionBased$Var1[i])]) & grepl('Cerebrum',design[,regionNames])))] =  NA
+
+        }
+
+
     }
 
     design = cbind(design,regionGroups)
