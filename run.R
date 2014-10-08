@@ -12,7 +12,7 @@ celDir ='cel'
 outFolder='Data'
 namingCol = 'MainName'
 tinyChip = 'mouse430a2.db'
-skipNorm = T
+skipNorm = F
 # for gene selection -----
 geneOut = 'Data/Fold'
 geneOutIndex = 'Data/Index'
@@ -30,6 +30,7 @@ humanDes = 'Data/hugeHumanSoft'
 regionMapping = 'Data/regionMapping.csv'
 humanDat = 'Data/HumanExpr'
 humanOrtho = 'Data/HT_HG-U133A.na34.ortholog.csv'
+coexpHOut = 'Data/HumanMarkerCoexpressed'
 # file names ----
 finalExp = 'finalExp'
 qnormExp= 'qnormExp'
@@ -70,7 +71,8 @@ namingColors = c(method = 'direct',
                  Ependymal = 'orange',
                  Serotonergic = 'darkolivegreen',
                  Hyprocretinergic = 'cadetblue',
-                 Dopaminergic = 'gray0')
+                 Dopaminergic = 'gray0',
+                 Tyrosine = 'blueviolet')
 
 
 ageColors = c(method = 'gradFactor', lo = 'blue', hi = 'red',
@@ -102,7 +104,7 @@ if (xls == TRUE){
     file.remove(paste0(substr(splPath,1,nchar(splPath)-4),'.csv'))
     desFile = paste0(substr(desFile,1,nchar(desFile)-4),'.tdf')
     #desFile = paste0(substr(desFile,1,nchar(desFile)-4),'.xls')
-    
+
 }
 
 
@@ -139,11 +141,14 @@ sexFind(paste0(outFolder,'/meltedDesign'),
 
 # gene selection -----
 source('geneSelect.R')
+
 geneSelect(paste0(outFolder,'/meltedDesign'),
            paste0(outFolder,'/',finalExp),
            geneOut,
            groupNames,
            regionNames)
+
+
 
 
 source('microglialException.R')
@@ -185,6 +190,7 @@ heatUp(paste0(outFolder,'/',finalExp),
 
 # sample rotate -----
 source('sampRotate.R')
+
 for (i in 1:100){
     sampRotate(paste0(outFolder,'/meltedDesign'),
                paste0(outFolder,'/',finalExp),
@@ -192,7 +198,6 @@ for (i in 1:100){
                groupNames,
                regionNames)
 }
-
 
 for (i in 1:100){
 
@@ -230,10 +235,8 @@ paste0(geneOut,'/Relax/')
 source('humanBipol.R')
 humanBipol(paste0(geneOut,'/Relax/Cortex_CellType'), bipolLoc, bipolOut)
 
-
-
-quantileNorm(paste0(outFolder,'/rmaExp'),
-             paste0(outFolder,'/',qnormExp))
+source('coexpAna.R')
+coexpAna(humanDes, genesOut,regionMapping, humanDat,  coexpHOut)
 
 
 # calculates specificity index as describe in

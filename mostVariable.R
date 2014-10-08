@@ -18,20 +18,14 @@ mostVariable = function(whichFile,outFile){
     exprData = exprData[-discludeGenes,]
     geneData = geneData[-discludeGenes,]
 
-    newExprData = vector(mode = 'double',
-                         length = ncol(exprData) * length(unique(geneData$Gene.Symbol))
-    )
 
-    dim(newExprData) = c(length(unique(geneData$Gene.Symbol)), ncol(exprData))
-    colnames(newExprData) = colnames(exprData)
 
-    newExprData <<- foreach (i = 1:length(unique(geneData$Gene.Symbol)), .combine=cbind) %dopar% {
+    newExprData <<- foreach (i = 1:length(unique(geneData$Gene.Symbol)), .combine=rbind) %dopar% {
         indexes = which(geneData$Gene.Symbol %in% unique(geneData$Gene.Symbol)[i])
         groupData = exprData[indexes,]
         chosen = which.max(apply(groupData,1,var))
         as.double(groupData[chosen,])
     }
-    newExprData = t(newExprData)
 
     colnames(newExprData) = colnames(exprData)
 # non parallel version

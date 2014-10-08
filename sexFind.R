@@ -6,7 +6,7 @@ sexFind = function(input, output, expr){
     geneData = allDataPre[,1:3]
     exprData = allDataPre[,4:ncol(allDataPre)]
 
-    design = design[match(colnames(exprData),gsub('[+]','.',gsub('-','.',design$sampleName))),]
+    design = design[match(colnames(exprData),make.names(design$sampleName)),]
 
 
     Xist = which(geneData$Gene.Symbol %in% 'Xist')

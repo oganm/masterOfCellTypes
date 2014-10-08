@@ -12,7 +12,7 @@ heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalett
     geneData = allDataPre[, 1:3]
     exprData = allDataPre[, 4:ncol(allDataPre)]
 
-    if (!all(colnames(exprData) %in% design$sampleName)){
+    if (!all(colnames(exprData) %in% make.names(design$sampleName))){
         print('Unless you are rotating samples, something has gone terribly wrong!')
         exprData = exprData[,colnames(exprData) %in% design$sampleName]
     }

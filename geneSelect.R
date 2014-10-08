@@ -10,7 +10,17 @@
 
 #groupNames = 'someNaming'
 
+
 geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
+    require(foreach)
+    require(doMC)
+    require(parallel)
+    cores = 4
+    # so that I wont fry my laptop
+    if (detectCores()<cores){ cores = detectCores()}
+    registerDoMC(cores)
+
+
     require(RCurl)
     eval( expr = parse( text = getURL(
         "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
@@ -96,7 +106,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
     geneData = allDataPre[,1:3]
     exprData = allDataPre[,4:ncol(allDataPre)]
 
-    if (!all(colnames(exprData) %in% design$sampleName)){
+    if (!all(colnames(exprData) %in% make.names(design$sampleName))){
         print('Unless you are rotating samples, something has gone terribly wrong!')
         exprData = exprData[,colnames(exprData) %in% design$sampleName]
     }
@@ -116,6 +126,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
     regionBased = expand.grid(groupNames, regions)
     regionGroups = vector(mode = 'list', length = nrow(regionBased))
     names(regionGroups) = paste0(regionBased$Var2,'_',regionBased$Var1)
+
 
     for (i in 1:nrow(regionBased)){
         regionGroups[[i]] = design[,as.character(regionBased$Var1[i])]
@@ -175,13 +186,14 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
 
     nameGroups = nameGroups[unlist(lapply(lapply(lapply(nameGroups,unique),trimNAs),length)) > 1]
 
-    stepi = 1
-    for (i in nameGroups){
-        groupNames = trimNAs(unique(i))
+    # dopar -------
+    justInCase = foreach (i = 1:len(nameGroups)) %dopar% {
+    # for (i in 1:len(nameGroups)){
+        groupNames = trimNAs(unique(nameGroups[[i]]))
         realGroups = vector(mode = 'list', length = length(groupNames))
         names(realGroups) = groupNames
         for (j in 1:length(groupNames)){
-            realGroups[[j]] = which(i == groupNames[j])
+            realGroups[[j]] = which(nameGroups[[i]] == groupNames[j])
         }
         groupAverages = list()
 
@@ -201,14 +213,14 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
         dir.create(outLoc, showWarnings = F)
         dir.create(paste0(outLoc,'/Marker'), showWarnings = F)
         dir.create(paste0(outLoc,'/Relax'), showWarnings = F)
-        # dir.create(paste0(outLoc  , '/', names(nameGroups)[stepi] , '/'), showWarnings = F)
-        dir.create(paste0(outLoc , '/Marker/' , names(nameGroups)[stepi] , '/'), showWarnings = F)
-        dir.create(paste0(outLoc , '/Relax/' , names(nameGroups)[stepi] , '/'), showWarnings = F)
+        # dir.create(paste0(outLoc  , '/', names(nameGroups)[i] , '/'), showWarnings = F)
+        dir.create(paste0(outLoc , '/Marker/' , names(nameGroups)[i] , '/'), showWarnings = F)
+        dir.create(paste0(outLoc , '/Relax/' , names(nameGroups)[i] , '/'), showWarnings = F)
 
 
         for (j in 1:nrow(groupAverages)){
-            fileName = paste0(outLoc  , '/Relax/', names(nameGroups)[stepi], '/',  names(realGroups)[j])
-            fileName2 = paste0(outLoc , '/Marker/' , names(nameGroups)[stepi] , '/' , names(realGroups)[j])
+            fileName = paste0(outLoc  , '/Relax/', names(nameGroups)[i], '/',  names(realGroups)[j])
+            fileName2 = paste0(outLoc , '/Marker/' , names(nameGroups)[i] , '/' , names(realGroups)[j])
 
             #find markers
             isMarker = vector(length = ncol(groupAverages))
@@ -221,8 +233,8 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
             fChangePrint = fChangePrint[order(fChangePrint$geneFoldChange, decreasing=T) ,]
 
             #silhouette
-            groupInfo1 = which(design[,names(nameGroups)[stepi]] == names(realGroups)[j])
-            groupInfo2 = which(design[,names(nameGroups)[stepi]] != names(realGroups)[j] & !is.na(design[,names(nameGroups)[stepi]]))
+            groupInfo1 = which(design[,names(nameGroups)[i]] == names(realGroups)[j])
+            groupInfo2 = which(design[,names(nameGroups)[i]] != names(realGroups)[j] & !is.na(design[,names(nameGroups)[i]]))
 
             silo = vector(length = nrow(fChangePrint))
             for (t in 1:nrow(fChangePrint)){
@@ -234,12 +246,11 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
             fChangePrint = cbind(fChangePrint, silo)
 
             print(fileName)
-            # print(i)
+            # print(nameGroups[[i]])
             write.table(fChangePrint, quote = F, row.names = F, col.names = F, fileName)
             write.table(fMarker, quote = F, row.names = F, col.names = F, fileName2)
 
         }
-        stepi = stepi + 1
     }
 
 }
