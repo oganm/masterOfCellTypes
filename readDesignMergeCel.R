@@ -127,7 +127,7 @@ meltDesign = function(desFile, namingCol, celRegex, exprFile, outFile){
 
     indexes = vector()
     for (i in 1:length(header)){
-        indexes = c(indexes, findInList(header[i], lapply(gsms,function(gsms,first,second){gsub(first,second,gsms)},'[+]','.')))
+        indexes = c(indexes, findInList(header[i], lapply(gsms,function(gsms,first,second){gsub(first,second,gsms)},'[+]|[-]','.')))
     }
 
 
