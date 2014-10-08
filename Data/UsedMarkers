@@ -1,30 +1,30 @@
-Gabaergic	Astrocyte	Oligodendrocyte	CerebGranule	Cholin	DentateGranule	Dopaminergic	Gluta	Golgi	Hyprocretinergic	Microglia	MotorCholin	Oligo	Purkinje	Serotonergic	Spiny
-Slc32a1	Aqp4	Mbp	Uncx	Lhx8	Pkp2	Slc6a3	Grp	Sgcg	Avpr1a	Crybb1	Prph	Ppp1r14a	Smpx	Slc6a4	Pde7b
-Gad1	Gfap	Sox10	Cbln3	Crabp2	Dsp	Th			Hcrt	Cttnbp2nl	Uts2		Ptprr	Fev	Gpr88
-Gad2	Fgfr3	Mag			Lct	Foxa2			Cckar	Pon3	Calcb		Ppp1r17	Gata3	
-	Slc1a2	Mog							Nnat	C3ar1	Calca				
-	Gjb6									Fgd2	Spp1				
-	Slc7a10									Tlr7	Kcnj14				
-										Ccl2					
-										Cd86					
-										Trem2					
-										Il1a					
-										Ccl4					
-										Ccr5					
-										Pla2g15					
-										Gpr34					
-										Entpd1					
-										F11r					
-										P2ry6					
-										Tgfbr2					
-										Pros1					
-										Abcc3					
-										Lair1					
-										Il10ra					
-										Olfml3					
-										Fcrls					
-										Lag3					
-										Stab1					
-										Ang					
-										Havcr2					
-										Blnk					
+Gabaergic	Astrocyte	Oligodendrocyte	CerebGranule	Cholin	DentateGranule	Dopaminergic	Gluta	Golgi	Hypocretinergic	Microglia	MotorCholin	Oligo	Purkinje	Serotonergic	Spiny	Tyrosine
+Slc32a1	Aqp4	Mbp	Cbln3	Lhx8	Dsp	Slc6a3	Grp	Sgcg	Avpr1a	Crybb1	Prph	Ppp1r14a	Smpx	Slc6a4	Pde7b	Phox2a
+Gad1	Gfap	Sox10		Crabp2	Lct	Foxa2			Hcrt	Cttnbp2nl	Uts2		Slc1a6	Fev	Gpr88	Slc6a2
+Gad2	Fgfr3	Mag							Cckar	Pon3	Calcb		Ptprr	Gata3		Eya2
+	Slc1a2	Mog							Nnat	C3ar1	Spp1		Ppp1r17			Dbh
+	Gjb6									Fgd2	Kcnj14					
+	Slc7a10									Tlr7						
+										Ccl2						
+										Cd86						
+										Trem2						
+										Il1a						
+										Ccl4						
+										Ccr5						
+										Pla2g15						
+										Gpr34						
+										Entpd1						
+										F11r						
+										P2ry6						
+										Tgfbr2						
+										Pros1						
+										Abcc3						
+										Lair1						
+										Il10ra						
+										Olfml3						
+										Fcrls						
+										Lag3						
+										Stab1						
+										Ang						
+										Havcr2						
+										Blnk						
