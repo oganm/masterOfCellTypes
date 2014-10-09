@@ -131,9 +131,9 @@ meltDesign = function(desFile, namingCol, celRegex, exprFile, outFile){
     }
 
 
-    if (len(header[!header %in% gsub('[+]','.',unlist(gsms))])>0){
+    if (len(header[!header %in% make.names(unlist(gsms))])>0){
         print("what the fuck man! I can't find some GSMs in your design file")
-        print(header[!header %in% gsub('[+]','.',unlist(gsms))])
+        print(header[!header %in% make.names(unlist(gsms))])
     }
 
     newDesign = data.frame(sampleName = header, originalIndex = indexes, design[indexes,])
