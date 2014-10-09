@@ -3,7 +3,7 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
     ssl.verifypeer=FALSE) ))
 
-humanBipol = function(geneLoc, bipolLoc, bipolOut){
+humanBipol = function(geneLoc, bipolLoc, bipolOut, exprLoc){
     dir.create(bipolOut,showWarnings = F, recursive = F)
     # adapted from Rotation 3. Very specific to the bipolar data. Fix it later
     library(reshape2)
@@ -19,6 +19,10 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
     rm(Samples_GSE12649)
     rm(Samples_GSE5388)
 
+    allDataPre = read.csv(exprLoc, header = T)
+    geneData = allDataPre[,1:3]
+    exprData = allDataPre[,4:ncol(allDataPre)]
+    
     source('puristOut.R')
     puristList = puristOut(geneLoc)
     commonGround = puristList

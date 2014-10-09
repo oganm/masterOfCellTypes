@@ -1,5 +1,5 @@
 contamination = function(desFile, exprLoc, defMarkers, outDes){
-    design = read.table(designLoc,header=T,sep='\t')
+    design = read.table(desFile,header=T,sep='\t')
     allDataPre = read.csv(exprLoc, header = T)
     geneData = allDataPre[,1:3]
     exprData = allDataPre[,4:ncol(allDataPre)]

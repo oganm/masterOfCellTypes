@@ -157,7 +157,7 @@ source('microglialException.R')
 microglialException(paste0(geneOut,'/Relax'))
 microglialException(paste0(geneOut,'/Marker'))
 
-system('beep')
+#system('beep')
 
 # contamination -----
 source('appendCont.R')
@@ -197,6 +197,7 @@ for (i in 1:100){
                paste0(rotationOut,'/',i),
                groupNames,
                regionNames)
+    print(paste('rotate',i))
 }
 
 for (i in 1:100){
@@ -223,6 +224,8 @@ for (i in 1:100){
            2000,
            2000
            )
+    print(paste('heatmap',i))
+    
 }
 
 

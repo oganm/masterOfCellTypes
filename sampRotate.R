@@ -1,3 +1,5 @@
+source('geneSelect.R')
+
 sampRotate = function(designLoc,exprLoc,outLoc,groupNames, regionNames){
     require(RCurl)
     eval( expr = parse( text = getURL(
