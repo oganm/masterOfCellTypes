@@ -85,7 +85,7 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     header = gsub('.cel', '', gsub('.CEL','', colnames(aned)[4:ncol(aned)]))
     colnames(aned) = c(colnames(aned)[1:3], header)
     dir.create(outFolder, recursive = T)
-    write.csv(aned, paste0(outFolder,"/rmaExp"), row.names=FALSE)
+    write.csv(aned, paste0(outFolder,"/rmaExp.csv"), row.names=FALSE)
     #boxplot(aned[,4:ncol(aned)])
     gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
 
@@ -108,7 +108,7 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     #newDesign$age = as.numeric(newDesign$age)
     newDesign = newDesign[order(as.numeric(rownames(newDesign))),]
 
-    write.table(newDesign, paste0(outFolder,"/meltedDesign"), row.names=FALSE,sep = '\t', quote=F)
+    write.table(newDesign, paste0(outFolder,"/meltedDesign.tsv"), row.names=FALSE,sep = '\t', quote=F)
 }
 
 

@@ -72,7 +72,7 @@ namingColors = c(method = 'direct',
                  Serotonergic = 'darkolivegreen',
                  Hyprocretinergic = 'cadetblue',
                  Dopaminergic = 'gray0',
-                 Tyrosine = 'blueviolet')
+                 Th_positive_LC = 'blueviolet')
 
 
 ageColors = c(method = 'gradFactor', lo = 'blue', hi = 'red',
@@ -236,7 +236,7 @@ rotateCheck(rotationOut)
 paste0(geneOut,'/Relax/')
 
 source('humanBipol.R')
-humanBipol(paste0(geneOut,'/Relax/Cortex_CellType'), bipolLoc, bipolOut)
+humanBipol(paste0(geneOut,'/Relax/Cortex_CellType'), bipolLoc, bipolOut, paste0(outFolder,'/',finalExp))
 
 source('coexpAna.R')
 coexpAna(humanDes, genesOut,regionMapping, humanDat,  coexpHOut)

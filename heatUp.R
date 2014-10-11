@@ -18,7 +18,7 @@ heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalett
     }
 
 
-    design = design[match(colnames(exprData),gsub('[-]','.',(gsub('[+]','.',design$sampleName)))),]
+    design = design[match(colnames(exprData),make.names(design$sampleName)),]
 
     remove = apply(is.na(design[heatProps]),1,any)
     design = design [!remove,]
