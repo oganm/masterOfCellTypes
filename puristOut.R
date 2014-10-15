@@ -1,3 +1,8 @@
+require(RCurl)
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+    ssl.verifypeer=FALSE) ))
+
 puristOut = function(geneLoc){
     filenames = list.files(geneLoc,include.dirs = FALSE)
     fileContents = lapply(paste0(geneLoc,'/', filenames), read.table)

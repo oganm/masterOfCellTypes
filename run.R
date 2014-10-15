@@ -32,7 +32,7 @@ humanDat = 'Data/HumanExpr'
 humanOrtho = 'Data/HT_HG-U133A.na34.ortholog.csv'
 coexpHOut = 'Data/HumanMarkerCoexpressed'
 # file names ----
-finalExp = 'finalExp'
+finalExp = 'finalExp.csv'
 qnormExp= 'qnormExp'
 
 
@@ -130,8 +130,8 @@ if (skipNorm == T){
 
 
 source('sexFind.R')
-sexFind(paste0(outFolder,'/meltedDesign'),
-        paste0(outFolder,'/meltedDesign'),
+sexFind(paste0(outFolder,'/meltedDesign.tsv'),
+        paste0(outFolder,'/meltedDesign.tsv'),
         paste0(outFolder,'/',finalExp))
 
 
@@ -142,7 +142,7 @@ sexFind(paste0(outFolder,'/meltedDesign'),
 # gene selection -----
 source('geneSelect.R')
 
-geneSelect(paste0(outFolder,'/meltedDesign'),
+geneSelect(paste0(outFolder,'/meltedDesign.tsv'),
            paste0(outFolder,'/',finalExp),
            geneOut,
            groupNames,
@@ -161,14 +161,14 @@ microglialException(paste0(geneOut,'/Marker'))
 
 # contamination -----
 source('appendCont.R')
-appendCont(defMarkers,paste0(outFolder,'/meltedDesign'),
+appendCont(defMarkers,paste0(outFolder,'/meltedDesign.tsv'),
            paste0(geneOut, '/Marker'), contanimName, apContOut)
 
 source('contaminate.R')
-contamination(paste0(outFolder,'/meltedDesign'),
+contamination(paste0(outFolder,'/meltedDesign.tsv'),
            paste0(outFolder,'/',finalExp),
            apContOut,
-           paste0(outFolder,'/meltedDesign'))
+           paste0(outFolder,'/meltedDesign.tsv'))
 
 
 # heatmap -----
@@ -178,7 +178,7 @@ genes = heatGeneOut(paste0(geneOut,'/Relax/'), heatGenes, 2, T)
 
 
 heatUp(paste0(outFolder,'/',finalExp),
-       paste0(outFolder,'/meltedDesign'),
+       paste0(outFolder,'/meltedDesign.tsv'),
        heatFile,
        heatProps,
        heatColors,
@@ -192,7 +192,7 @@ heatUp(paste0(outFolder,'/',finalExp),
 source('sampRotate.R')
 
 for (i in 1:100){
-    sampRotate(paste0(outFolder,'/meltedDesign'),
+    sampRotate(paste0(outFolder,'/meltedDesign.tsv'),
                paste0(outFolder,'/',finalExp),
                paste0(rotationOut,'/',i),
                groupNames,
