@@ -5,14 +5,14 @@ eval( expr = parse( text = getURL(
 
 #humanMixedRegionBootstrap = function(humanSoftLoc,hCelDir, hBootOut)
 
-humanSoft  = read.table('Data/hugeHumanSoft', sep = '\t', header = T,quote = '')
+#humanSoft  = read.table('Data/hugeHumanSoft.tsv', sep = '\t', header = T,quote = '')
 hBootOut = 'Data/humanBootstrap'
 hCelDir = 'humanRegionCel'
 
-humanRegions = read.table('Data/hugeHumanSoft', header = T, sep = '\t', stringsAsFactors = F)
+humanRegions = read.table('Data/hugeHumanSoft.tsv', header = T, sep = '\t', stringsAsFactors = F)
 
 humanRegions = humanRegions[humanRegions$platform=='GPL5175'
-                            & humanRegions$Sex == 'Male',]
+                            & !humanRegions$Disease=='Cancer',]
 
 
 require(foreach)
@@ -33,7 +33,7 @@ dir.create(hBootOut,showWarnings = F, recursive = T)
 
 size = 15
 # foreach(i = 2:100) %dopar% {
-for (i in 1:100){
+for (i in 1:500){
     allRegions = unique(humanRegions$Region)
     subsetInd = vector(length = len(allRegions)*size)
     for (j in 1:len(allRegions)){
