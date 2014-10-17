@@ -1,7 +1,10 @@
 appendCont = function(defMarkers, designLoc, markerLoc, contanName, outFile){
     # appends new markers from a folder to a list of known markers also add classification to design file
     # consider separating them
-    defM = read.table(defMarkers,header=T,sep='\t')
+    defM = tryCatch({read.table(defMarkers,header=T,sep='\t')},
+                    error = function(e){
+                        defM=list()
+                    })
     defM = lapply(as.list(defM),trimElement,'')
     design = read.table(designLoc,header=T,sep='\t')
 
