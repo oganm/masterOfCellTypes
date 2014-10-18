@@ -4,13 +4,13 @@ eval( expr = parse( text = getURL(
     ssl.verifypeer=FALSE) ))
 
 # for loading and normalization -----
-desFile='Data/Design.xls'
-xls = TRUE
+desFile='Data/Design.tsv'
+xls = F
 # just selects S1s of dopaminergics   (((?<=:)|(?<=[,]))A\d.*?S1_M430A)
 celRegex='(GSM.*?(?=,|$))|(PC\\d....)|(Y[+].*?((?=(,))|\\d+))|((?<=:)|(?<=[,]))A((9)|(10))_[0-9]{1,}_Chee_S1_M430A|(v2_(?![G,H,r]).*?((?=(,))|($)))|(SSC.*?((?=(,))|($)))|(MCx.*?((?=(,))|($)))|(Cbx.*?((?=(,))|($)))'
 celDir ='cel'
 outFolder='Data'
-namingCol = 'MainName'
+namingCol = 'Normalize'
 tinyChip = 'mouse430a2.db'
 skipNorm = F
 # for gene selection -----
@@ -20,20 +20,20 @@ groupNames = c('CellType' , 'FullCellType', 'GabaDeep', 'forContanim')
 contanimName = 'forContanim'
 regionNames = 'Region'
 rotationOut = 'Data/Rotation'
-
+rotSelOut = 'Data/RotSel'
 # contamination indeces ----
 defMarkers = 'Data/defMarkers.csv'
-apContOut = 'Data/UsedMarkers'
+apContOut = 'Data/UsedMarkers.tsv'
 
 # coexpression stuff
-humanDes = 'Data/hugeHumanSoft'
+humanDes = 'Data/hugeHumanSoft.tsv'
 regionMapping = 'Data/regionMapping.csv'
 humanDat = 'Data/HumanExpr'
 humanOrtho = 'Data/HT_HG-U133A.na34.ortholog.csv'
 coexpHOut = 'Data/HumanMarkerCoexpressed'
 # file names ----
 finalExp = 'finalExp.csv'
-qnormExp= 'qnormExp'
+qnormExp= 'qnormExp.csv'
 
 
 
@@ -93,6 +93,7 @@ bipolOut = 'Data/BipolPC'
 # install.packages('reshape')
 
 # convert to tab delimeted ----
+# does not work in the server
 if (xls == TRUE){
     system(paste0('libreoffice --headless --convert-to csv ',desFile))
 
@@ -100,9 +101,9 @@ if (xls == TRUE){
     splPath = splPath[len(splPath)]
 
     write.table(read.csv(paste0(substr(splPath,1,nchar(splPath)-4),'.csv')), sep = '\t', quote = F, row.names = F,
-                file = paste0(substr(desFile,1,nchar(desFile)-4),'.tdf'))
+                file = paste0(substr(desFile,1,nchar(desFile)-4),'.tsv'))
     file.remove(paste0(substr(splPath,1,nchar(splPath)-4),'.csv'))
-    desFile = paste0(substr(desFile,1,nchar(desFile)-4),'.tdf')
+    desFile = paste0(substr(desFile,1,nchar(desFile)-4),'.tsv')
     #desFile = paste0(substr(desFile,1,nchar(desFile)-4),'.xls')
 
 }
@@ -115,17 +116,20 @@ if (skipNorm == F){
 
 
     source('quantileNormalize.R')
-    quantileNorm(paste0(outFolder,'/rmaExp'),
+    quantileNorm(paste0(outFolder,'/rmaExp.csv'),
                  paste0(outFolder,'/',qnormExp))
+    system(paste0('gzip ',outFolder,'/rmaExp.csv'))
 
     source('mostVariable.R')
     mostVariable(paste0(outFolder,'/',qnormExp),
                  paste0(outFolder,'/',finalExp))
+    system(paste0('gzip ',outFolder,'/',qnormExp))
+    
 }
 
 if (skipNorm == T){
     source('readDesignMergeCel.R')
-    meltDesign(desFile, namingCol, celRegex, paste0(outFolder,'/',finalExp), paste0(outFolder,'/meltedDesign'))
+    meltDesign(desFile, namingCol, celRegex, paste0(outFolder,'/',finalExp), paste0(outFolder,'/meltedDesign.tsv'))
 }
 
 
@@ -233,13 +237,18 @@ for (i in 1:100){
 source('rotateCheck.R')
 rotateCheck(rotationOut)
 
-paste0(geneOut,'/Relax/')
+source('rotationSelect.R')
+rotationSelect(rotationOut, geneOut, rotSelOut)
+
+
+
+
 
 source('humanBipol.R')
 humanBipol(paste0(geneOut,'/Relax/Cortex_CellType'), bipolLoc, bipolOut, paste0(outFolder,'/',finalExp))
 
-source('coexpAna.R')
-coexpAna(humanDes, genesOut,regionMapping, humanDat,  coexpHOut)
+# source('coexpAna.R')
+# coexpAna(humanDes, genesOut,regionMapping, humanDat,  coexpHOut)
 
 
 # calculates specificity index as describe in

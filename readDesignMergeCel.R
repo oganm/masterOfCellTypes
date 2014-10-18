@@ -2,7 +2,6 @@
 #essential parts of the file are
 #1. the first collumn must include the GSMs
 #2. platform must be written to the Platform collumn
-
 readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, outFolder){
     #always have gsms in the first collumn
 
@@ -56,7 +55,8 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
 
     nvals = newNormalized
     if (!require(tinyChip,character.only=TRUE)){
-        biocLite(tinyChip)
+        require(BiocInstaller)
+        biocLite(tinyChip, suppressUpdates= T, ask = F)
         require(tinyChip, character.only=TRUE)
     }
 
