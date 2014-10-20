@@ -70,7 +70,7 @@ namingColors = c(method = 'direct',
                  Stem = 'blue' ,
                  Ependymal = 'orange',
                  Serotonergic = 'darkolivegreen',
-                 Hyprocretinergic = 'cadetblue',
+                 Hypocretinergic = 'cadetblue',
                  Dopaminergic = 'gray0',
                  Th_positive_LC = 'blueviolet')
 

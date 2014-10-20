@@ -35,6 +35,10 @@ heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalett
                direct = {
                    toCol = heatColors[[i]][!names(heatColors[[i]]) %in% c('method','legendLoc', 'cex')]
                    allColors[[i]] = toColor(design[, heatProps[i]], toCol)
+                   if (any(!names(allColors[[i]][[2]]) %in% design[, heatProps[i]]) | 
+                       any(!design[, heatProps[i]] %in% names(allColors[[i]][[2]])) ){
+                       error('name mismatch')
+                   }
                    },
                gradient = {
                    # ignores string entries. just gives them white
