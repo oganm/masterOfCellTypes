@@ -15,7 +15,7 @@ rotateCheck = function(rotationOut){
     
     # in server version full.names input of list.dirs do not work. This fixes it. Might add this to ogbox as an overwrite.
     loopAround = gsub(paste0(dirFols[1],'/'),'',loopAround)
-
+    loopAround = loopAround[!grepl(dirFols[1],loopAround)]
     
     loopAround = loopAround [-which(loopAround %in% c('Relax','Marker',''))]
     dir.create(paste0(rotationOut,'/Confidence'), showWarnings = F)
