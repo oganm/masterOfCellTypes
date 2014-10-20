@@ -237,8 +237,11 @@ for (i in 1:100){
 source('rotateCheck.R')
 rotateCheck(rotationOut)
 
+source('microglialException.R')
+microglialException(rotationOut)
+
 source('rotationSelect.R')
-rotationSelect(rotationOut, geneOut, rotSelOut)
+rotationSelect(paste0(rotationOut,'/Confidence'), geneOut, rotSelOut)
 
 
 

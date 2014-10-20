@@ -1,12 +1,10 @@
 microglialException = function(restDir){
-    groupNames = list.files(restDir)
+    fileNames = list.files(restDir, recursive =T )
     microGenes =  unlist(read.table('Data/microgliaList.txt'))
-    for (i in groupNames){
-        if (!'Microglia' %in% list.files(paste0(restDir,'/',i))){
-            next
-        }
-        micro = read.table(paste0(restDir,'/',i,'/Microglia'))
+    fileNames = fileNames[grepl('Microglia',fileNames)]
+    for (i in fileNames){
+        micro = read.table(paste0(restDir,'/',i))
         micro = micro[micro$V1 %in% microGenes,]
-        write.table(micro, quote = F, row.names = F, col.names = F, paste0(restDir,'/',i,'/Microglia'))
+        write.table(micro, quote = F, row.names = F, col.names = F, paste0(restDir,'/',i))
     }
 }
