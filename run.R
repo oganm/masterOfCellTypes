@@ -12,7 +12,7 @@ celDir ='cel'
 outFolder='Data'
 namingCol = 'Normalize'
 tinyChip = 'mouse430a2.db'
-skipNorm = F
+skipNorm = T
 # for gene selection -----
 geneOut = 'Data/Fold'
 geneOutIndex = 'Data/Index'
@@ -194,8 +194,8 @@ heatUp(paste0(outFolder,'/',finalExp),
 
 # sample rotate -----
 source('sampRotate.R')
-
-for (i in 1:100){
+n=500
+for (i in 1:n){
     sampRotate(paste0(outFolder,'/meltedDesign.tsv'),
                paste0(outFolder,'/',finalExp),
                paste0(rotationOut,'/',i),
@@ -204,7 +204,7 @@ for (i in 1:100){
     print(paste('rotate',i))
 }
 
-for (i in 1:100){
+for (i in 1:n){
 
     genes = heatGeneOut(paste0(rotationOut,'/',i,'/Relax/'), heatGenes,2,T)
     heatUp(paste0(outFolder,'/',finalExp),
