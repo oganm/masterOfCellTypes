@@ -1,7 +1,7 @@
 sexFind = function(input, output, expr){
 
     allDataPre = read.csv(expr, header = T)
-    design = read.table(input,header=T,sep='\t')
+    design = read.table(input,header=T,sep='\t',quote='"')
 
     geneData = allDataPre[,1:3]
     exprData = allDataPre[,4:ncol(allDataPre)]
