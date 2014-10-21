@@ -16,7 +16,7 @@ skipNorm = T
 # for gene selection -----
 geneOut = 'Data/Fold'
 geneOutIndex = 'Data/Index'
-groupNames = c('CellType' , 'FullCellType', 'GabaDeep', 'forContanim')
+groupNames = c('CellType', 'GabaDeep', 'forContanim')
 contanimName = 'forContanim'
 regionNames = 'Region'
 rotationOut = 'Data/Rotation'
