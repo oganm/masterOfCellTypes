@@ -3,7 +3,7 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
     ssl.verifypeer=FALSE) ))
 
-humanBipol = function(geneLoc, bipolLoc, bipolOut, exprLoc){
+humanBipol = function(geneLoc, bipolLoc, bipolOut){
     dir.create(bipolOut,showWarnings = F, recursive = F)
     # adapted from Rotation 3. Very specific to the bipolar data. Fix it later
     library(reshape2)
@@ -19,37 +19,28 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut, exprLoc){
     rm(Samples_GSE12649)
     rm(Samples_GSE5388)
 
-    allDataPre = read.csv(exprLoc, header = T)
-    geneData = allDataPre[,1:3]
-    exprData = allDataPre[,4:ncol(allDataPre)]
-    
     source('puristOut.R')
     puristList = puristOut(geneLoc)
     commonGround = puristList
-    orthoInfo = read.csv('Data/HT_HG-U133A.na34.ortholog.csv')
-
+    source('homologene.R')
+    humanGenes = lapply(commonGround, function(x){mouse2human(x)$humanGene})
+    
     humanGroundScz = vector(mode = 'list', length = length(commonGround))
     humanGround = vector(mode = 'list', length = length(commonGround))
     names(humanGround) = names(commonGround)
     names(humanGroundScz) = names(commonGround)
-    for (i in 1:length(commonGround)){
-        probeNames = geneData$Probe[geneData$Gene.Symbol %in% commonGround[[i]]]
-        humanGround[[i]] = as.character(bpCnt[bpCnt$Probe %in% orthoInfo$Probe.Set.ID[tolower(orthoInfo$Ortholog.Probe.Set) %in% probeNames], 'Gene Symbol'])
-        humanGroundScz[[i]] = as.character(bpCntScz[bpCntScz$Probe %in% orthoInfo$Probe.Set.ID[tolower(orthoInfo$Ortholog.Probe.Set) %in% probeNames], 'Gene Symbol'])
-    }
-
-
     bpCntSczExpr = bpCntScz[,4:ncol(bpCntScz)]
     bpCntSczGenes = bpCntScz[,1:3]
-
-
-    colnames(bpCntSczGenes) = colnames(geneData)
-
+    colnames(bpCntSczGenes)[2] ='Gene.Symbol'
+    
     bpCntExpr = bpCnt[,4:ncol(bpCnt)]
     bpCntGenes = bpCnt[,1:3]
-
-
-    colnames(bpCntGenes) = colnames(geneData)
+    colnames(bpCntGenes)[2] ='Gene.Symbol'
+    
+    
+    humanGround = lapply(humanGenes, function(x){bpCntGenes$Gene.Symbol[bpCntGenes$Gene.Symbol %in% x]})
+    humanGroundScz = lapply(humanGenes, function(x){bpCntSczGenes$Gene.Symbol[bpCntGenes$Gene.Symbol %in% x]})
+    
 
     windowSize = 4
 
