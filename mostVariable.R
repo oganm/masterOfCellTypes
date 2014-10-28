@@ -20,14 +20,14 @@ mostVariable = function(whichFile,outFile){
 
 
 
-    newExprData <<- foreach (i = 1:length(unique(geneData$Gene.Symbol)), .combine=rbind) %dopar% {
+    newData <<- foreach (i = 1:length(unique(geneData$Gene.Symbol)), .combine=rbind) %dopar% {
         indexes = which(geneData$Gene.Symbol %in% unique(geneData$Gene.Symbol)[i])
         groupData = exprData[indexes,]
         chosen = which.max(apply(groupData,1,var))
-        as.double(groupData[chosen,])
+        as.double(allDataPre[chosen,])
     }
 
-    colnames(newExprData) = colnames(exprData)
+    colnames(newData) = colnames(allDataPre)
 # non parallel version
 #     dim(newExprData) = c(length(unique(geneData$Gene.Symbol)), ncol(exprData))
 #     c=system.time({
@@ -45,11 +45,9 @@ mostVariable = function(whichFile,outFile){
 #     newExprData = as.data.frame(newExprData)
 #     })
 
-    newGeneData = geneData[match(unique(geneData$Gene.Symbol),geneData$Gene.Symbol),]
 
 
-    newAllData = cbind(newGeneData, newExprData)
-    rownames(newAllData) = NULL
+    rownames(newData) = NULL
 
-    write.csv(newAllData, file = outFile, row.names=FALSE)
+    write.csv(newData, file = outFile, row.names=FALSE)
 }
