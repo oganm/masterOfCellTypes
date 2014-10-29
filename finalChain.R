@@ -30,7 +30,7 @@ finalChain = function(markerChainOut,finalChainOut){
         newNetwork[rows1,cols1]=network1
         newNetwork[rows2,cols2] = newNetwork[rows2,cols2]+as.matrix(network2)
         
-        
+        return(newNetwork)
     }
     
     toLoop = list.dirs(paste0(markerChainOut,'/subsetCor/1'))[-1]
