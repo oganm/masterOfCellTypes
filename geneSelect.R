@@ -99,7 +99,9 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
     exprData = allDataPre[,4:ncol(allDataPre)]
     
     if (!all(colnames(exprData) %in% make.names(design$sampleName))){
-        print('Unless you are rotating samples, something has gone terribly wrong!')
+        if(is.na(rotate)){
+            print('Unless you are rotating samples, something has gone terribly wrong!')
+        }
         exprData = exprData[,colnames(exprData) %in% design$sampleName]
     }
     
@@ -161,7 +163,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
     
     # the main loop around groups ------
     foreach (i = 1:len(nameGroups)) %dopar% {
-   #for (i in 1:len(nameGroups)){
+    # for (i in 1:len(nameGroups)){
         typeNames = trimNAs(unique(nameGroups[[i]]))
         realGroups = vector(mode = 'list', length = length(typeNames))
         names(realGroups) = typeNames
@@ -171,7 +173,9 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         
         # if rotation is checked, get a subset of the samples. result is rounded. so too low numbers can make it irrelevant
         if (!is.na(rotate)){
-            realGroups = lapply(realGroups,function(x){sort(sample(x,len(x)-round(len(x)*rotate)))})
+            realGroups2 = lapply(realGroups,function(x){sort(sample(x,len(x)-round(len(x)*rotate)))})
+            removed = unlist(realGroups)[!unlist(realGroups) %in% unlist(realGroups2)]
+            realGroups = realGroups2
         }
         
         tempExpr = exprData[unlist(realGroups),]
@@ -188,10 +192,12 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
             repMeanExpr[j, ] = tryCatch({
                 apply(tempExpr[tempDesign$originalIndex == indexes[j],], 2,mean)},
                 error= function(e){
-                    print('unless you are rotating its not nice that you have single replicate groups')
-                    print('you must be ashamed!')
-                    print(j)
-                    tempExpr[tempDesign$originalIndex == indexes[j],]
+                    if (is.na(rotate)){
+                     print('unless you are rotating its not nice that you have single replicate groups')
+                     print('you must be ashamed!')
+                     print(j)
+                    }
+                     tempExpr[tempDesign$originalIndex == indexes[j],]
                 })
         }
         repMeanDesign = tempDesign[match(indexes,tempDesign$originalIndex),]
@@ -222,6 +228,11 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         # creation of output directories ----
         dir.create(paste0(outLoc ,'/Marker/' , names(nameGroups)[i] , '/'), showWarnings = F,recursive = T)
         dir.create(paste0(outLoc , '/Relax/' , names(nameGroups)[i] , '/'), showWarnings = F, recursive =T)
+        if (!is.na(rotate)){
+            write.table(removed,
+                        file = paste0(outLoc,'/Relax/',names(nameGroups)[i] , '/removed'),
+                        col.names=F)
+        }
         
         # for loop around groupAverages
         for (j in 1:nrow(groupAverages)){
