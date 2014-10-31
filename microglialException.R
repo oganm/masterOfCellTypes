@@ -1,4 +1,5 @@
 microglialException = function(restDir){
+    #applies to all files inside a directory recursively
     fileNames = list.files(restDir, recursive =T )
     microGenes =  unlist(read.table('Data/microgliaList.txt'))
     fileNames = fileNames[grepl('Microglia',fileNames)]
