@@ -9,16 +9,23 @@ puristOut = function(geneLoc){
     geneList = vector(mode = 'list', length = length(fileContents))
     names(geneList) = filenames
     if (ncol(fileContents[[1]])==3){
+        # this if for a combination of fold change and silhouette coefficient
         for (i in 1:length(fileContents)){
             geneList[[i]] = as.character(fileContents[[i]]$V1[as.numeric(as.character(fileContents[[i]]$V3))>0.5
                                                               & as.numeric(as.character(fileContents[[i]]$V2))>log(10,base=2)])
         }
     } else if (ncol(fileContents[[1]])==1){
+        # this is for a mere gene list
         for (i in 1:length(fileContents)){
             geneList[[i]] = as.character(fileContents[[i]]$V1)
         }
-    } else {
-        error('What kind of gibberish is this')
+    } else if(ncol(fileContents[[1]])==2){
+        # this is for selection of percentages from confidence output
+        for (i in 1:length(fileContents)){
+        geneList[[i]] = as.character(fileContents[[i]]$V1[as.numeric(as.character(fileContents[[i]]$V2))>0.95])
+        }
+    }else {
+        stop('What kind of gibberish is this')
     }
 
     puristList = vector(mode = 'list', length = length(geneList))
