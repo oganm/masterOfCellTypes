@@ -2,8 +2,17 @@
 
 
 
-specIndex = function(designLoc, exprLoc, outLoc, groupNames){
-
+specIndex = function(designLoc, exprLoc, outLoc, groupNames, cores = 4){
+    require(foreach)
+    require(doMC)
+    require(parallel)
+    # so that I wont fry my laptop
+    if (detectCores()<cores){ 
+        cores = detectCores()
+        print('max cores exceeded')
+        print(paste('set core no to',cores))
+    }
+    registerDoMC(cores)
     # Specificity_index functions, version 1.0
     # Created by Joe Dougherty, jdougherty_at_mail.rockefeller.edu or
     # jodoc_a_ucla.edu
@@ -162,48 +171,80 @@ specIndex = function(designLoc, exprLoc, outLoc, groupNames){
                 unique(
                     unlist(
                         strsplit(as.character(design[,regionNames]),',')))
-                ,c('ALL','All','all')))
+                ,c('ALL','All','all','Cerebrum'))) #S pecial names
     regionBased = expand.grid(groupNames, regions)
     regionGroups = vector(mode = 'list', length = nrow(regionBased))
     names(regionGroups) = paste0(regionBased$Var2,'_',regionBased$Var1)
-
+    
+    
     for (i in 1:nrow(regionBased)){
         regionGroups[[i]] = design[,as.character(regionBased$Var1[i])]
-        regionGroups[[i]][!grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])] = NA
+        
+        # remove everything except the region and ALL labeled ones. for anything but cerebellum, add Cerebrum labelled ones as well
+        if (regionBased$Var2[i] == 'Cerebellum'){
+            regionGroups[[i]][!grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])] = NA
+        } else {
+            # look for cerebrums
+            cerebrums = unique(regionGroups[[i]][grepl('(Cerebrum)',design[,regionNames])])
+            
+            # find which cerebrums are not represented in the region
+            cerebString = paste(cerebrums[!cerebrums %in% regionGroups[[i]][grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])]],
+                                collapse = ')|(')
+            
+            # add them as well (or not remove them as well) with all the rest of the region samples
+            regionGroups[[i]][(!grepl(paste0('(^|,)((',regionBased$Var2[i],')|((A|a)(L|l)(l|l)))($|,)'),design[,regionNames])
+                               & !(grepl(paste0('(',cerebString,')'),design[,as.character(regionBased$Var1[i])]) & grepl('Cerebrum',design[,regionNames])))] =  NA
+            
+        }
+        
+        
     }
-
+    
     design = cbind(design,regionGroups)
     groupNames = c(groupNames, names(regionGroups))
-
-    # get replicate means ----
+    
+    # get replicate means -----
     # a terrible way to preallocate
     newExpr = exprData[1:length(unique(design$originalIndex)),]
     indexes = unique(design$originalIndex)
     for (i in 1:length(indexes)){
-        newExpr[i, ] = apply(exprData[design$originalIndex == indexes[i],], 2,mean)
+        newExpr[i, ] = tryCatch({
+            apply(exprData[design$originalIndex == indexes[i],], 2,mean)},
+            error= function(e){
+                print('unless you are rotating its not nice that you have single replicate groups')
+                print('you must be ashamed!')
+                exprData[design$originalIndex == indexes[i],]
+            })
     }
-
+    
     newDesign = design[match(indexes,design$originalIndex),]
-
+    
+    
+    
+    
     nameGroups = vector(mode = 'list', length = len(groupNames))
-    names(nameGroups) = groupNames
-
+    
+    
+    names(nameGroups) = c(groupNames)
+    
     for (i in 1:len(groupNames)){
         nameGroups[[i]] = newDesign[,groupNames[i]]
     }
+    
+    nameGroups = nameGroups[unlist(lapply(lapply(lapply(nameGroups,unique),trimNAs),length)) > 1]
+    
 
     fileNames = names(nameGroups)
 
 
 
-    stepi = 1
-    for (i in nameGroups){
-        dir.create(paste0(outLoc,'/',fileNames[stepi]),recursive = T, showWarnings = F)
-        groupNames = trimNAs(unique(i))
+    foreach (i = 1:len(nameGroups)) %dopar%{
+        dir.create(paste0(outLoc,'/',fileNames[i]),recursive = T, showWarnings = F)
+        groupNames = trimNAs(unique(nameGroups[[i]]))
         realGroups = vector(mode = 'list', length = length(groupNames))
         names(realGroups) = groupNames
         for (j in 1:length(groupNames)){
-            realGroups[[j]] = which(i == groupNames[j])
+            realGroups[[j]] = which(nameGroups[[i]] == groupNames[j])
         }
         groupAverages = list()
 
@@ -222,17 +263,20 @@ specIndex = function(designLoc, exprLoc, outLoc, groupNames){
 
         datComb = specificity_index(2^groupAverages)
         rownames(datComb) = 1:nrow(datComb)
-        print(stepi)
+        print(i)
         for (k in 1:length(realGroups)){
-            temp = datComb[which(datComb[,2*k]<1e-4),(2*k-2+1):(2*k)]
+            temp = datComb[which(datComb[,2*k]<0.05),(2*k-2+1):(2*k)]
             if (is.null(dim(temp))){
                 dim(temp) = c(1,2)
-                rownames(temp) = rownames(datComb)[which(datComb[,2*k]<1e-4)]
+                rownames(temp) = rownames(datComb)[which(datComb[,2*k]<0.05)]
             } else{
                 temp = temp[order(temp[,1]), ]
             }
+            
+            temp[,2] = p.adjust(temp[,2], method ='holm')
+            temp = temp[temp[,2]< 0.05,]
 
-            write.table(geneData[as.numeric(rownames(temp)),'Gene.Symbol' ], file = paste0(outLoc,'/',fileNames[stepi], '/', names(realGroups[k])),quote=F,row.names=F,col.names=F)
+            write.table(data.frame(geneData[as.numeric(rownames(temp)),'Gene.Symbol' ],temp[,2]), file = paste0(outLoc,'/',fileNames[i], '/', names(realGroups[k])),quote=F,row.names=F,col.names=F)
 
 
         }
