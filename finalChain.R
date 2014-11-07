@@ -6,14 +6,15 @@ require(foreach)
 require(doMC)
 require(parallel)
 require(corpcor)
-cores = 4
+cores = 8
 # so that I wont fry my laptop
 if (detectCores()<cores){ cores = detectCores()}
 registerDoMC(cores)
 
 
-finalChainOut="Data/CoexpGenes"
-finalChain = function(markerChainOut,finalChainOut){
+finalChainOut="Data/CoexpNetwork"
+markerChainOut = 'Data/humanMainNetwork/'
+# finalChain = function(markerChainOut,finalChainOut){
     
     sumNetwork = function(network1,network2){
         rows1 = rownames(network1)
@@ -36,20 +37,31 @@ finalChain = function(markerChainOut,finalChainOut){
     toLoop = list.dirs(paste0(markerChainOut,'/subsetCor/1'))[-1]
     toLoop = basename(toLoop)
     allFiles = list.dirs(paste0(markerChainOut,'/subsetCor'))
-    
+    allFiles = allFiles[!grepl('76',allFiles)]
     foreach (i = toLoop) %dopar%{
         toComb = allFiles[grepl(i,allFiles)]
-        cellTypeLoop = list.files(toComb[2])
-        finalNetwork = matrix()
+        cellTypeLoop = list.files(toComb[1])
         for (j in cellTypeLoop){
+            finalNetwork = matrix()
             for (k in toComb){
-                toAdd = read.csv(paste0(k,'/',j),header=T, row.names=1)
-                finalNetwork = sumNetwork(finalNetwork,toAdd)
+                tryCatch({
+                    toAdd = read.csv(paste0(k,'/',j),header=T, row.names=1)
+                    # for some reason rownames are not added to subsetCor files. 
+                    # you have to read the cornames from ranking files.
+                    # this could be avoided if you weren't such a moron.
+                    moronicBaffoon=read.csv(gsub('subsetCor','ranks',paste0(k,'/',j)),header=T, row.names=1)
+                    rownames(toAdd) = rownames(moronicBaffoon)
+                    finalNetwork = sumNetwork(finalNetwork,toAdd)
+                    },
+                    error = function(e){
+                        print("nothing to see 'ere")
+                    })
             }
+            finalNetwork = finalNetwork/len(toComb)
+            dir.create(paste0(finalChainOut,'/',i),recursive=T,showWarnings=F)
+            write.csv(finalNetwork,paste0(finalChainOut,'/',i,'/',j))
+            print(i)
         }
         
-    }
-    
-    
-    
-}
+    }    
+#}
