@@ -64,7 +64,8 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     nsamp <- sampleNames(nvals)
     nprobes <- featureNames(nvals)
 
-    x = mouse430a2GENENAME
+    teval(paste0('x = ',gsub('.db','',tinyChip),'GENENAME'))
+    
     mapped_probes <- mappedkeys(x)
     xx <- as.list(x[mapped_probes])
     vals <- sapply(xx, as.vector)
