@@ -70,8 +70,9 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     xx <- as.list(x[mapped_probes])
     vals <- sapply(xx, as.vector)
     adf <- data.frame(probe=names(vals), gene=vals)
-
-    x <- mouse430a2SYMBOL
+    
+    teval(paste0('x = ',gsub('.db','',tinyChip),'SYMBOL'))
+    
     mapped_probes <- mappedkeys(x)
     xx <- as.list(x[mapped_probes])
     vals <- sapply(xx, as.vector)
