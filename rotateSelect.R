@@ -5,7 +5,7 @@ eval( expr = parse( text = getURL(
 source('puristOut.R')
 
 
-rotateSelect = function(rotationOut,rotSelOut,cores=4){
+rotateSelect = function(rotationOut,rotSelOut,cores=4, lilah=F){
     require(foreach)
     require(doMC)
     require(parallel)
@@ -38,7 +38,7 @@ rotateSelect = function(rotationOut,rotSelOut,cores=4){
 
         pureConfidence = vector(mode = 'list', length =len(files))
         for (j in dirFols){
-            pureSample = puristOut(paste0(j,'/',i))
+            pureSample = puristOut(paste0(j,'/',i), lilah)
             pureConfidence = mapply(c,pureSample,pureConfidence)
         }
         confidence = lapply(pureConfidence,function(x){table(x)/len(dirFols)})
