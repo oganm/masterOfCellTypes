@@ -97,8 +97,11 @@ heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalett
     names(justColors) = names(allColors)
     justColors = as.matrix(as.data.frame(justColors))
     justColors = t(apply(justColors,1,rev))
-    png(filename = heatFile, width = widt, height = heig)
-    heatmap.3(corr, trace = "none", Rowv = T, Colv = T,
+    if (!is.null(heatFile)){
+        png(filename = heatFile, width = widt, height = heig)
+    }
+
+    p=heatmap.3(corr, trace = "none", Rowv = T, Colv = T,
                   col = heatPalette, ColSideColors = justColors, cexCol=1,margins = c(7,5),dendrogram = 'column',key = F)
     # add the legends
     for (i in 1:len(heatColors)){
@@ -110,8 +113,10 @@ heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalett
                fill = allColors[[i]]$palette, cex=as.numeric(heatColors[[i]]['cex']))
     }
 
-
-dev.off()
+    if (!is.null(heatFile)){
+        dev.off()
+    }
+    return(p)
 }
 
 
