@@ -12,7 +12,7 @@ loadCellTypes = function(){
     mouseGene = allDataPre[,1:3]
     mouseExpr = allDataPre[,4:ncol(allDataPre)]
     rm(allDataPre)
-    mouseDes = read.table('Data/meltedDesign.tsv',header=T,sep='\t')
+    mouseDes = read.table('Data/meltedDesign.tsv',header=T,sep='\t', stringsAsFactors=F)
     mouseDes = mouseDes[match(colnames(mouseExpr),make.names(mouseDes$sampleName),),]
     rownames(mouseExpr) = mouseGene$Gene.Symbol
     
@@ -25,7 +25,7 @@ loadCellTypes = function(){
     humanExpr = humanExpr[!is.na(humanGene$Gene_Symbol),]
     humanGene = humanGene[!is.na(humanGene$Gene_Symbol),]
     names(humanExpr) = gsub('[_].*?$','',names(humanExpr))
-    humanDes = read.table('Data/hugeHumanSoft.tsv',header=T, sep='\t')
+    humanDes = read.table('Data/hugeHumanSoft.tsv',header=T, sep='\t', stringsAsFactors=F)
     
     # humanExpr<<-humanExpr[,!colnames(humanExpr) %in% humanDes[humanDes$Region=='white matter',]$GSM]
     
@@ -75,6 +75,7 @@ plotAll = function(genes, coloring, prop){
 plotSingle = function(gene, prop, coloring, region){
     mouseExpr = mouseExpr[,!is.na(mouseDes[,prop])]
     mouseDes = mouseDes[!is.na(mouseDes[,prop]),]
+    isNeuron = unique(cbind(mouseDes$MajorType,mouseDes$CellType))
     frame = data.frame(t(mouseExpr[mouseGene$Gene.Symbol %in% gene,]),mouseDes[,prop],mouseDes[,region],mouseDes$MajorType)
     if (!is.null(region)){
         names(frame) = c('gene','prop','region','Type')
@@ -104,7 +105,8 @@ plotSingle = function(gene, prop, coloring, region){
         theme(axis.ticks = element_blank(), axis.text.x = element_blank()) + 
         theme(axis.title.x = element_text(size=20),
               axis.text.x  = element_text(angle=90, vjust=0.5, size=16)) + 
-        theme(axis.title.y = element_text(size=20))
+        theme(axis.title.y = element_text(size=20)) + 
+        xlim(isNeuron[order(isNeuron[,1],isNeuron[,2]),2])
     
     
     if (!is.null(region) & len(unique(frame$region))>7){
