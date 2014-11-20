@@ -7,7 +7,7 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
     ssl.verifypeer=FALSE) ))
 # sets global variables to plot
-loadCellTypes = function(){
+loadCellTypes = function(correlate=F){
     allDataPre = read.csv(paste0(outFolder,'/',finalExp), header = T)
     mouseGene = allDataPre[,1:3]
     mouseExpr = allDataPre[,4:ncol(allDataPre)]
@@ -18,6 +18,7 @@ loadCellTypes = function(){
     
     mouseExpr <<- mouseExpr
     mouseGene <<-mouseGene
+    mouseDes <<- mouseDes
     
     humanDataPre = read.csv('Data/humanBootstrap/1',header=T)
     humanGene = humanDataPre[,1:3]
@@ -57,6 +58,25 @@ loadCellTypes = function(){
     rownames(humanExpr) = humanGene$Gene_Symbol
     humanGene <<- humanGene
     humanExpr <<- humanExpr
+    if (correlate){
+        medExp = median(unlist(humanExpr))
+        keep = apply(humanExpr,1,max)>medExp
+        humanExpr = humanExpr[keep,]
+        humanGene = humanGene[keep,]
+        newHumanExpr = t(scale(t(humanExpr)))
+        humanCor = cor(t(newHumanExpr),method='pearson')
+        
+        corvecs = sm2vec(humanCor)
+        
+        tresh = quantile(corvecs[corvecs>=0],0.99)
+        humanCorBin = humanCor>treshs
+        rownames(humanCorBin) = humanGene$Gene_Symbol
+        colnames(humanCorBin) = humanGene$Gene_Symbol
+        rownames(humanCor) = humanGene$Gene_Symbol
+        colnames(humanCor) = humanGene$Gene_Symbol
+        humanCorBin <<- humanCorBin
+        humanCor <<- humanCor
+    }
 }
 
 # give genes get plots
