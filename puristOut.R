@@ -3,6 +3,18 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
     ssl.verifypeer=FALSE) ))
 
+
+
+allPuristOut = function(genesLoc,lilah=F,prop='*'){
+    allGenLocs = list.dirs(genesLoc)
+    allGenLocs = allGenLocs[-1]
+    allGenLocs = grep(prop,allGenLocs,value=T)
+    geneLists = lapply(allGenLocs, puristOut)
+    names(geneLists) = basename(allGenLocs)
+    return(geneLists)
+}
+
+
 puristOut = function(geneLoc, lilah = F){
     filenames = list.files(geneLoc,include.dirs = FALSE)
     fileContents = lapply(paste0(geneLoc,'/', filenames), read.table)
