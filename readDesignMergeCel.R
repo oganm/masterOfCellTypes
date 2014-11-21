@@ -64,14 +64,14 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     nsamp <- sampleNames(nvals)
     nprobes <- featureNames(nvals)
 
-    teval(paste0('x = ',gsub('.db','',tinyChip),'GENENAME'))
+    x=teval(paste0(gsub('.db','',tinyChip),'GENENAME'))
     
     mapped_probes <- mappedkeys(x)
     xx <- as.list(x[mapped_probes])
     vals <- sapply(xx, as.vector)
     adf <- data.frame(probe=names(vals), gene=vals)
     
-    teval(paste0('x = ',gsub('.db','',tinyChip),'SYMBOL'))
+    x=teval(paste0(gsub('.db','',tinyChip),'SYMBOL'))
     
     mapped_probes <- mappedkeys(x)
     xx <- as.list(x[mapped_probes])
