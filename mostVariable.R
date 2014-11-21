@@ -1,8 +1,7 @@
-mostVariable = function(whichFile,outFile){
+mostVariable = function(whichFile,outFile,cores = 14){
     require(foreach)
     require(doMC)
     require(parallel)
-    cores = 4
     # so that I wont fry my laptop
     if (detectCores()<cores){ cores = detectCores()}
     registerDoMC(cores)
@@ -15,6 +14,7 @@ mostVariable = function(whichFile,outFile){
 
     rowmax = apply(exprData, 1, max)
     discludeGenes = which(rowmax<6)
+    allDataPre = allDataPre[-discludeGenes,]
     exprData = exprData[-discludeGenes,]
     geneData = geneData[-discludeGenes,]
 
@@ -22,9 +22,9 @@ mostVariable = function(whichFile,outFile){
 
     newData <<- foreach (i = 1:length(unique(geneData$Gene.Symbol)), .combine=rbind) %dopar% {
         indexes = which(geneData$Gene.Symbol %in% unique(geneData$Gene.Symbol)[i])
-        groupData = exprData[indexes,]
-        chosen = which.max(apply(groupData,1,var))
-        as.double(allDataPre[chosen,])
+        groupData = allDataPre[indexes,,drop=F]
+        chosen = which.max(apply(groupData[,4:ncol(groupData),drop=F],1,var))
+        (groupData[chosen,])
     }
 
     colnames(newData) = colnames(allDataPre)
