@@ -1,4 +1,4 @@
-mostVariable = function(whichFile,outFile,cores = 14){
+mostVariable = function(whichFile,outFile,cores = 16){
     require(foreach)
     require(doMC)
     require(parallel)
@@ -9,45 +9,19 @@ mostVariable = function(whichFile,outFile,cores = 14){
     allDataPre = read.csv(whichFile, header = T)
 
 
-    geneData = allDataPre[,1:3]
     exprData = allDataPre[,4:ncol(allDataPre)]
 
     rowmax = apply(exprData, 1, max)
     discludeGenes = which(rowmax<6)
     allDataPre = allDataPre[-discludeGenes,]
     exprData = exprData[-discludeGenes,]
-    geneData = geneData[-discludeGenes,]
+    
+    # you bloody idiot.... taken from lila
+    decreasingVar = order(apply(exprData,1,var), decreasing = T)
+    allDataPre = allDataPre[decreasingVar,]
+    allDataPre = allDataPre[!duplicated(allDataPre$Gene.Symbol),]
+    
 
 
-
-    newData <<- foreach (i = 1:length(unique(geneData$Gene.Symbol)), .combine=rbind) %dopar% {
-        indexes = which(geneData$Gene.Symbol %in% unique(geneData$Gene.Symbol)[i])
-        groupData = allDataPre[indexes,,drop=F]
-        chosen = which.max(apply(groupData[,4:ncol(groupData),drop=F],1,var))
-        (groupData[chosen,])
-    }
-
-    colnames(newData) = colnames(allDataPre)
-# non parallel version
-#     dim(newExprData) = c(length(unique(geneData$Gene.Symbol)), ncol(exprData))
-#     c=system.time({
-#      prog = txtProgressBar(min = 1, max = length(unique(geneData$Gene.Symbol)),style=3)
-#
-#     for (i in 1:length(unique(geneData$Gene.Symbol))){
-#         indexes = which(geneData$Gene.Symbol %in% unique(geneData$Gene.Symbol)[i])
-#         groupData = exprData[indexes,]
-#         chosen = which.max(apply(groupData,1,var))
-#         newExprData[i,] = as.double(groupData[chosen,])
-#         setTxtProgressBar(prog, i)
-#     }
-#     close(prog)
-#
-#     newExprData = as.data.frame(newExprData)
-#     })
-
-
-
-    rownames(newData) = NULL
-
-    write.csv(newData, file = outFile, row.names=FALSE)
+    write.csv(allDataPre, file = outFile, row.names=FALSE)
 }
