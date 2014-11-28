@@ -79,7 +79,7 @@ GSM1329477,GSM1329478,GSM1329479,GSM1329485,GSM1329486,GSM1329488,GSM1329489,GSM
 GSM1321400,GSM1321402,GSM1321405	Neuron	Spiny	Spiny	Spiny	SpinyDrd2	SpinyDrd2	Drd2+ Medium Spiny Neurons	Striatum	Striatum	81-210	105	TRAP			Affymetrix 430 2.0	Maze et al 2014	NA
 GSM874480,GSM874481,GSM874482	Neuron	Pyramidal	Pyramidal	Pyramidal	Pyramidal	Pyramidal	Glt25d2 positive pyramidal cells	Cortex	Layer 5b corticopontine	46-80	60	TRAP			Affymetrix 430 2.0	Schmidt et al 2012	They look terrible but we kept them
 GSM465760,GSM465761	Neuron	NA	NA	Stem	Stem	Stem	hGFAP and Prominin 1+ (neural stem)	Ependymal	sub ependymal zone	46-80	56	FACS			Affymetrix 430 2.0	Beckervordersandforth et al 2010	NA
-GSM465748,GSM465749,GSM465750,GSM465751	Glia	Astrocyte	Astrocyte	Astrocyte	Astrocyte	Astrocyte	hGFAP cells (astrocytes)	Thalamus,Cerebrum	diencephalon	46-80	56	FACS			Affymetrix 430 2.0	Beckervordersandforth et al 2010	NA
+GSM465748,GSM465749,GSM465750,GSM465751	Glia	NA	NA	NA	Astrocyte	NA	hGFAP cells (astrocytes)	Thalamus,Cerebrum	diencephalon	46-80	56	FACS			Affymetrix 430 2.0	Beckervordersandforth et al 2010	NA
 GSM465754,GSM465755	Neuron	NA	NA	Stem	Stem	Stem	hGFAP only (neural stem)	Ependymal	sub ependymal zone	46-80	56	FACS			Affymetrix 430 2.0	Beckervordersandforth et al 2010	NA
 GSM947326,GSM947327,GSM947328,GSM947329	Neuron	Hypocretinergic	Hypocretinergic	Hypocretinergic	Hypocretinergic	Hypocretinergic	hypocretinergic neurons	Thalamus	thalamus and hypothalamus (basically lateral hypothalamus)	46-80	63	TRAP			Affymetrix 430 2.0	Dalal et al 2013	NA
 GSM1259963,GSM1259964,GSM1259965	Neuron	NA	NA	NA	NA	NA	lumbar motor neuron	SpinalCord	spinal cord	NA	7	LCM			Affymetrix 430 2.0	Spiller et al 2014	NA
