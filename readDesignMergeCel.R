@@ -7,7 +7,7 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
 
     require(RCurl)
     eval( expr = parse( text = getURL(
-        "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+        "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
         ssl.verifypeer=FALSE) ))
     eval( expr = parse( text = getURL(
         "https://raw.githubusercontent.com/oganm/toSource/master/mergeChips.R",
@@ -86,7 +86,7 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     aned <- merge(sadf,ned, by.x="Probe", by.y="row.names", all.x=TRUE, sort=FALSE)
     header = gsub('.cel', '', gsub('.CEL','', colnames(aned)[4:ncol(aned)]))
     colnames(aned) = c(colnames(aned)[1:3], header)
-    dir.create(outFolder, recursive = T)
+    dir.create(outFolder, recursive = T,warning=F)
     write.csv(aned, paste0(outFolder,"/rmaExp.csv"), row.names=FALSE)
     #boxplot(aned[,4:ncol(aned)])
     gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
