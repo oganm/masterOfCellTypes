@@ -1,15 +1,17 @@
-mostVariable = function(whichFile,outFile,cores = 16){
-    require(foreach)
-    require(doMC)
-    require(parallel)
-    # so that I wont fry my laptop
-    if (detectCores()<cores){ cores = detectCores()}
-    registerDoMC(cores)
+mostVariable = function(whichFile,outFile,selectionNaming){
 
     allDataPre = read.csv(whichFile, header = T)
+    design = read.design('Data/meltedDesign.tsv')
 
 
     exprData = allDataPre[,4:ncol(allDataPre)]
+    
+    cellTypes = trimNAs(unique(design[,selectionNaming]))
+    
+    cellTypeExpr = lapply(cellTypes,function(x){
+        apply(exprData[,design[,selectionNaming] %in% x,drop=F],1,mean)
+    })
+    exprData = as.data.frame(cellTypeExpr)
 
     rowmax = apply(exprData, 1, max)
     discludeGenes = which(rowmax<6)
@@ -21,7 +23,6 @@ mostVariable = function(whichFile,outFile,cores = 16){
     allDataPre = allDataPre[decreasingVar,]
     allDataPre = allDataPre[!duplicated(allDataPre$Gene.Symbol),]
     
-
 
     write.csv(allDataPre, file = outFile, row.names=FALSE)
 }
