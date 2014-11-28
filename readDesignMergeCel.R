@@ -86,7 +86,7 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     aned <- merge(sadf,ned, by.x="Probe", by.y="row.names", all.x=TRUE, sort=FALSE)
     header = gsub('.cel', '', gsub('.CEL','', colnames(aned)[4:ncol(aned)]))
     colnames(aned) = c(colnames(aned)[1:3], header)
-    dir.create(outFolder, recursive = T,warning=F)
+    dir.create(outFolder, recursive = T,showWarnings=F)
     write.csv(aned, paste0(outFolder,"/rmaExp.csv"), row.names=FALSE)
     #boxplot(aned[,4:ncol(aned)])
     gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
