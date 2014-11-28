@@ -1,7 +1,14 @@
 require(RCurl)
 eval( expr = parse( text = getURL(
-    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
     ssl.verifypeer=FALSE) ))
+
+read.design  = function(x){
+    read.table(x,header=T,sep='\t')
+}
+
+read.exp = function(x){
+    read.csv(x,header = T)}
 
 # for loading and normalization -----
 desFile='Data/Design.tsv'
