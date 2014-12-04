@@ -12,17 +12,19 @@ meltedGenes = melt(fakeGenes,measure.vars = c('red1','red2','blue1','blue2','yel
 manualColor =  scale_colour_manual(name='prop', values = c(red1=toupper('#df5a49'),red2=toupper('#df5a49'),
                                                            blue1 = toupper('#334d5c'), blue2= toupper('#334d5c'),
                                                            yellow1= toupper('#efc94c'), yellow2=toupper('#efc94c')))
-
+svg('4.coexpression.svg')
 (ggplot(meltedGenes, aes(x=region,y=value,color=variable,group=variable))+
      geom_point(size = 3)+
      geom_line(size = 2)+
      manualColor+
      scale_x_discrete(breaks = 1:3, labels=c('Region1','Region2','Region3'),name='')+
      theme(legend.position="none")+
-     scale_y_continuous(limits=c(1,5.5),name='Relative expressions of genes')+
-     theme(axis.title.y = element_text(size=16))
+     scale_y_continuous(limits=c(1,5.5),name='Relative expressions of genes' , breaks= NULL)+
+     theme(axis.title.y = element_text(size=18))+
+     theme(axis.text.x = element_text(size = 18))
 )
 
+dev.off()
 
 
 
