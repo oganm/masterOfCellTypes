@@ -7,5 +7,5 @@ GSMassign = function(fileIn,fileOut){
     gsms = mapply(gsmFind,des$GSE,des$gsmRegex)
 
     des$GSM = sapply(gsms,paste,collapse=',')
-    write.table(des, fileOut, row.names=FALSE, sep = '\t', quote=F))
+    write.table(des, fileOut, row.names=FALSE, sep = '\t', quote=F)
 }
