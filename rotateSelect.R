@@ -1,6 +1,6 @@
 require(RCurl)
 eval( expr = parse( text = getURL(
-    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
     ssl.verifypeer=FALSE) ))
 source('puristOut.R')
 
