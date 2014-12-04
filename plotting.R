@@ -4,10 +4,21 @@ require(GGally)
 require(lattice)
 source('homologene.R')
 eval( expr = parse( text = getURL(
-    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
     ssl.verifypeer=FALSE) ))
 # sets global variables to plot
 loadCellTypes = function(correlate=F){
+    cores = 8
+    require(foreach)
+    require(doMC)
+    require(parallel)
+    # so that I wont fry my laptop
+    if (detectCores()<cores){ 
+        cores = detectCores()
+        print('max cores exceeded')
+        print(paste('set core no to',cores))
+    }
+    registerDoMC(cores)
     allDataPre = read.csv(paste0(outFolder,'/',finalExp), header = T)
     mouseGene = allDataPre[,1:3]
     mouseExpr = allDataPre[,4:ncol(allDataPre)]
@@ -19,6 +30,21 @@ loadCellTypes = function(correlate=F){
     mouseExpr <<- mouseExpr
     mouseGene <<-mouseGene
     mouseDes <<- mouseDes
+    
+    allDataPre = read.csv(paste0(outFolder,'/',qnormExp), header = T)
+    mouseGeneQnorm = allDataPre[,1:3]
+    mouseExprQnorm = allDataPre[,4:ncol(allDataPre)]
+    rm(allDataPre)
+    mouseExprQnorm <<- mouseExprQnorm
+    mouseGeneQnorm <<- mouseGeneQnorm
+    
+    allDataPre = read.csv(paste0(outFolder,'/','rmaExp.csv'), header = T)
+    mouseGeneRMA = allDataPre[,1:3]
+    mouseExprRMA = allDataPre[,4:ncol(allDataPre)]
+    rm(allDataPre)
+    mouseExprRMA <<- mouseExprRMA
+    mouseGeneRMA <<- mouseGeneRMA
+    
     
     humanDataPre = read.csv('Data/humanBootstrap/1',header=T)
     humanGene = humanDataPre[,1:3]
@@ -58,6 +84,7 @@ loadCellTypes = function(correlate=F){
     rownames(humanExpr) = humanGene$Gene_Symbol
     humanGene <<- humanGene
     humanExpr <<- humanExpr
+    humanDes <<- humanDes
     if (correlate){
         medExp = median(unlist(humanExpr))
         keep = apply(humanExpr,1,max)>medExp
@@ -92,11 +119,23 @@ plotAll = function(genes, coloring, prop){
 
 
 
-plotSingle = function(gene, prop, coloring, region){
-    mouseExpr = mouseExpr[,!is.na(mouseDes[,prop])]
+plotSingle = function(gene, prop, coloring, region, field = 'Gene.Symbol',data=c('final','qNorm','rma')){
+    
+    if (data[1]=='final'){
+        mouseExpr = mouseExpr[,!is.na(mouseDes[,prop])]
+        mouseGene = mouseGene
+    } else if (data[1]=='qNorm'){
+        mouseExpr = mouseExprQnorm[,!is.na(mouseDes[,prop])]
+        mouseGene = mouseGeneQnorm
+    } else if (data[1] == 'rma'){
+        mouseExpr = mouseExprRMA[,!is.na(mouseDes[,prop])]
+        mouseGene = mouseGeneRMA
+    }
+    
     mouseDes = mouseDes[!is.na(mouseDes[,prop]),]
+    
     isNeuron = unique(cbind(mouseDes$MajorType,mouseDes$CellType))
-    frame = data.frame(t(mouseExpr[mouseGene$Gene.Symbol %in% gene,]),mouseDes[,prop],mouseDes[,region],mouseDes$MajorType)
+    frame = data.frame(t(mouseExpr[mouseGene[,field] %in% gene,]),mouseDes[,prop],mouseDes[,region],mouseDes$MajorType)
     if (!is.null(region)){
         names(frame) = c('gene','prop','region','Type')
     }
