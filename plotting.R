@@ -8,6 +8,9 @@ eval( expr = parse( text = getURL(
     ssl.verifypeer=FALSE) ))
 # sets global variables to plot
 loadCellTypes = function(correlate=F){
+    system(paste0('gunzip ',outFolder,'/',qnormExp))
+    system(paste0('gunzip ',outFolder,'/','rmaExp.csv'))
+    
     cores = 8
     require(foreach)
     require(doMC)
@@ -104,6 +107,8 @@ loadCellTypes = function(correlate=F){
         humanCorBin <<- humanCorBin
         humanCor <<- humanCor
     }
+    system(paste0('gzip ',outFolder,'/',qnormExp))
+    system(paste0('gzip ',outFolder,'/rmaExp.csv'))
 }
 
 # give genes get plots
