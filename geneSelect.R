@@ -273,4 +273,3 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
     } # end of foreach loop around groups
 
 } # end of function
-
