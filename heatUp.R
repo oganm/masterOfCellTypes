@@ -1,7 +1,7 @@
 
 require(RCurl)
 eval( expr = parse( text = getURL(
-    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r",
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
     ssl.verifypeer=FALSE) ))
 
 heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalette, geneList = NA, heig,widt){
