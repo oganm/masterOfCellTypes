@@ -1,0 +1,136 @@
+Quality Control Report
+========================================================
+
+
+```{r,include=F, echo=F}
+require(RCurl)
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
+    ssl.verifypeer=FALSE) ))
+parent = getParent(2)
+setwd(parent)
+
+sourceGithub("BiGCAT-UM", "affyQC_Module", "functions_imagesQC.R")
+
+source('runVars.R')
+
+humanDesign = read.table('Data/humanCellTypeDesign.tsv',header=T,sep='\t', stringsAsFactors=F)
+
+
+gsms = humanDesign[,1]
+
+gsms = strsplit(gsms,',')
+
+
+platforms = unique(humanDesign$Platform)
+
+require(affy)
+
+affies = lapply( rep("AffyBatch", len(platforms)), new )
+celsInFolder = list.files('humanCellTypeCel')
+celsNoExtension = gsub('[.](C|c)(E|e)(L|l)','',celsInFolder)
+
+for (i in 1:len(platforms)){
+    toRead = unlist(gsms[humanDesign$Platform %in% platforms[i]])
+    relevant = celsInFolder[celsNoExtension %in% toRead]
+    affies[i] = ReadAffy(filenames = paste0('humanCellTypeCel/',relevant))
+}
+
+names(affies) = platforms
+```
+
+
+This file contains the quality control information on the chips we used and choose not to use. 
+
+We were able to find limited amounts of human cell type specific data but they were shown to be of very poor quality. The sources and GEO IDs of these datasets can be found from [this](Data/humanCellTypeDesign.tsv) file
+
+Human Cell Type Data
+-------------
+Human data was found on 3 chips `platforms r`. Below, the percentages of MM>PM signals on each chip group can be found
+```{r,warning=FALSE}
+
+lapply(affies,function(x){
+    mean(mm(x)>pm(x))
+})
+
+
+```
+
+A quite messy plots of density distributions. The densities themselves are also messy.
+```{r,warning=F}
+ground = lapply(affies,hist)
+```
+
+And RNA degredation plots with mean slopes
+```{r,warning=FALSE}
+ground = lapply(affies, function(x){
+    deg = AffyRNAdeg(x)
+    print(mean(deg$slope))
+    plotAffyRNAdeg(deg)
+})
+
+```
+
+Ratio plots
+```{r}
+
+
+
+```
+Mouse Cell Type
+------------------
+Lets proceed to our lovely mouse data, that has two platforms
+
+```{r,include=F, echo=F}
+parent = getParent(2)
+setwd(parent)
+ design = read.table('Data/Design.tsv',quote='',header=T,sep='\t')
+
+    design = design[!is.na(design[,namingCol]),]
+
+    gsms = regmatches(design[, 1], gregexpr(celRegex, design[, 1],perl=T))
+    if (any(lapply(gsms,len)==0)){
+        print('No cel names could be captured from the following rows')
+        print((1:len(gsms))[lapply(gsms,len)==0])
+    }
+
+    platforms = unique(design$Platform)
+
+    affies = lapply( rep("AffyBatch", len(platforms)), new )
+    names(affies) = platforms
+rma
+    #create a vector of affy objects based on how many chips are there just works with 2 right now
+    #implementation of a third generation is straightforward. in fact i could have done it instead
+    #of writing this but oh well...
+    for (i in 1:len(affies)){
+        celsInFolder = list.files(
+            paste0(celDir,'/',platforms[i]))
+        celsNoExtension = gsub('[.](C|c)(E|e)(L|l)','',celsInFolder)
+        gsms = regmatches(design[design$Platform == platforms[i], 1], gregexpr(celRegex, design[design$Platform == platforms[i], 1],perl=T))
+        gsms = unlist(gsms)
+
+        relevant = celsInFolder[celsNoExtension %in% gsms]
+
+        affies[i] = ReadAffy(filenames = paste0(celDir,'/',platforms[i],'/',relevant))
+    }
+```
+
+
+
+```{r,warning=FALSE}
+lapply(affies,function(x){
+    mean(mm(x)>pm(x))
+})
+
+ground = lapply(affies,hist)
+
+ground = lapply(affies, function(x){
+    deg = AffyRNAdeg(x)
+    print(mean(deg$slope))
+    plotAffyRNAdeg(deg)
+})
+
+
+
+```
+
