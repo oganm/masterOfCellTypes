@@ -9,7 +9,7 @@ Quality Control Report
 
 This file contains the quality control information on the chips we used and choose not to use. 
 
-We were able to find limited amounts of human cell type specific data but they were shown to be of very poor quality. The sources and GEO IDs of these datasets can be found from [this](../../Data/humanCellTypeDesign.tsv) file
+We were able to find limited amounts of human cell type specific data but they were shown to be of very poor quality. The sources and GEO IDs of these datasets can be found from [this](/Data/humanCellTypeDesign.tsv) file
 
 
 Human data was found on 3 chips `platforms r`. Below, the percentages of MM>PM signals on each chip group can be found
