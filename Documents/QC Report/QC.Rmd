@@ -37,6 +37,7 @@ for (i in 1:len(platforms)){
 }
 
 names(affies) = platforms
+affies
 ```
 
 
@@ -48,13 +49,29 @@ Human Cell Type Data
 -------------
 Human data was found on 3 chips `platforms r`. Below, the percentages of MM>PM signals on each chip group can be found
 ```{r,warning=FALSE}
-
+ 
 lapply(affies,function(x){
     mean(mm(x)>pm(x))
 })
+```
+
+Per chip ratio of MM>PM vs overall pm+mm intensity
+
+```{r, warning = F}
+lapply(affies,function(x){
+data = data.frame(MMPM = rep(0,len(x)), intensity = rep(0,len(x)))
+for (i in 1:len(x)){
+    data$MMPM[i] = mean(mm(x[,i]) > pm(x[,i]))
+    data$intensity[i] = mean(pm(x[,i])+mm(x[,i]))
+}
+plot(data$MMPM,data$intensity)
+
+}
+)
 
 
 ```
+
 
 A quite messy plots of density distributions. Note that there are multiple batches in the same chip 
 ```{r,warning=F}
@@ -77,6 +94,14 @@ In the first plot we notice a single sample with quite a low slope and decided t
 deg = AffyRNAdeg(affies[[1]])
 image(affies[[1]][,order(deg$slope)[1]])
 ```
+
+
+This is also true for the last chip
+```{r, warning=FALSE}
+deg = AffyRNAdeg(affies[[3]])
+image(affies[[3]][,order(deg$slope)[2]])
+```
+
 
 Mouse Cell Type
 ------------------
@@ -114,6 +139,7 @@ rma
 
         affies[i] = ReadAffy(filenames = paste0(celDir,'/',platforms[i],'/',relevant))
     }
+affies
 ```
 
 
