@@ -1,17 +1,16 @@
 Quality Control Report
 ========================================================
-```
 
-```
 
 
 
 
 This file contains the quality control information on the chips we used and choose not to use. 
 
-We were able to find limited amounts of human cell type specific data but they were shown to be of very poor quality. The sources and GEO IDs of these datasets can be found from [this](../Data/humanCellTypeDesign.tsv) file
+We were able to find limited amounts of human cell type specific data but they were shown to be of very poor quality. The sources and GEO IDs of these datasets can be found from [this](/Data/humanCellTypeDesign.tsv) file
 
-
+Human Cell Type Data
+-------------
 Human data was found on 3 chips `platforms r`. Below, the percentages of MM>PM signals on each chip group can be found
 
 ```r
@@ -55,7 +54,7 @@ lapply(affies,function(x){
 ## [1] 0.4254485
 ```
 
-A quite messy plots of density distributions. The densities themselves are also messy.
+A quite messy plots of density distributions. Note that there are multiple batches in the same chip 
 
 ```r
 ground = lapply(affies,hist)
@@ -63,7 +62,7 @@ ground = lapply(affies,hist)
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-2.png) ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-3.png) 
 
-And RNA degredation plots
+And RNA degredation plots with mean slopes
 
 ```r
 ground = lapply(affies, function(x){
@@ -91,10 +90,21 @@ ground = lapply(affies, function(x){
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-3.png) 
 
+In the first plot we notice a single sample with quite a low slope and decided to see the raw image file for that chip. Which turned out to be an unusually homogenous image
 
 
+```r
+deg = AffyRNAdeg(affies[[1]])
+image(affies[[1]][,order(deg$slope)[1]])
+```
 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
+
+Mouse Cell Type
+------------------
 Lets proceed to our lovely mouse data, that has two platforms
+
+
 
 
 
@@ -155,7 +165,7 @@ lapply(affies,function(x){
 ground = lapply(affies,hist)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-2.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) ![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-2.png) 
 
 ```r
 ground = lapply(affies, function(x){
@@ -169,11 +179,11 @@ ground = lapply(affies, function(x){
 ## [1] 5.437618
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-3.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-3.png) 
 
 ```
 ## [1] 4.84261
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-4.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-4.png) 
 

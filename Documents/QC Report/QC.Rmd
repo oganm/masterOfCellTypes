@@ -56,7 +56,7 @@ lapply(affies,function(x){
 
 ```
 
-A quite messy plots of density distributions. The densities themselves are also messy.
+A quite messy plots of density distributions. Note that there are multiple batches in the same chip 
 ```{r,warning=F}
 ground = lapply(affies,hist)
 ```
@@ -71,12 +71,13 @@ ground = lapply(affies, function(x){
 
 ```
 
-Ratio plots
-```{r}
+In the first plot we notice a single sample with quite a low slope and decided to see the raw image file for that chip. Which turned out to be an unusually homogenous image
 
-
-
+```{r, warning=FALSE}
+deg = AffyRNAdeg(affies[[1]])
+image(affies[[1]][,order(deg$slope)[1]])
 ```
+
 Mouse Cell Type
 ------------------
 Lets proceed to our lovely mouse data, that has two platforms
