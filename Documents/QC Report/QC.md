@@ -107,11 +107,11 @@ image(affies[[1]][,order(deg$slope)[1]])
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
 
 
-This is also true for the last chip
+A similar outlier also exists in the 3rd chip type
 
 ```r
 deg = AffyRNAdeg(affies[[3]])
-image(affies[[3]][,order(deg$slope)[2]])
+image(affies[[3]][,order(deg$slope)[1]])
 ```
 
 ![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
@@ -141,10 +141,33 @@ lapply(affies,function(x){
 ```
 
 ```r
-ground = lapply(affies,hist)
+lapply(affies,function(x){
+data = data.frame(MMPM = rep(0,len(x)), intensity = rep(0,len(x)))
+for (i in 1:len(x)){
+    data$MMPM[i] = mean(mm(x[,i]) > pm(x[,i]))
+    data$intensity[i] = mean(pm(x[,i])+mm(x[,i]))
+}
+plot(data$MMPM,data$intensity)
+
+}
+)
 ```
 
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-2.png) 
+
+```
+## $`Affymetrix 430 2.0`
+## NULL
+## 
+## $`Affymetrix MOE430A`
+## NULL
+```
+
+```r
+ground = lapply(affies,hist)
+```
+
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-3.png) ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-4.png) 
 
 ```r
 ground = lapply(affies, function(x){
@@ -158,11 +181,11 @@ ground = lapply(affies, function(x){
 ## [1] 5.437618
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-3.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-5.png) 
 
 ```
 ## [1] 4.84261
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-4.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-6.png) 
 

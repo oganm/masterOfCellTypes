@@ -96,10 +96,10 @@ image(affies[[1]][,order(deg$slope)[1]])
 ```
 
 
-This is also true for the last chip
+A similar outlier also exists in the 3rd chip type
 ```{r, warning=FALSE}
 deg = AffyRNAdeg(affies[[3]])
-image(affies[[3]][,order(deg$slope)[2]])
+image(affies[[3]][,order(deg$slope)[1]])
 ```
 
 
@@ -148,6 +148,17 @@ affies
 lapply(affies,function(x){
     mean(mm(x)>pm(x))
 })
+
+lapply(affies,function(x){
+data = data.frame(MMPM = rep(0,len(x)), intensity = rep(0,len(x)))
+for (i in 1:len(x)){
+    data$MMPM[i] = mean(mm(x[,i]) > pm(x[,i]))
+    data$intensity[i] = mean(pm(x[,i])+mm(x[,i]))
+}
+plot(data$MMPM,data$intensity)
+
+}
+)
 
 ground = lapply(affies,hist)
 
