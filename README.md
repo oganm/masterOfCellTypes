@@ -1,5 +1,6 @@
 masterOfCellTypes
 =================
+**Disclaimer:** I haven't been updating this file for a while now. So everything is likely to be extremely out of date. I'll fix it at some point. I promise...
 
 Use and modify run.R to do stuff. Variables in the first lines dictate what will it do. Most are self explanatory
 
