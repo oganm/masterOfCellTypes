@@ -42,7 +42,7 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
     humanGroundScz = lapply(humanGenes, function(x){bpCntSczGenes$Gene.Symbol[bpCntGenes$Gene.Symbol %in% x]})
     
 
-    windowSize = 4
+    windowSize = 14
 
     rownames(bpCntSczExpr) = bpCntSczGenes$Gene.Symbol
     rownames(bpCntExpr) = bpCntGenes$Gene.Symbol
@@ -118,6 +118,8 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
 
         #cntSczFrame = data.frame(zScore = unlist(as.data.frame(bpCntSczR)), sample = repIndiv(bpCntSczDes['disease_state',], nrow(bpCntSczR)))
         cntSczFrame = data.frame(PC1 = unlist(as.data.frame(bpCntSczR)), sample = bpCntSczDes['disease_state',])
+        
+        windowSize = max(abs(cntSczFrame$PC1)) + 0.5
 
 
 
@@ -166,12 +168,17 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
             (p = ggplot(cntSczFrame, aes(x =sample, y =PC1  ))
              + geom_violin( color="#C4C4C4", fill="#C4C4C4")
              + geom_boxplot(width=0.1,fill = 'lightblue')
-             + ggtitle(paste0('GSE12649 ',names(commonGround)[i]))
+             + geom_point()
+             + ggtitle(names(commonGround)[i])
              + annotate('text' , x = 1.5, y =1, label = paste0('p = ', round(contBP$p.value,digits = 5)), size = 8)
              + annotate('text' , x = 2.5, y =1, label = paste0('p = ', round(contScz$p.value,digits = 5)), size = 8)
-             + scale_y_continuous(limits=c(-windowSize, windowSize))
+             + scale_y_continuous(limits=c(-windowSize, windowSize),name="Relative estimate of cell type amounts")
              + theme_bw()
-             + theme(axis.text.x  = element_text(vjust=windowSize/2, size=20), axis.title.y = element_text(vjust=0.5, size=20),axis.title.x = element_text(vjust=0.5, size=0) , title = element_text(vjust=0.5, size=20))
+             + theme(axis.text.x  = element_text(vjust=windowSize/2, size=20),
+                     axis.title.y = element_text(vjust=0.5, size=20),
+                     axis.title.x = element_text(vjust=0.5, size=0) ,
+                     title = element_text(vjust=0.5, size=25),
+                     axis.text.y = element_text(size = 13))
             )
 
             ggsave(filename = paste0(bipolOut,'/GSE12649 ',names(commonGround)[i] , '.png'))
@@ -181,7 +188,8 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
 
         #cntFrame = data.frame(zScore = unlist(as.data.frame(bpCntR)), sample = gsub('_t','',repIndiv(bpCntDes['disease_state',], nrow(bpCntR))))
         cntFrame = data.frame(PC1 = unlist(as.data.frame(bpCntR)), sample = gsub('_t','',bpCntDes['disease_state',]))
-
+        windowSize = max(abs(cntFrame$PC1))+0.5
+        
 
         contBP = tryCatch({
             wilcox.test(cntFrame[cntFrame$sample=='BP',1], cntFrame[cntFrame$sample=='Cont',1])
@@ -191,12 +199,18 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
         tryCatch({
             (p = ggplot(cntFrame, aes(x =sample, y =PC1  ))
              + geom_violin( color="#C4C4C4", fill="#C4C4C4")
-             + ggtitle(paste0('GSE5388 ', names(commonGround)[i]))
+             + ggtitle( names(commonGround)[i])
              + geom_boxplot(width=0.1,fill = 'lightblue')
+             + geom_point()
              + annotate('text' , x = 1.5, y =1, label = paste0('p = ',  round(contBP$p.value,digits = 5)), size = 8)
-             + scale_y_continuous(limits=c(-windowSize, windowSize))
+             + scale_y_continuous(limits=c(-windowSize, windowSize),name="Relative estimate of cell type amounts")
              + theme_bw()
-             + theme(axis.text.x  = element_text(vjust=windowSize/2, size=20), axis.title.y = element_text(vjust=0.5, size=20),axis.title.x = element_text(vjust=0.5, size=0) , title = element_text(vjust=0.5, size=20))
+             + theme(axis.text.x  = element_text(vjust=windowSize/2, size=20),
+                     axis.title.y = element_text(vjust=0.5, size=20),
+                     axis.title.x = element_text(vjust=0.5, size=0),
+                     title = element_text(vjust=0.5, size=25), 
+                     axis.text.y = element_text(size = 13))
+             + scale_x_discrete(limits = c('Cont','BP'))
             )
 
             ggsave(filename = paste0(bipolOut, '/GSE5388 ', names(commonGround)[i] ,'.png'))
