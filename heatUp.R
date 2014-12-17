@@ -4,7 +4,16 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
     ssl.verifypeer=FALSE) ))
 
-heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalette, geneList = NA, heig,widt){
+heatUp = function(expLoc,
+                  designLoc, 
+                  heatFile,
+                  heatProps,
+                  heatColors, 
+                  heatPalette,
+                  geneList = NA,
+                  heig,widt, 
+                  correlate = T,
+                  Rowv = T, Colv = T,...){
     #heatColors is a list
     allDataPre = read.csv(expLoc, header = T)
     design = read.table(designLoc,header=T,sep='\t')
@@ -83,11 +92,22 @@ heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalett
 
     # heatmap draw ----
     if (!is.na(geneList[1])){
-    exprData=exprData[geneData$Gene.Symbol %in% geneList,]
-    geneData=geneData[geneData$Gene.Symbol %in% geneList,]
+        
+        exprData=exprData[geneData$Gene.Symbol %in% geneList,]
+        geneData=geneData[geneData$Gene.Symbol %in% geneList,]
+        
+        exprData = exprData[match(geneList, geneData$Gene.Symbol), ]
+        geneData = geneData[match(geneList, geneData$Gene.Symbol),]
     }
+    
+    if (correlate == T){
     corr = cor(exprData)
-
+    } else {
+        corr = exprData
+        rownames(exprData) = geneData$Gene.Symbol
+    }
+    
+    
     justColors = list()
 
 
@@ -96,13 +116,15 @@ heatUp = function(expLoc, designLoc, heatFile, heatProps, heatColors, heatPalett
     }
     names(justColors) = names(allColors)
     justColors = as.matrix(as.data.frame(justColors))
-    justColors = t(apply(justColors,1,rev))
+    if (ncol(justColors)>1){
+        justColors = t(apply(justColors,1,rev))
+    }
     if (!is.null(heatFile)){
         png(filename = heatFile, width = widt, height = heig)
     }
 
-    p=heatmap.3(corr, trace = "none", Rowv = T, Colv = T,
-                  col = heatPalette, ColSideColors = justColors, cexCol=1,margins = c(7,5),dendrogram = 'column',key = F)
+    p=heatmap.3(corr, trace = "none", Rowv = Rowv, Colv = Colv,
+                  col = heatPalette, ColSideColors = justColors, cexCol=1,margins = c(7,5),dendrogram = 'column',key = F,...)
     # add the legends
     for (i in 1:len(heatColors)){
         if (heatColors[[i]]['legendLoc'] == 'none'){
