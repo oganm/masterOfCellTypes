@@ -168,14 +168,14 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
             (p = ggplot(cntSczFrame, aes(x =sample, y =PC1  ))
              + geom_violin( color="#C4C4C4", fill="#C4C4C4")
              + geom_boxplot(width=0.1,fill = 'lightblue')
-             + geom_point()
+             + geom_point(size = 3)
              + ggtitle(names(commonGround)[i])
              + annotate('text' , x = 1.5, y =1, label = paste0('p = ', round(contBP$p.value,digits = 5)), size = 8)
              + annotate('text' , x = 2.5, y =1, label = paste0('p = ', round(contScz$p.value,digits = 5)), size = 8)
              + scale_y_continuous(limits=c(-windowSize, windowSize),name="Relative estimate of cell type amounts")
              + theme_bw()
-             + theme(axis.text.x  = element_text(vjust=windowSize/2, size=20),
-                     axis.title.y = element_text(vjust=0.5, size=20),
+             + theme(axis.text.x  = element_text(vjust=windowSize/2, size=25),
+                     axis.title.y = element_text(vjust=0.5, size=25),
                      axis.title.x = element_text(vjust=0.5, size=0) ,
                      title = element_text(vjust=0.5, size=25),
                      axis.text.y = element_text(size = 13))
@@ -201,12 +201,12 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
              + geom_violin( color="#C4C4C4", fill="#C4C4C4")
              + ggtitle( names(commonGround)[i])
              + geom_boxplot(width=0.1,fill = 'lightblue')
-             + geom_point()
+             + geom_point(size = 3)
              + annotate('text' , x = 1.5, y =1, label = paste0('p = ',  round(contBP$p.value,digits = 5)), size = 8)
              + scale_y_continuous(limits=c(-windowSize, windowSize),name="Relative estimate of cell type amounts")
              + theme_bw()
-             + theme(axis.text.x  = element_text(vjust=windowSize/2, size=20),
-                     axis.title.y = element_text(vjust=0.5, size=20),
+             + theme(axis.text.x  = element_text(vjust=windowSize/2, size=25),
+                     axis.title.y = element_text(vjust=0.5, size=25),
                      axis.title.x = element_text(vjust=0.5, size=0),
                      title = element_text(vjust=0.5, size=25), 
                      axis.text.y = element_text(size = 13))
