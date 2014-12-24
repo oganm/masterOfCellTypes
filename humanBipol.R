@@ -85,6 +85,10 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
         pcaCntScz = prcomp(t(bpCntSczR), scale = T)
 
         pcaCntScz$rotation = pcaCntScz$rotation * ((sum(pcaCntScz$rotation[,1])<0)*(-2)+1)
+        
+        write.table(pcaCntScz$rotation[,1,drop=F],
+                    file = paste0(bipolOut,'/GSE12649 ',names(commonGround)[i] , '.tsv'),
+                    quote = F, row.names = T, col.names = F, sep='\t')
 
         #report negative ones
         sczNeg = rownames(pcaCntScz$rotation)[pcaCntScz$rotation[,1]<(0)]
@@ -98,7 +102,11 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
         pcaCnt = prcomp(t(bpCntR), scale = T)
 
         pcaCnt$rotation = pcaCnt$rotation * ((sum(pcaCnt$rotation[,1])<0)*(-2)+1)
-
+        
+        write.table(pcaCnt$rotation[,1,drop=F],
+                    file = paste0(bipolOut,'/GSE5388 ',names(commonGround)[i] , '.tsv'),
+                    quote = F, row.names = T, col.names = F, sep = '\t')
+        
         #report negative ones
         sczCnt = rownames(pcaCnt$rotation)[pcaCnt$rotation[,1]<(0)]
         print(pcaCnt$rotation[pcaCnt$rotation[,1]<0,1])
