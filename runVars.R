@@ -93,10 +93,10 @@ refColors = c(method = 'def', legendLoc = 'topleft', cex = 1.5)
 heatColors = list(CellType = namingColors, typeColors = typeColors, Reference = refColors, Age = ageColors)
 
 # heatmap for genes
-heatColors2 = heatColors
+heatColors2 = heatColors[c(1,3)]
 heatColors2[[1]]['cex'] = '3'
-heatColors2[[3]]['legendLoc'] = "none"
-heatColors2[[4]]['legendLoc'] = "none"
+heatColors2[[2]]['legendLoc'] = "none"
+#heatColors2[[4]]['legendLoc'] = "none"
 
 # for bipol ----
 bipolLoc = 'Data/GSE5388_GSE12649_for_Ogan.RData'
