@@ -40,6 +40,6 @@ mostVariable = function(allDataPre,genes = 'Gene.Symbol'){
     
     decreasingVar = order(apply(exprData,1,var), decreasing = T)
     allDataPre = allDataPre[decreasingVar,]
-    allDataPre = allDataPre[!duplicated(allDataPre$Gene.Symbol),]
+    allDataPre = allDataPre[!duplicated(allDataPre[,genes]),]
     return(allDataPre)
 }
