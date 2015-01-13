@@ -1,4 +1,6 @@
-mostVariable = function(whichFile,outFile,selectionNaming){
+# this version merges cell types into a single sample then looks for a variable.
+# specific to our cell type data. not ideal but oh well...
+mostVariableCT = function(whichFile,outFile,selectionNaming){
 
     allDataPre = read.csv(whichFile, header = T)
     design = read.design('Data/meltedDesign.tsv')
@@ -25,4 +27,19 @@ mostVariable = function(whichFile,outFile,selectionNaming){
     
 
     write.csv(allDataPre, file = outFile, row.names=FALSE)
+}
+
+# this function is a generic function that looks for the most variable probeset
+# of a gene. unlike the previous one, it takes in objects and outputs objects 
+mostVariable = function(allDataPre){
+    exprData = allDataPre[,4:ncol(allDataPre)]
+    rowmax = apply(exprData, 1, max)
+    discludeGenes = which(rowmax<6)
+    allDataPre = allDataPre[-discludeGenes,]
+    exprData = exprData[-discludeGenes,]
+    
+    decreasingVar = order(apply(exprData,1,var), decreasing = T)
+    allDataPre = allDataPre[decreasingVar,]
+    allDataPre = allDataPre[!duplicated(allDataPre$Gene.Symbol),]
+    return(allDataPre)
 }
