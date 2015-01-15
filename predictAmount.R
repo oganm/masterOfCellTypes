@@ -13,7 +13,11 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
                          correction = c('columnar', 'all'),
                          comparisons = 'all',
                          sigTreshold = 0.05){
-    groupNames = unique(groups)
+    toCreate = unique(dirname(plotNames))
+    sapply(toCreate,dir.create,showWarnings = F,recursive=T)
+    
+    
+    groupNames = as.character(unique(groups))
     
     if (typeof(estimates)!='list'){
         estimates = list(estimates)
@@ -81,11 +85,6 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
 
 
 
-# frame = data.frame(PC1 = pca$x[,1], group = groups)
-# windowSize = max(abs(frame$PC1)) + 0.5
-# groupNames = unique(groups)
-
-
 # estimates relative abundances of cell types based on the PC1s of gene expressions accross samples
 # controlBased is the name of the control group in 'groups'. if given, PC calculations will be
 # done on controls and rotations found will be applied to other samples.
@@ -94,12 +93,18 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
 cellTypeEstimate = function(exprData, 
                             genes,
                             geneColName = 'Gene.Symbol',
+                            # implement soon #46
+                            #rotTreshold = NA,
+                            #validateRotation=NA,
                             geneTransform = function(x){mouse2human(x)$humanGene}, 
                             groups= NA,
                             controlBased = NA, 
                             tableOut=NA,
                             indivGenePlot = NA,
                             plotType = c('groupBased','cummulative')){
+    
+    toCreate = unique(c(dirname(indivGenePlot), dirname(tableOut)))
+    sapply(toCreate,dir.create,showWarnings = F,recursive=T)
     
     if (typeof(genes)!='list'){
         genes = list(genes)
@@ -147,6 +152,8 @@ cellTypeEstimate = function(exprData,
         } else{
             pca = prcomp(t(relevantExpr[groups %in% controlBased]), scale = T)
         }
+        
+        
         
         pca$rotation = pca$rotation * ((sum(pca$rotation[,1])<0)*(-2)+1)
         
