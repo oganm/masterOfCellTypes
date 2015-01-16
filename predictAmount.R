@@ -76,7 +76,7 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
                      label = sigText ,
                      hjust = 0, vjust=1, size = 4.5)
         (lePlot)
-        ggsave(plotNames[i])
+        ggsave(plotNames[i],width=8,height=8)
         
     }
     
@@ -152,7 +152,7 @@ cellTypeEstimate = function(exprData,
                 scale_x_discrete(name = '')+
                 scale_y_discrete(name = 'log2 Expression')
             (p)
-            ggsave(filename = indivGenePlot[i])
+            ggsave(filename = indivGenePlot[i], width=8,height=8)
         }
         
         

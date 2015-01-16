@@ -1,3 +1,7 @@
+require(RCurl)
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
+    ssl.verifypeer=FALSE) ))
 source('puristOut.R')
 puristList = puristOut('Data/RotSel/Relax/GabaDeep/')
 
@@ -8,7 +12,7 @@ softFile = read.design('Data/hugeHumanSoft.tsv')
 softExpr = read.exp('Data/humanBootstrap/1')
 medExpr = median(unlist(softExpr[4:len(softExpr)]))
 medVar = median(apply(softExpr[4:len(softExpr)],1,var))
-keep = apply(humanExpr,1,function(row){
+keep = apply(softExpr[4:len(softExpr)],1,function(row){
     mean(row)>medExpr | var(row)>medVar
 })
 softExpr = softExpr[keep,]
