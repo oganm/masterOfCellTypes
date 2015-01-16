@@ -17,7 +17,7 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
     sapply(toCreate,dir.create,showWarnings = F,recursive=T)
     
     
-    groupNames = as.character(unique(groups))
+    groupNames = as.character(unique(groups[[1]]))
     
     if (typeof(estimates)!='list'){
         estimates = list(estimates)
@@ -30,9 +30,10 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
     # create p value lists for correction
     pList = matrix(data = NA, ncol = ncol(comparisons), nrow = len(estimates))
     for (i in 1:len(estimates)) {
+        
         for (j in 1:ncol(comparisons)){
-            pList[i, j] = sig.test(estimates[[i]][groups %in% comparisons[1,j]],
-                                   estimates[[i]][groups %in% comparisons[2,j]])$p.value
+            pList[i, j] = sig.test(estimates[[i]][groups[[i]] %in% comparisons[1,j]],
+                                   estimates[[i]][groups[[i]] %in% comparisons[2,j]])$p.value
         }
     }
     # p value adjustment
@@ -49,7 +50,7 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
     
     # plotting of things
     for (i in 1:len(estimates)){
-        frame = data.frame(PC1 = estimates[[i]], group = groups)
+        frame = data.frame(PC1 = estimates[[i]], group = groups[[i]])
         windowUp = max((frame$PC1)) + 1
         windowDown = min((frame$PC1)) - 0.5
         
@@ -78,8 +79,6 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
         ggsave(plotNames[i])
         
     }
-    frame = data.frame(PC1 = estimates, group = groups)
-    groupNames = unique(groups)
     
 }
 
@@ -96,10 +95,12 @@ cellTypeEstimate = function(exprData,
                             # implement soon #46
                             #rotTreshold = NA,
                             #validateRotation=NA,
+                            outlierSampleRemove = T,
+                            synonymTaxID = NA,
                             geneTransform = function(x){mouse2human(x)$humanGene}, 
-                            groups= NA,
+                            groups = NA,
                             controlBased = NA, 
-                            tableOut=NA,
+                            tableOut = NA,
                             indivGenePlot = NA,
                             plotType = c('groupBased','cummulative')){
     
@@ -110,13 +111,21 @@ cellTypeEstimate = function(exprData,
         genes = list(genes)
     }
     
-    output = vector(mode = 'list', length=len(genes))
+    estimateOut = vector(mode = 'list', length=len(genes))
+    groupsOut = vector(mode = 'list', length=len(genes))
     for (i in 1:len(genes)){
         if(!is.na(geneTransform)){
             genes[[i]] = geneTransform(genes[[i]])
         }
-        
+        if (!is.na(synonymTaxID)){
+            genes[[i]] == unlist(geneSynonym(genes=genes[[i]],tax=synonymTaxID))
+        }
         relevantData = exprData[exprData[, geneColName] %in% genes[[i]],]
+        if (nrow(relevantData)==0){
+            estimateOut[[i]]=NA
+            groupsOut[[i]]=NA
+            next
+        }
         rownames(relevantData) = relevantData[, geneColName]
         relevantExpr = relevantData[4:len(relevantData)]
         
@@ -176,9 +185,23 @@ cellTypeEstimate = function(exprData,
         
         
         pca$x = t(as.matrix(t(scale(t(relevantExpr))))) %*% as.matrix(pca$rotation)
-        
-        output[[i]]=(pca$x[,1])
+        groupsOut[[i]] = groups
+        # outlier removal
+        if (outlierSampleRemove){
+            groupData = sapply(unique(groups),function(x){
+                pca$x[groups %in% x,1]
+            },simplify=F)
+            names(groupData) = unique(groups)
+            box = boxplot(groupData, plot = F)
+            # because of this part, sample names are important!!! uses them 
+            # to match outliers
+            groupsOut[[i]] = groups[!rownames(pca$x) %in% names(box$out)]
+            pca$x = pca$x[!rownames(pca$x) %in% names(box$out),,drop=F]
+        }
+        estimateOut[[i]]=(pca$x[,1])
     }
-    names(output) = names(genes)
+    names(estimateOut) = names(genes)
+    names(groupsOut) = names(genes)
+    output = list(estimates=estimateOut,groups=groupsOut)
     return(output)
 }
