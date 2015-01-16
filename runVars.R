@@ -2,13 +2,17 @@ require(RCurl)
 eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
     ssl.verifypeer=FALSE) ))
+# sourceGithub(oganm,toSource,gemmaAnnotate)
+
+# getGemmaAnnotGoogle('GPL339','Data/GPL339Annotation')
 
 read.design  = function(x){
-    read.table(x,header=T,sep='\t')
+    read.table(x,header=T,sep='\t',stringsAsFactors=F)
 }
 
 read.exp = function(x){
-    read.csv(x,header = T)}
+    read.csv(x,header = T,stringsAsFactors=F)
+}
 
 # for loading and normalization -----
 desFile='Data/Design.tsv'
