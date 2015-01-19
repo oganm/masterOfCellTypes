@@ -20,11 +20,17 @@ mostVariableCT = function(whichFile,outFile,selectionNaming){
     allDataPre = allDataPre[-discludeGenes,]
     exprData = exprData[-discludeGenes,]
     
-    # you bloody idiot.... taken from lila
+    # ignore multiple matching probesets while mostVariable selection
+    allDataMulti = allDataPre[grepl('[|]',exprData$Gene.Symbol),]
+    allDataPre = allDataPre[!grepl('[|]',exprData$Gene.Symbol),]
+    
+    # you bloody idiot... taken from lila
     decreasingVar = order(apply(exprData,1,var), decreasing = T)
     allDataPre = allDataPre[decreasingVar,]
     allDataPre = allDataPre[!duplicated(allDataPre$Gene.Symbol),]
     
+    # add the multiple matching probesets back
+    allDataPre = rbind(allDataPre,allDataMulti)
 
     write.csv(allDataPre, file = outFile, row.names=FALSE)
 }

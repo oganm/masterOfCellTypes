@@ -2,16 +2,23 @@
 #essential parts of the file are
 #1. the first collumn must include the GSMs
 #2. platform must be written to the Platform collumn
+
+require(RCurl)
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
+    ssl.verifypeer=FALSE) ))
+
+sourceGithub(oganm,toSource,gemmaAnnotate)
+sourceGithub(oganm,toSource,mergeChips)
+
+
 readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, outFolder){
     #always have gsms in the first collumn
 
-    require(RCurl)
-    eval( expr = parse( text = getURL(
-        "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
-        ssl.verifypeer=FALSE) ))
-    eval( expr = parse( text = getURL(
-        "https://raw.githubusercontent.com/oganm/toSource/master/mergeChips.R",
-        ssl.verifypeer=FALSE) ))
+   
+    #eval( expr = parse( text = getURL(
+    #    "https://raw.githubusercontent.com/oganm/toSource/master/mergeChips.R",
+    #    ssl.verifypeer=FALSE) ))
     #only works in windows
     #source('https://raw.githubusercontent.com/oganm/toSource/master/ogbox.r')
     #source('https://raw.githubusercontent.com/oganm/toSource/master/mergeChips.R')
@@ -51,39 +58,13 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ou
     }
 
     newNormalized = mergeChips(affies[[1]],affies[[2]])
-
-
-    nvals = newNormalized
-    if (!require(tinyChip,character.only=TRUE)){
-        require(BiocInstaller)
-        biocLite(tinyChip, suppressUpdates= T, ask = F)
-        require(tinyChip, character.only=TRUE)
-    }
-
-    ned <- exprs(nvals)
-    nsamp <- sampleNames(nvals)
-    nprobes <- featureNames(nvals)
-
-    x=teval(paste0(gsub('.db','',tinyChip),'GENENAME'))
     
-    mapped_probes <- mappedkeys(x)
-    xx <- as.list(x[mapped_probes])
-    vals <- sapply(xx, as.vector)
-    adf <- data.frame(probe=names(vals), gene=vals)
+    aned = gemmaAnnot(newNormalized, 'Data/GPL339Annotation')
     
-    x=teval(paste0(gsub('.db','',tinyChip),'SYMBOL'))
+    aned = aned[!aned$Gene.Symbol == '',]
     
-    mapped_probes <- mappedkeys(x)
-    xx <- as.list(x[mapped_probes])
-    vals <- sapply(xx, as.vector)
-    sdf <- data.frame(probe=names(vals), gene=vals)
+    
 
-
-    sadf <- merge(sdf,adf, by="probe", all.x=TRUE, sort=FALSE)
-
-    colnames(sadf) <- c("Probe","Gene Symbol","Annotation")
-
-    aned <- merge(sadf,ned, by.x="Probe", by.y="row.names", all.x=TRUE, sort=FALSE)
     header = gsub('.cel', '', gsub('.CEL','', colnames(aned)[4:ncol(aned)]))
     colnames(aned) = c(colnames(aned)[1:3], header)
     dir.create(outFolder, recursive = T,showWarnings=F)
