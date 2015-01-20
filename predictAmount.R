@@ -102,6 +102,7 @@ cellTypeEstimate = function(exprData,
                             controlBased = NA, 
                             tableOut = NA,
                             indivGenePlot = NA,
+                            groupRotations = NA,
                             plotType = c('groupBased','cummulative')){
     
     toCreate = unique(c(dirname(indivGenePlot), dirname(tableOut)))
@@ -161,8 +162,7 @@ cellTypeEstimate = function(exprData,
         } else{
             pca = prcomp(t(relevantExpr[groups %in% controlBased]), scale = T)
         }
-        
-        
+
         
         pca$rotation = pca$rotation * ((sum(pca$rotation[,1])<0)*(-2)+1)
         
@@ -203,5 +203,48 @@ cellTypeEstimate = function(exprData,
     names(estimateOut) = names(genes)
     names(groupsOut) = names(genes)
     output = list(estimates=estimateOut,groups=groupsOut)
+        
     return(output)
+}
+
+
+groupRotations = function(exprData, genes,geneColName, groups, outDir,
+                          geneTransform = function(x){mouse2human(x)$humanGene},
+                          synonymTaxID = NA)
+    {
+    if (typeof(genes)!='list'){
+        genes = list(genes)
+    }
+    
+    
+    for (i in 1:len(genes)){
+        
+        rotations = vector(mode = 'list', length=len(unique(groups)))
+        
+        if(!is.na(geneTransform)){
+            genes[[i]] = geneTransform(genes[[i]])
+        }
+        if (!is.na(synonymTaxID)){
+            genes[[i]] == unlist(geneSynonym(genes=genes[[i]],tax=synonymTaxID))
+        }
+        relevantData = exprData[exprData[, geneColName] %in% genes[[i]],]
+        if (nrow(relevantData)==0){
+            rotations[[i]]=NA
+            next
+        }
+    
+        rownames(relevantData) = relevantData[, geneColName]
+        relevantExpr = relevantData[4:len(relevantData)]
+        
+        for (j in 1:len(unique(groups))){
+            pca = prcomp(t(relevantExpr[groups %in% unique(groups)[j]]), scale = T)
+            pca$rotation = pca$rotation * ((sum(pca$rotation[,1])<0)*(-2)+1)
+            rotations[[j]] = pca$rotation[,1]
+        }
+    
+    rotations = as.data.frame(rotations)
+    names(rotations) = unique(groups)
+    write.table(rotations[order(apply(rotations,1,sum),decreasing=T),],
+                file = paste0(outDir,'/',names(genes)[i], ' groupRots'), quote=F,sep = '\t')
+    }
 }
