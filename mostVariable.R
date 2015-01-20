@@ -16,7 +16,7 @@ mostVariableCT = function(whichFile,outFile,selectionNaming){
     exprData = as.data.frame(cellTypeExpr)
 
     rowmax = apply(exprData, 1, max)
-    discludeGenes = which(rowmax<6)
+    discludeGenes = (rowmax<6)
     allDataPre = allDataPre[-discludeGenes,]
     exprData = exprData[-discludeGenes,]
     
@@ -40,7 +40,7 @@ mostVariableCT = function(whichFile,outFile,selectionNaming){
 mostVariable = function(allDataPre,genes = 'Gene.Symbol'){
     exprData = allDataPre[,4:ncol(allDataPre)]
     rowmax = apply(exprData, 1, max)
-    discludeGenes = which(rowmax<6)
+    discludeGenes = (rowmax<6)
     allDataPre = allDataPre[-discludeGenes,]
     exprData = exprData[-discludeGenes,]
     
