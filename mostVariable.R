@@ -17,8 +17,8 @@ mostVariableCT = function(whichFile,outFile,selectionNaming){
 
     rowmax = apply(exprData, 1, max)
     discludeGenes = (rowmax<6)
-    allDataPre = allDataPre[-discludeGenes,]
-    exprData = exprData[-discludeGenes,]
+    allDataPre = allDataPre[!discludeGenes,]
+    exprData = exprData[!discludeGenes,]
     
     # ignore multiple matching probesets while mostVariable selection
     allDataMulti = allDataPre[grepl('[|]',exprData$Gene.Symbol),]
@@ -41,8 +41,8 @@ mostVariable = function(allDataPre,genes = 'Gene.Symbol'){
     exprData = allDataPre[,4:ncol(allDataPre)]
     rowmax = apply(exprData, 1, max)
     discludeGenes = (rowmax<6)
-    allDataPre = allDataPre[-discludeGenes,]
-    exprData = exprData[-discludeGenes,]
+    allDataPre = allDataPre[!discludeGenes,]
+    exprData = exprData[!discludeGenes,]
     
     decreasingVar = order(apply(exprData,1,var), decreasing = T)
     allDataPre = allDataPre[decreasingVar,]
