@@ -139,7 +139,7 @@ plotSingle = function(gene, prop, coloring, region, field = 'Gene.Symbol',data=c
     
     mouseDes = mouseDes[!is.na(mouseDes[,prop]),]
     
-    isNeuron = unique(cbind(mouseDes$MajorType,mouseDes$CellType))
+    isNeuron = unique(cbind(mouseDes$MajorType,mouseDes[,prop]))
     frame = data.frame(t(mouseExpr[mouseGene[,field] %in% gene,]),mouseDes[,prop],mouseDes[,region],mouseDes$MajorType)
     if (!is.null(region)){
         names(frame) = c('gene','prop','region','Type')
