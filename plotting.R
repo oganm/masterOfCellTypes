@@ -174,7 +174,7 @@ plotSingle = function(gene, prop, coloring, region, field = 'Gene.Symbol',data=c
     
     
     if (!is.null(region) & len(unique(frame$region))>7){
-        p = p +  scale_shape_manual(values=c(0:18))
+        p = p +  scale_shape_manual(values=c(0:10,35,12:18)) # someone will call me antisemite for this...
         p = p +  theme(legend.box = "horizontal")
     }
     
