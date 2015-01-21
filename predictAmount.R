@@ -7,6 +7,50 @@ sourceGithub(user=OganM,repo= toSource, script=homologene)
 
 require(reshape2)
 require(ggplot2)
+
+# generalized function to handle everything at once. not all options are available
+# check child functions and add later if necessary.
+fullEstimate = function(exprData,
+                        genes,
+                        geneColName,
+                        groups,
+                        outDir,
+                        seekConsensus=F,
+                        groupRotations=F,
+                        outlierSampleRemove=T,
+                        controlBased = NA
+){
+    estimates = cellTypeEstimate(exprData=exprData,
+                                 genes=genes,
+                                 geneColName=geneColName,
+                                 outlierSampleRemove=outlierSampleRemove,
+                                 groups=groups,
+                                 controlBased= controlBased,
+                                 tableOut = paste0(outDir,'/',names(genes),' rotTable.tsv'),
+                                 indivGenePlot= paste0(outDir,'/',names(genes),' indivExp','.svg'),
+                                 seekConsensus = seekConsensus)
+    estimates$estimates = trimNAs(estimates$estimates)
+    estimates$groups = trimNAs(estimates$groups)
+    
+    if (groupRotations){
+        groupRotations(exprData, 
+                       genes=genes,
+                       geneColName = geneColName,
+                       groups=groups,
+                       outDir=outDir)
+    }
+    
+    plotEstimates(estimates$estimates,estimates$groups,
+                  paste0(outDir,
+                         names(estimates$estimates),'.svg'))
+    
+}
+
+
+
+
+
+
 # it takes in a list of estimates or a single vector of estimates. and plots things
 plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
                          pAdjMethod = p.adjust.methods,
@@ -102,7 +146,7 @@ cellTypeEstimate = function(exprData,
                             controlBased = NA, 
                             tableOut = NA,
                             indivGenePlot = NA,
-                            groupRotations = NA,
+                            seekConsensus = F,
                             plotType = c('groupBased','cummulative')){
     
     toCreate = unique(c(dirname(indivGenePlot), dirname(tableOut)))
@@ -110,6 +154,13 @@ cellTypeEstimate = function(exprData,
     
     if (typeof(genes)!='list'){
         genes = list(genes)
+    }
+    # if seeking consensus, check group based rotations
+    if(seekConsensus){
+        groupRotations = groupRotations(exprData, genes, 
+                                        geneColName, groups, outDir=NA,
+                                        geneTransform = function(x){mouse2human(x)$humanGene},
+                                        synonymTaxID = NA)
     }
     
     estimateOut = vector(mode = 'list', length=len(genes))
@@ -121,6 +172,17 @@ cellTypeEstimate = function(exprData,
         if (!is.na(synonymTaxID)){
             genes[[i]] == unlist(geneSynonym(genes=genes[[i]],tax=synonymTaxID))
         }
+       
+        
+        #remove non concenting genes (based on group) if is nested because there
+        #will be no group rotations to look at if seekConsensus=F some redundancy
+        # exists but oh well
+        if (seekConsensus){
+            if (!is.na(groupRotations[i])){
+                genes[[i]] = rownames(groupRotations[[i]][apply(groupRotations[[i]],1,function(x){all(x>0)}),])
+            }
+        }
+        
         relevantData = exprData[exprData[, geneColName] %in% genes[[i]],]
         if (nrow(relevantData)==0){
             estimateOut[[i]]=NA
@@ -145,7 +207,7 @@ cellTypeEstimate = function(exprData,
             
             p = ggplot(indivGenes,aes(y = expression, x = group )) +
                 facet_wrap('gene') + 
-                geom_point() +
+                geom_boxplot(fill = 'lightblue') +
                 theme(axis.text.x  = element_text( size=20),
                       axis.title.y = element_text(vjust=0.5, size=20),
                       axis.title.x = element_text(vjust=0.5, size=0) , 
@@ -216,7 +278,7 @@ groupRotations = function(exprData, genes,geneColName, groups, outDir,
         genes = list(genes)
     }
     
-    
+    allRotations = vector(mode = 'list', length=len(unique(genes)))
     for (i in 1:len(genes)){
         
         rotations = vector(mode = 'list', length=len(unique(groups)))
@@ -229,7 +291,7 @@ groupRotations = function(exprData, genes,geneColName, groups, outDir,
         }
         relevantData = exprData[exprData[, geneColName] %in% genes[[i]],]
         if (nrow(relevantData)==0){
-            rotations[[i]]=NA
+            allRotations[[i]]=NA
             next
         }
     
@@ -244,7 +306,12 @@ groupRotations = function(exprData, genes,geneColName, groups, outDir,
     
     rotations = as.data.frame(rotations)
     names(rotations) = unique(groups)
-    write.table(rotations[order(apply(rotations,1,sum),decreasing=T),],
-                file = paste0(outDir,'/',names(genes)[i], ' groupRots'), quote=F,sep = '\t')
+    allRotations[[i]] = rotations
+    if (!is.na(outDir)){
+        write.table(rotations[order(apply(rotations,1,sum),decreasing=T),],
+                    file = paste0(outDir,'/',names(genes)[i], ' groupRots'), quote=F,sep = '\t')
+        }
     }
+    names(allRotations) = names(genes)
+    invisible(allRotations)
 }

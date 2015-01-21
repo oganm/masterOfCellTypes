@@ -5,95 +5,85 @@ eval( expr = parse( text = getURL(
 source('puristOut.R')
 
 # for human regions ------
-puristList = puristOut('Data/RotSel/Relax/GabaDeep/')
+puristList = puristOut('Data/RotSel/Relax/Cortex_GabaDeep/')
 # filtering shit for human data
 softFile = read.design('Data/hugeHumanSoft.tsv')
 softExpr = read.exp('Data/HumanRegionExpr/cortex-white')
-medExpr = median(unlist(softExpr[4:len(softExpr)]))
-medVar = median(apply(softExpr[4:len(softExpr)],1,var))
-keep = apply(softExpr[4:len(softExpr)],1,function(row){
-    mean(row)>medExpr | var(row)>medVar
-})
-softExpr = softExpr[keep,]
-
-softExpr = mostVariable(softExpr,'Gene_Symbol')
-
 
 names(softExpr)[4:len(softExpr)] = sub('_.*','',names(softExpr)[4:len(softExpr)] )
-
+# determine groups based on sample names from soft file
 groups = softFile$Region[match( names(softExpr)[4:len(softExpr)], softFile$GSM)]
 
 
+medExpr = median(unlist(softExpr[4:len(softExpr)]))
+keep = apply(softExpr[4:len(softExpr)],1,function(row){
+    return(mean(row[groups %in% unique(groups)[1]])>medExpr & mean(row[groups %in% unique(groups)[2]])>medExpr)
+})
 
-estimates = cellTypeEstimate(softExpr,genes = puristList[names(puristList) %in% c('Astrocyte','Oligo')], geneColName='Gene_Symbol',
-                             tableOut=paste0("Data/Estimates/Cortex-White/",
-                                             names(puristList[names(puristList) %in% c('Astrocyte','Oligo')]),'.tsv'),
-                             indivGenePlot = paste0("Data/Estimates/Cortex-White/",
-                                                    names(puristList[names(puristList) %in% c('Astrocyte','Oligo')]),' indivExp','.svg'),
-                             groups = groups)
-estimates$estimates = trimNAs(estimates$estimates)
-estimates$groups = trimNAs(estimates$groups)
+mostVarSoft = mostVariable(softExpr,'Gene_Symbol')
 
-groupRotations(softExpr, 
-               genes=puristList[names(puristList) %in% c('Astrocyte','Oligo')],
-               geneColName = 'Gene_Symbol',
-               groups=groups,
-               outDir='Data/Estimates/Cortex-White/')
 
-plotEstimates(estimates$estimates,estimates$groups,
-              paste0("Data/Estimates/Cortex-White/",
-                     names(estimates$estimates),'.svg'))
+
+
+fullEstimate(mostVarSoft,
+             genes=puristList,
+             geneColName="Gene_Symbol",
+             groups=groups,
+             outDir='Data/Estimates/Cortex-White/',
+             seekConsensus=T,
+             groupRotations=T,
+             outlierSampleRemove=T,
+             controlBased=NA)
+
 
 # for bipolar and scz----
 bipolExp = read.exp('Data/BipolData/Bipol.csv')
 bipolDes = read.design('Data/BipolData/BipolDes.tsv')
 puristList = puristOut('Data/RotSel/Relax/Cortex_GabaDeep/')
-estimates = cellTypeEstimate(bipolExp,genes= puristList,
-                             geneColName="Gene.Symbol",
-                             tableOut = paste0('Data/Estimates/humanBipol/', names(puristList),'.tsv'),
-                             indivGenePlot = paste0("Data/Estimates/humanBipol/",'indivExp ',names(puristList),'.svg'),
-                             groups=bipolDes$disease_state2,
-                             controlBased='Cont'
-                             )
-estimates$estimates = trimNAs(estimates$estimates)
-estimates$groups = trimNAs(estimates$groups)
-plotEstimates(estimates$estimates,estimates$groups,
-              paste0("Data/Estimates/humanBipol/",names(estimates$estimates),'.svg'))
+
+fullEstimate(bipolExp,
+             genes=puristList,
+             geneColName="Gene.Symbol",
+             groups=bipolDes$disease_state2,
+             outDir='Data/Estimates/humanBipol/',
+             seekConsensus=F,
+             groupRotations=T,
+             outlierSampleRemove=T,
+             controlBased='Cont')
+
 
 bipolSczExp =  read.exp('Data/BipolData/BipolScz.csv')
 bipolSczDes = read.design('Data/BipolData/BipolSczDes.tsv')
-estimates = cellTypeEstimate(bipolSczExp,genes= puristList,
-                             geneColName="Gene.Symbol",
-                             tableOut = paste0('Data/Estimates/humanBipolScz/', names(puristList),'.tsv'),
-                             indivGenePlot = paste0("Data/Estimates/humanBipolScz/",'indivExp ',names(puristList),'.svg'),
-                             groups=bipolSczDes$disease_state,
-                             controlBased = 'Cont')
-estimates$estimates = trimNAs(estimates$estimates)
-estimates$groups = trimNAs(estimates$groups)
-plotEstimates(estimates$estimates,estimates$groups,
-              paste0("Data/Estimates/humanBipolScz/",names(estimates$estimates),'.svg'))
+
+fullEstimate(bipolSczExp,
+             genes=puristList,
+             geneColName="Gene.Symbol",
+             groups=bipolSczDes$disease_state,
+             outDir='Data/Estimates/humanBipolScz/',
+             seekConsensus=F,
+             groupRotations=T,
+             outlierSampleRemove=T,
+             controlBased='Cont')
 
 
 # scz bipolar not control based
-puristList = puristOut('Data/RotSel/Relax/Cortex_GabaDeep/')
-estimates = cellTypeEstimate(bipolExp,genes= puristList,
-                             geneColName="Gene.Symbol",
-                             tableOut = paste0('Data/Estimates/humanBipolNotControl/', names(puristList),'.tsv'),
-                             indivGenePlot = paste0("Data/Estimates/humanBipolNotControl/",'indivExp ',names(puristList),'.svg'),
-                             groups=bipolDes$disease_state2
-)
-estimates$estimates = trimNAs(estimates$estimates)
-estimates$groups = trimNAs(estimates$groups)
-plotEstimates(estimates$estimates,estimates$groups,
-              paste0("Data/Estimates/humanBipol/",names(estimates$estimates),'.svg'))
 
+fullEstimate(bipolExp,
+             genes=puristList,
+             geneColName="Gene.Symbol",
+             groups=bipolDes$disease_state2,
+             outDir='Data/Estimates/humanBipolNotControl/',
+             seekConsensus=F,
+             groupRotations=T,
+             outlierSampleRemove=T,
+             controlBased=NA)
 
-estimates = cellTypeEstimate(bipolSczExp,genes= puristList,
-                             geneColName="Gene.Symbol",
-                             tableOut = paste0('Data/Estimates/humanBipolSczNotControl/', names(puristList),'.tsv'),
-                             indivGenePlot = paste0("Data/Estimates/humanBipolSczNotControl/",'indivExp ',names(puristList),'.svg'),
-                             groups=bipolSczDes$disease_state)
-estimates$estimates = trimNAs(estimates$estimates)
-estimates$groups = trimNAs(estimates$groups)
-plotEstimates(estimates$estimates,estimates$groups,
-              paste0("Data/Estimates/humanBipolScz/",names(estimates$estimates),'.svg'))
+fullEstimate(bipolSczExp,
+             genes=puristList,
+             geneColName="Gene.Symbol",
+             groups=bipolSczDes$disease_state,
+             outDir='Data/Estimates/humanBipolSczNotControl/',
+             seekConsensus=F,
+             groupRotations=T,
+             outlierSampleRemove=T,
+             controlBased=NA)
