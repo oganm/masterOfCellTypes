@@ -39,7 +39,7 @@ humanBipol = function(geneLoc, bipolLoc, bipolOut){
     
     
     humanGround = lapply(humanGenes, function(x){bpCntGenes$Gene.Symbol[bpCntGenes$Gene.Symbol %in% x]})
-    humanGroundScz = lapply(humanGenes, function(x){bpCntSczGenes$Gene.Symbol[bpCntGenes$Gene.Symbol %in% x]})
+    humanGroundScz = lapply(humanGenes, function(x){bpCntSczGenes$Gene.Symbol[bpCntSczGenes$Gene.Symbol %in% x]})
     
 
     windowSize = 14
