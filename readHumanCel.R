@@ -1,11 +1,11 @@
 library(oligo)
 library(pd.huex.1.0.st.v2)
 readHumanCel = function(GSMs, fileOut, humanDir){
-    cels = list.celfiles(humanDir,listGzipped=T)
+    cels = oligoClasses::list.celfiles(humanDir,listGzipped=T)
     whichCels = sapply(GSMs, function(x){which(grepl(x,cels))})
     sampleCels = cels[whichCels]
     affyRaw = read.celfiles(paste0(humanDir,'/',sampleCels))
-    exonTS <- rma(affyRaw, target = "core")
+    exonTS <- oligo::rma(affyRaw, target = "core")
     rm(affyRaw)
     featureData(exonTS) <- getNetAffx(exonTS, "transcript")
     #View the features of the obtained data
@@ -33,4 +33,5 @@ readHumanCel = function(GSMs, fileOut, humanDir){
     rownames(aned) <- aned[,1]
     aned <- aned[,-1]
     write.csv(aned, fileOut, row.names=FALSE)
+    invisible(aned)
 }
