@@ -30,8 +30,10 @@ rotateSelect = function(rotationOut,rotSelOut,cores=4, lilah=F){
     loopAroundMar = loopAround[grepl('Marker',loopAround)]
     dir.create(paste0(rotSelOut), showWarnings = F)
     
-    #for relaxed selection. forces unique selection with matching criteria in puristOut
+    # for relaxed selection. forces unique selection with matching criteria in puristOut
+    # for (i in loopAroundRel){
     foreach (i  = loopAroundRel) %dopar% {
+        print(i)
         dir.create(paste0(rotSelOut,'/',i),recursive = T, showWarnings = F)
         files = list.files(paste0(dirFols[1],'/',i))
         # remove the list of removed samples from the mix
@@ -56,7 +58,10 @@ rotateSelect = function(rotationOut,rotSelOut,cores=4, lilah=F){
     }
     
     # for marker genes. just looks at the list and frequencies
+    # for (i in loopAroundMar){
     foreach (i = loopAroundMar) %dopar%{
+       print(i)
+       
         dir.create(paste0(rotSelOut,'/',i),recursive = T, showWarnings = F)
         files = list.files(paste0(dirFols[1],'/',i))
         fileOuts = vector(mode = 'list', length = len(files))
