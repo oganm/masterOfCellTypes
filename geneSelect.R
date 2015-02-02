@@ -1,6 +1,6 @@
 
 
-geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate = NA,cores = 4){
+geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate = NA,cores = 4,debug=NULL){
     require(foreach)
     require(doMC)
     require(parallel)
@@ -11,14 +11,11 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         print(paste('set core no to',cores))
     }
     registerDoMC(cores)
-    
-    
     require(RCurl)
     eval( expr = parse( text = getURL(
         "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
         ssl.verifypeer=FALSE) ))
     require(reshape)
-    
     require(cluster)
     
     #gene selector, outputs selected genes and their fold changes
@@ -39,26 +36,16 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         g16 = groupAverage1  < 6
         g29 = groupAverage2 < 9.5 & groupAverage2 > 8
         g26 = groupAverage2 < 6
-        
+        # this is a late addition preventing anything that is below 8 from being
+        # selected. ends up removing the the differentially underexpressed stuff as well
+        gMinTresh = groupAverage1 > 8
         
         
         tempGroupAv2 = vector(length = length(groupAverage2))
         
-        tempGroupAv2[g26 & g19] = tryCatch({(apply(group2[, g26 & g19], 2, max))},
-                                           error = function(cond){
-                                               print('I hate you damn it!')
-                                               if (is.null(nrow(group2))){
-                                                   return(group2[g26 & g19])
-                                               }else{ return(max(group2[, g26 & g19]))
-                                               }})
+        tempGroupAv2[g26 & g19] =apply(group2[, g26 & g19,drop=F], 2, max)
         
-        tempGroupAv2[g16 & g29] = tryCatch({(apply(group2[, g16 & g29], 2, min))},
-                                           error = function(cond){
-                                               print('I hate you damn it!')
-                                               if (is.null(nrow(group2))){
-                                                   return(group2[g16 & g29])
-                                               }else{ return(min(group2[, g26 & g19]))
-                                               }})
+        tempGroupAv2[g16 & g29] =apply(group2[, g16 & g29,drop=F], 2, min)
         
         
         #groupAverage1[5124]
@@ -75,12 +62,11 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         fold = groupAverage1 - groupAverage2
         # take everything below 6 as the same when selecting
         # fold =  sapply(groupAverage1,max,6) - sapply(groupAverage2,max,6)
-        chosen =  which({(fold >= (log(f)/log(2))) & !(g19 & g26) } | {(fold <= log(1/f)/log(2)) &  !(g29 & g16)}| add1 | add2)
+        chosen =  which(({(fold >= (log(f)/log(2))) & !(g19 & g26) } | {(fold <= log(1/f)/log(2)) &  !(g29 & g16)}| add1 | add2)&gMinTresh)
         return(
             data.frame(index = chosen, foldChange = fold[chosen])
         )
     }
-    
     
     giveSilhouette = function(daGeneIndex,groupInfo1,groupInfo2){
         clustering = as.integer(rep(1,nrow(design))*(1:nrow(design) %in% groupInfo1)+1)
@@ -95,8 +81,8 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
     design = read.table(designLoc,header=T,sep='\t')
     
     allDataPre = read.csv(exprLoc, header = T)
-    geneData = allDataPre[,1:3]
-    exprData = allDataPre[,4:ncol(allDataPre)]
+    list[geneData, exprData] = sepExpr(allDataPre)
+
     
     if (!all(colnames(exprData) %in% make.names(design$sampleName))){
         if(is.na(rotate)){
@@ -160,10 +146,19 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         nameGroups[[i]] = design[,groupNamesEn[i]]
     }
     nameGroups = nameGroups[unlist(lapply(lapply(lapply(nameGroups,unique),trimNAs),length)) > 1]
+    #debug exclude
+    if (!is.null(debug)){
+        nameGroups = nameGroups[names(nameGroups) %in% debug]
+        groupNamesEn = groupNamesEn[groupNamesEn %in% debug]
+    } 
+    groupNamesEn = names(nameGroups)
     
     # the main loop around groups ------
+    
     foreach (i = 1:len(nameGroups)) %dopar% {
-    # for (i in 1:len(nameGroups)){
+    #for (i in 1:len(nameGroups)){
+         #debub point for groups
+
         typeNames = trimNAs(unique(nameGroups[[i]]))
         realGroups = vector(mode = 'list', length = length(typeNames))
         names(realGroups) = typeNames
@@ -177,9 +172,11 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
             removed = unlist(realGroups)[!unlist(realGroups) %in% unlist(realGroups2)]
             realGroups = realGroups2
         }
-        
+
         tempExpr = exprData[unlist(realGroups),]
         tempDesign = design[unlist(realGroups),]
+ 
+        
         
         # replicateMeans ------
         # inefficient if not rotating but if you are not rotating you are only doing it once anyway
@@ -206,6 +203,8 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         # silhouette store the new locations to be used with repMeanExpr here
         # use the old typeNames since that cannot change
         realGroupsRepMean =  vector(mode = 'list', length = length(typeNames))
+        print(names(nameGroups)[i])
+
         for (j in 1:length(typeNames)){
             realGroupsRepMean[[j]] = which(repMeanDesign[,groupNamesEn[i]] == typeNames[j])
         }
@@ -236,14 +235,18 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         
         # for loop around groupAverages
         for (j in 1:nrow(groupAverages)){
+            # cell type specific debug point
+            #if (names(realGroups)[j]=='GabaOxtr'){
+            #  print('loyloy')  
+            #}
             fileName = paste0(outLoc  , '/Relax/', names(nameGroups)[i], '/',  names(realGroups)[j])
             fileName2 = paste0(outLoc , '/Marker/' , names(nameGroups)[i] , '/' , names(realGroups)[j])
             
             # find markers. larger than 10 fold change to every other group
-            isMarker = vector(length = ncol(groupAverages))
-            for (t in 1:ncol(groupAverages)){
-                isMarker[t] = all(groupAverages[-j, t] + log(10, base=2) < groupAverages[j,t])
-            }
+            isMarker = apply(groupAverages,2,function(x){
+                all(x[-j] + log(10, base=2) < x[j])
+            })  
+  
             fMarker = data.frame(geneData$Gene.Symbol[isMarker], groupAverages[j,isMarker], tryCatch({apply(groupAverages[-j,isMarker],2,max)}, error = function(e){max(groupAverages[-j,isMarker])}),tryCatch({apply(groupAverages[-j,isMarker],2,min)}, error = function(e){min(groupAverages[-j,isMarker])}))
             fChange = foldChange(groupAverages[j, ], groupAverages[-j,] )
             fChangePrint = data.frame(geneNames = geneData$Gene.Symbol[fChange$index], geneFoldChange= fChange$foldChange )
@@ -255,13 +258,21 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
             groupInfo2 = unlist(realGroups[-j])
             
             silo = vector(length = nrow(fChangePrint))
-            for (t in 1:nrow(fChangePrint)){
-                silo[t] = giveSilhouette(which(geneData$Gene.Symbol == fChangePrint$geneNames[t]),
-                                         groupInfo1,
-                                         groupInfo2)
+            if (!nrow(fChangePrint) == 0){
+                for (t in 1:nrow(fChangePrint)){
+                  # gene specific debug point
+                   # if(fChangePrint$geneNames[t] == 'Lmo7'){
+                   #     print('gaaaaa')
+                    # }
+                    silo[t] = giveSilhouette(which(geneData$Gene.Symbol == fChangePrint$geneNames[t]),
+                                                   groupInfo1,
+                                                   groupInfo2)
+                }
+                fChangePrint = cbind(fChangePrint, silo)
+            } else {
+                fChangePrint = data.frame(fChangePrint, silo=numeric(0))
             }
             
-            fChangePrint = cbind(fChangePrint, silo)
             
             print(fileName)
             # print(nameGroups[[i]])
