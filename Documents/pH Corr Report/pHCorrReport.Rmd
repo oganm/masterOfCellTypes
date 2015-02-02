@@ -19,91 +19,171 @@ setwd(parent)
 
 source('runVars.R')
 
-require(RCurl)
-eval( expr = parse( text = getURL(
-    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
-    ssl.verifypeer=FALSE) ))
 softFile = read.design('Data/hugeHumanSoft.tsv')
+softFile = softFile[!is.na(softFile$pH) 
+                    & softFile$platform=='GPL5175'
+                    & !softFile$CDeath=='Cancer',]
 regions = list.files('Data/HumanRegionExpr/',full.names = T)
 regions = regions[!grepl('Mixed',regions)]
 regionExp = read.exp(regions[1])
 corrs = matrix(data=NA, nrow = nrow(regionExp), ncol = len(regions))
+#corrs2 = matrix(data=NA, nrow = nrow(regionExp), ncol = len(regions))
+corrs2 = vector(mode = 'list', length = len(regions))
+
 colnames(corrs)=basename(regions)
 rownames(corrs)=regionExp$Gene_Symbol
+medianExp = matrix(data=NA, nrow = nrow(regionExp), ncol = len(regions))
+colnames(medianExp)=basename(regions)
+rownames(medianExp)=regionExp$Gene_Symbol
 
-
-heatPaletteWideWhite = c(colorRampPalette(c("darkred",'white'))(n = 120)[1:80],
-                         rep('#FFFFFF',55),
-                         colorRampPalette(c('white','blue'))(n=120)[41:120])
+heatPalette = colorRampPalette(c("blue",'white', "darkred"))(n = 15)
+heatPaletteWideWhite = c(colorRampPalette(c("blue",'white'))(n = 6)[1:4],
+                         rep('#FFFFFF',2),
+                         colorRampPalette(c('white','darkred'))(n=6)[3:6])
 load('Data/extremeGenes.RData')
+
+
+table=table(softFile$IndID)
+
+apply(table(softFile$IndID[!softFile$IndID %in% names(table[table==10])],softFile$Region[!softFile$IndID %in% names(table[table==10])]),2,sum)
+softFile = softFile[softFile$IndID %in% names(table[table==10]),]
+
+# for (i in 1:len(patients)){
+ #   print(len(unique(softFile$Region[softFile$IndID  %in% patients[1]])))
+# }
+
 
 ```
 
-Gettind the correlations
+Gettind the correlations and average expressions
 ```{r,echo=FALSE}
 setwd(parent)
 for (i in 1:len(regions)){
     regionExp = read.exp(regions[i])
-    names(regionExp)[4:len(regionExp)] = sub('_.*','',names(regionExp)[4:len(regionExp)] )
+    
+    names(regionExp) = sub('_.*','',names(regionExp))
+    
     relSoft = softFile[softFile$GSM %in% names(regionExp),]
-    corrs[,i]=cor(relSoft$pH, t(regionExp[,4:len(regionExp)])) 
+
+    
+    list[a,b]=sepExpr(regionExp)
+    regionExp = cbind(a,b[names(b) %in% relSoft$GSM])
+    #regionExp[,4:ncol(regionExp)] = regionExp[,names(regionExp) %in% relSoft$GSM]
+    
+    medExp = apply(regionExp[4:len(regionExp)],1,median)
+    medianExp[,i] = medExp
+    
+    
+    corrs[,i] = cor(relSoft$pH, t(regionExp[,4:len(regionExp)]), method= 'spearman') 
+    corrs2[[i]] = cor(t(regionExp[,4:len(regionExp)]))
+    print(i)
 }
 
-corrs= corrs[!is.na(rownames(corrs)),]
+
+# medianExp = medianExp[!is.na(rownames(medianExp)),]
+keep = apply(medianExp,1,max)>6 & !is.na(rownames(medianExp))
+
+corrs22 = lapply(corrs2,function(x){
+    x[keep,keep]
+})
+
+corrs1 = corrs[keep,]
+medianExp1 = medianExp[keep,]
+
 ```
 
 Looking at the correlations of upper and lower %99 interval
 ```{r}
 print('higher')
-quant = quantile(abs(corrs),0.99)
-keep = apply(abs(corrs),1,function(x){any(x>quant)})
-p=heatmap.2(corrs[keep,], trace = "none",#breaks = seq(-1,1,0.01),
-            col = heatPaletteWideWhite, cexCol=1,dendrogram = 'column',symbreaks=T)
+quant = quantile(abs(corrs1),0.99)
+keep = apply(abs(corrs1),1,function(x){any(x>quant)})
+# breaks = quantile(corrs[keep,],c(seq(0,1,0.1)))
+p=heatmap.2(corrs1[keep,], trace = "none",#breaks = breaks,
+            col = heatPaletteWideWhite,
+            cexCol=1,dendrogram = 'column', key = T, symbreaks = T
+            )
 
-quant = quantile(abs(corrs),0.01)
-keep = apply(abs(corrs),1,function(x){any(x>quant)})
+
+heatmap.2(medianExp1[keep,][rev(p$rowInd),p$colInd], trace = "none",# breaks = breaks,
+            col = heatPalette,  Rowv=F,Colv=F,
+            cexCol=1,dendrogram = 'none', key = T, symbreaks = F
+            )
+
+
+quant = quantile(abs(corrs1),0.01)
+keep = apply(abs(corrs1),1,function(x){any(x<quant)})
 print('lower')
-p=heatmap.2(corrs[keep,], trace = "none",#breaks = seq(-1,1,0.01),
-            col = heatPaletteWideWhite, cexCol=1,dendrogram = 'column',symbreaks=T)
+p=heatmap.2(corrs1[keep,], trace = "none",#breaks = seq(-1,1,0.01),
+            col = heatPaletteWideWhite,
+            cexCol=1,dendrogram = 'column',symbreaks=T)
+
+heatmap.2(medianExp1[keep,][rev(p$rowInd),p$colInd], trace = "none",# breaks = breaks,
+            col = heatPalette,  Rowv=F,Colv=F,
+            cexCol=1,dendrogram = 'none', key = T, symbreaks = F
+            )
 ```
 
 
 enrichment analysis for lilah's ![extreme](http://thumbs.dreamstime.com/x/extreme-adventure-mud-logo-graphic-text-20083928.jpg) genes in the upper quantile
 
 ```{r}
-quant = quantile(abs(corrs),0.99)
-keep = apply(abs(corrs),1,function(x){any(x>quant)})
-x=c(sum(genes_GSE538 %in% rownames(corrs[keep,])), 
-    sum(genes_GSE12649 %in% rownames(corrs[keep,])))
+quant = quantile(abs(corrs1),0.95)
+keep = apply(abs(corrs1),1,function(x){any(x>quant)})
+x=c(sum(genes_GSE538 %in% rownames(corrs1[keep,])), 
+    sum(genes_GSE12649 %in% rownames(corrs1[keep,])))
+print('matched genes')
+sum(genes_GSE538 %in% rownames(corrs1[keep,]))
+print('extreme genes')
+sum(rownames(corrs1) %in% genes_GSE538)
+print('total genes')
+nrow(corrs1)
 
-dhyper(sum(genes_GSE538 %in% rownames(corrs[keep,])),
-       sum(rownames(corrs) %in% genes_GSE538),
-       nrow(corrs) - sum(rownames(corrs) %in% genes_GSE538),
+dhyper(sum(genes_GSE538 %in% rownames(corrs1[keep,])),
+       sum(rownames(corrs1) %in% genes_GSE538),
+       nrow(corrs1) - sum(rownames(corrs1) %in% genes_GSE538),
        sum(keep))
 
-dhyper(sum(genes_GSE12649 %in% rownames(corrs[keep,])),
-       sum(rownames(corrs) %in% genes_GSE12649),
-       nrow(corrs) - sum(rownames(corrs) %in% genes_GSE12649),
+print('matched genes')
+sum(genes_GSE12649 %in% rownames(corrs1[keep,]))
+print('extreme genes')
+sum(rownames(corrs1) %in% genes_GSE12649)
+print('total genes')
+nrow(corrs)
+dhyper(sum(genes_GSE12649 %in% rownames(corrs1[keep,])),
+       sum(rownames(corrs1) %in% genes_GSE12649),
+       nrow(corrs1) - sum(rownames(corrs1) %in% genes_GSE12649),
        sum(keep))
 
 ```
 
 Heatmaps of extreme genes
 ```{r}
-heatmap.2(corrs[rownames(corrs) %in% genes_GSE538,] , trace = "none",
+p=heatmap.2(corrs1[rownames(corrs1) %in% genes_GSE538,] , trace = "none",
           col = heatPaletteWideWhite, cexCol=1,dendrogram = 'column')
 
-heatmap.2(corrs[rownames(corrs) %in% genes_GSE12649,] , trace = "none",
+heatmap.2(medianExp1[rownames(medianExp1) %in% genes_GSE538,][rev(p$rowInd),p$colInd],
+          trace = "none",# breaks = breaks,
+            col = heatPalette,  Rowv=F,Colv=F,
+            cexCol=1,dendrogram = 'none', key = T, symbreaks = F
+            )
+
+p=heatmap.2(corrs1[rownames(corrs1) %in% genes_GSE12649,] , trace = "none",
           col = heatPaletteWideWhite, cexCol=1,dendrogram = 'column')
+heatmap.2(medianExp1[rownames(medianExp1) %in% genes_GSE12649,][rev(p$rowInd),p$colInd],
+          trace = "none",# breaks = breaks,
+            col = heatPalette,  Rowv=F,Colv=F,
+            cexCol=1,dendrogram = 'none', key = T, symbreaks = F
+            )
 ```
 
 
 pH correlations of all genes accross regions
 ```{r}
-frame = melt(abs(corrs))
-frame$Var2 = factor (frame$Var2,levels = names(sort(apply(abs(corrs),2,mean),decreasing=T)))
+require(reshape2)
+frame = melt(abs(corrs1))
+frame$X2 = factor (frame$X2,levels = names(sort(apply(abs(corrs1),2,mean),decreasing=T)))
 
-lePlot = ggplot(frame,aes(x=Var2, y = value)) +
+lePlot = ggplot(frame,aes(x=X2, y = value)) +
     geom_violin( color="#C4C4C4", fill="#C4C4C4") + 
     geom_boxplot(width=0.1,fill = 'lightblue') + 
     scale_y_continuous(name="Correlations to pH") +
@@ -115,19 +195,49 @@ lePlot = ggplot(frame,aes(x=Var2, y = value)) +
           axis.text.y = element_text(size = 13))
 
 (lePlot)
+```
+
+expression accross all regions
+```{r}
+
+frame = melt(abs(medianExp1))
+frame$X2 = factor (frame$X2,levels = names(sort(apply(abs(corrs1),2,mean),decreasing=T)))
+
+lePlot = ggplot(frame,aes(x=X2, y = value)) +
+    geom_violin( color="#C4C4C4", fill="#C4C4C4") + 
+    geom_boxplot(width=0.1,fill = 'lightblue') + 
+    scale_y_continuous(name="log2 expression") +
+    theme_bw() + 
+    theme(axis.text.x  = element_text(size=20,angle=90),
+          axis.title.y = element_text(vjust=0.5, size=25),
+          axis.title.x = element_text(vjust=0.5, size=0) ,
+          title = element_text(vjust=0.5, size=25),
+          axis.text.y = element_text(size = 13))
+
+(lePlot)
+```
+
+```{r}
+corrs222 = lapply(corrs22,function(x){x[lower.tri(x)]})
+corrs222= as.data.frame(corrs222)
+corrs222 = lapp
+for (i in corrs2){
+    unlist(corrs2[[i]])
+}
+
 ```
 
 
 pH correlations of top %99 quantile
 
 ```{r}
-quant = quantile(abs(corrs),0.99)
-keep = apply(abs(corrs),1,function(x){any(x>quant)})
+quant = quantile(abs(corrs1),0.99)
+keep = apply(abs(corrs1),1,function(x){any(x>quant)})
 
-frame = melt(abs(corrs[keep,]))
-frame$Var2 = factor (frame$Var2,levels = names(sort(apply(abs(corrs),2,mean),decreasing=T)))
+frame = melt(abs(corrs1[keep,]))
+frame$X2 = factor (frame$X2,levels = names(sort(apply(abs(corrs1[keep,]),2,mean),decreasing=T)))
 
-lePlot = ggplot(frame,aes(x=Var2, y = value)) +
+lePlot = ggplot(frame,aes(x=X2, y = value)) +
     geom_violin( color="#C4C4C4", fill="#C4C4C4") + 
     geom_boxplot(width=0.1,fill = 'lightblue') + 
     scale_y_continuous(name="Correlations to pH") +
@@ -140,3 +250,91 @@ lePlot = ggplot(frame,aes(x=Var2, y = value)) +
 
 (lePlot)
 ```
+
+expressions of top %99 quantile
+
+```{r}
+quant = quantile(abs(corrs),0.99)
+keep = apply(abs(corrs),1,function(x){any(x>quant)})
+
+frame = melt(abs(medianExp[keep,]))
+frame$X2 = factor (frame$X2,levels = names(sort(apply(abs(corrs[keep,]),2,mean),decreasing=T)))
+
+lePlot = ggplot(frame,aes(x=X2, y = value)) +
+    geom_violin( color="#C4C4C4", fill="#C4C4C4") + 
+    geom_boxplot(width=0.1,fill = 'lightblue') + 
+    scale_y_continuous(name="log2 expression") +
+    theme_bw() + 
+    theme(axis.text.x  = element_text(size=20,angle=90),
+          axis.title.y = element_text(vjust=0.5, size=25),
+          axis.title.x = element_text(vjust=0.5, size=0) ,
+          title = element_text(vjust=0.5, size=25),
+          axis.text.y = element_text(size = 13))
+
+(lePlot)
+```
+
+
+Now to pH correlations of known marker genes. Temporarily I'm using the old genes because the new ones look weird now (just 3 genes for pyramidals... makes me sad)
+```{r}
+setwd(parent)
+source('puristOut.R')
+sourceGithub('OganM',toSource,homologene)
+cortexGenes = puristOut("Data/BackupData/19 Jan Exp Backup/lilahSelect/Relax/Cortex_GabaDeep")
+
+humanCortex = lapply(cortexGenes,mouse2human)
+
+geneCors = vector(mode='list',length=len(humanCortex))
+for (i in 1:len(humanCortex)){
+    geneCors[[i]] =  corrs[rownames(corrs) %in% humanCortex[[i]]$humanGene,]
+    heatmap.2( geneCors[[i]], trace = "none",
+          col = heatPaletteWideWhite, cexCol=1,dendrogram = 'column',main =names(humanCortex[i]),symbreaks = T)
+
+}
+```
+
+Or look at their enrichment at the upper quantiles and see which ones are there
+```{r}
+setwd(parent)
+
+quant = quantile(abs(corrs),0.99)
+keep = apply(abs(corrs),1,function(x){any(x>quant)})
+
+for (i in 1:len(humanCortex)){
+    print(names(humanCortex[i]))
+    x=sum(humanCortex[[i]]$humanGene %in% rownames(corrs[keep,]))
+    print('how many are there?')
+    print(sum(humanCortex[[i]]$humanGene %in% rownames(corrs[keep,])))
+    print("is it enriched?")
+    print(dhyper(sum(humanCortex[[i]]$humanGene %in% rownames(corrs[keep,])),
+           sum(rownames(corrs) %in% humanCortex[[i]]$humanGene),
+           nrow(corrs) - sum(rownames(corrs) %in% humanCortex[i]$humanGene),
+           sum(keep)))
+    }
+```
+chicken or egg...
+
+PC1 correlation to pH in cortex
+```{r}
+setwd(parent)
+
+regionExp = read.exp(grep('cerebellar cortex',regions,value=T))
+names(regionExp)[4:len(regionExp)] = sub('_.*','',
+                                             names(regionExp)[4:len(regionExp)])
+relSoft = softFile[softFile$GSM %in% names(regionExp),]
+for (i in 1:len(humanCortex)){
+    relevant = regionExp[regionExp$Gene_Symbol %in% humanCortex[[i]]$humanGene,]
+    list[relGene, relExpr] = sepExp(relevant)
+    pca = prcomp(t(relExpr), scale = T)
+    pca$rotation = pca$rotation * ((sum(pca$rotation[,1])<0)*(-2)+1)
+    pca$x = t(as.matrix(t(scale(t(relExpr))))) %*% as.matrix(pca$rotation)
+    frame = data.frame(PC1=pca$x[,1], pH = relSoft$pH)
+    frame = frame[!frame$pH<5.5,]
+    print(summary(lm(PC1 ~ pH, data = frame))$adj.r.squared)
+    p=ggplot(frame, aes(y = PC1, x = pH))+geom_point()+  geom_smooth(method='lm') + ggtitle(names(humanCortex)[i])
+    plot(p)
+    }
+
+````
+
+
