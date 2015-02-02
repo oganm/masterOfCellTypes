@@ -17,9 +17,8 @@ heatUp = function(expLoc,
     #heatColors is a list
     allDataPre = read.csv(expLoc, header = T)
     design = read.table(designLoc,header=T,sep='\t')
-
-    geneData = allDataPre[, 1:3]
-    exprData = allDataPre[, 4:ncol(allDataPre)]
+    list[geneData, exprData] = sepExpr(allDataPre)
+    
 
     if (!all(colnames(exprData) %in% make.names(design$sampleName))){
         print('Unless you are rotating samples, something has gone terribly wrong!')
