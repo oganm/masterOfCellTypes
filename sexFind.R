@@ -1,10 +1,14 @@
+require(RCurl)
+eval( expr = parse( text = getURL(
+    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
+    ssl.verifypeer=FALSE) ))
+
 sexFind = function(input, output, expr){
 
     allDataPre = read.csv(expr, header = T)
     design = read.table(input,header=T,sep='\t',quote='"')
 
-    geneData = allDataPre[,1:3]
-    exprData = allDataPre[,4:ncol(allDataPre)]
+    list[geneData, exprData] = sepExpr(allDataPre)
 
     design = design[match(colnames(exprData),make.names(design$sampleName)),]
 

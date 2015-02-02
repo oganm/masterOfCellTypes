@@ -1,16 +1,20 @@
-quantileNorm = function(whichFile,outFile){
+quantileNorm = function(whichFile,outFile=NULL){
     require(preprocessCore)
-
-    allDataPre = read.csv(whichFile, header = T)
-
-    geneData = allDataPre[,1:3]
-    exprData = allDataPre[,4:ncol(allDataPre)]
+    if (is.character(whichFile)){
+        allDataPre = read.csv(whichFile, header = T)
+    } else{
+        allDataPre = whichFile
+    }
+    
+    list[geneData,exprData]= sepExpr(allDataPre)
+    
     newExprData = normalize.quantiles(as.matrix(exprData))
-    boxplot(newExprData)
+    # boxplot(newExprData)
     newExprData = as.data.frame(newExprData)
     colnames(newExprData) = colnames(exprData)
     newAllData = cbind(geneData, newExprData)
-    write.csv(newAllData, file = outFile, row.names=FALSE)
+    if(is.character(outFile)){
+        write.csv(newAllData, file = outFile, row.names=FALSE)
+    }
+    invisible(newAllData)
 }
-
-
