@@ -3,7 +3,8 @@ eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
     ssl.verifypeer=FALSE) ))
 source('puristOut.R')
-
+require('reshape2')
+require(ggplot2)
 # for human regions ------
 puristList = puristOut('Data/RotSel/Relax/Cortex_GabaDeep/')
 # filtering shit for human data
@@ -41,6 +42,9 @@ bipolExp = read.exp('Data/BipolData/Bipol.csv')
 bipolDes = read.design('Data/BipolData/BipolDes.tsv')
 puristList = puristOut('Data/RotSel/Relax/Cortex_GabaDeep/')
 
+bipolExp = bipolExp[,!names(bipolExp) %in% c('BP_18', 'BP_11', 'BP_10', 'Cont_27', 'BP_5')]
+bipolDes = bipolDes[!bipolDes$characteristics %in% c('BP_18', 'BP_11', 'BP_10', 'Cont_27', 'BP_5'),]
+
 fullEstimate(bipolExp,
              genes=puristList,
              geneColName="Gene.Symbol",
@@ -49,11 +53,16 @@ fullEstimate(bipolExp,
              seekConsensus=F,
              groupRotations=T,
              outlierSampleRemove=T,
-             controlBased='Cont')
+             controlBased='Cont',
+             pAdjMethod='none')
 
 
 bipolSczExp =  read.exp('Data/BipolData/BipolScz.csv')
 bipolSczDes = read.design('Data/BipolData/BipolSczDes.tsv')
+
+bipolSczExp = bipolSczExp[,!names(bipolSczExp) %in% c('BP_23', 'Cont_30', 'BP_12', 'Cont_34')]
+bipolSczDes = bipolSczDes[!bipolSczDes$characteristics %in% c('BP_23', 'Cont_30', 'BP_12', 'Cont_34'),]
+
 
 fullEstimate(bipolSczExp,
              genes=puristList,
@@ -63,7 +72,8 @@ fullEstimate(bipolSczExp,
              seekConsensus=F,
              groupRotations=T,
              outlierSampleRemove=T,
-             controlBased='Cont')
+             controlBased='Cont',
+             pAdjMethod='none')
 
 
 # scz bipolar not control based
@@ -76,7 +86,8 @@ fullEstimate(bipolExp,
              seekConsensus=F,
              groupRotations=T,
              outlierSampleRemove=T,
-             controlBased=NA)
+             controlBased=NA,
+             pAdjMethod='none')
 
 fullEstimate(bipolSczExp,
              genes=puristList,
@@ -86,4 +97,5 @@ fullEstimate(bipolSczExp,
              seekConsensus=F,
              groupRotations=T,
              outlierSampleRemove=T,
-             controlBased=NA)
+             controlBased=NA,
+             pAdjMethod='none')
