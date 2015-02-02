@@ -18,7 +18,8 @@ fullEstimate = function(exprData,
                         seekConsensus=F,
                         groupRotations=F,
                         outlierSampleRemove=T,
-                        controlBased = NA
+                        controlBased = NA,
+                        pAdjMethod = p.adjust.methods
 ){
     estimates = cellTypeEstimate(exprData=exprData,
                                  genes=genes,
@@ -42,7 +43,8 @@ fullEstimate = function(exprData,
     
     plotEstimates(estimates$estimates,estimates$groups,
                   paste0(outDir,
-                         names(estimates$estimates),'.svg'))
+                         names(estimates$estimates),'.svg'),
+                  pAdjMethod = pAdjMethod)
     
 }
 
@@ -225,11 +227,11 @@ cellTypeEstimate = function(exprData,
             pca = prcomp(t(relevantExpr[groups %in% controlBased]), scale = T)
         }
 
-        
+        # get the final rotations, make sure everything is positive
         pca$rotation = pca$rotation * ((sum(pca$rotation[,1])<0)*(-2)+1)
         
         
-        
+        # output the rotation tables
         if (!is.na(tableOut[1])){
             
             # add variation explained as a comment on top
