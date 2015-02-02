@@ -17,7 +17,13 @@ allPuristOut = function(genesLoc,lilah=F,prop='*'){
 
 puristOut = function(geneLoc, lilah = F){
     filenames = list.files(geneLoc,include.dirs = FALSE)
-    fileContents = lapply(paste0(geneLoc,'/', filenames), read.table)
+    fileContents = lapply(paste0(geneLoc,'/', filenames), function(x){
+        tryCatch(
+            read.table(x),
+            error = function(e){
+                NULL
+            })
+    })
     geneList = vector(mode = 'list', length = length(fileContents))
     names(geneList) = filenames
     
