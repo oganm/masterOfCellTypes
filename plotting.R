@@ -23,11 +23,12 @@ loadCellTypes = function(correlate=F){
     }
     registerDoMC(cores)
     allDataPre = read.csv(paste0(outFolder,'/',finalExp), header = T)
-    mouseGene = allDataPre[,1:3]
-    mouseExpr = allDataPre[,4:ncol(allDataPre)]
+    allDataPre = allDataPre[!grepl('[|]',allDataPre$Gene.Symbol),]
+    list[mouseGene, mouseExpr]=sepExpr(allDataPre)
     rm(allDataPre)
     mouseDes = read.table('Data/meltedDesign.tsv',header=T,sep='\t', stringsAsFactors=F)
     mouseDes = mouseDes[match(colnames(mouseExpr),make.names(mouseDes$sampleName),),]
+    
     rownames(mouseExpr) = mouseGene$Gene.Symbol
     
     mouseExpr <<- mouseExpr
@@ -215,5 +216,14 @@ plotHumans = function(genes,prop='Region',mouse=F){
 }
 
 
-
+plotSimple = function(expData, design, gene=NULL,probeset=NULL){
+    list[geneData,exprData]=sepExpr(expData)
+    toPlot = data.frame(t(exprData[geneData$Gene.Symbol %in% gene,]), design)
+    names(toPlot) = c('gene','group')
+    toPlot[,1] = as.numeric(as.character(toPlot[,1]))
+    p = ggplot(toPlot, aes(x =group,y=gene)) + geom_point() + 
+        ylab(paste(gene,"log2 expression")) +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1, size =20))
+    (p)
+}
 
