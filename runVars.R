@@ -7,11 +7,23 @@ eval( expr = parse( text = getURL(
 # getGemmaAnnotGoogle('GPL339','Data/GPL339Annotation')
 
 read.design  = function(x){
-    read.table(x,header=T,sep='\t',stringsAsFactors=F)
+    read.table(x,header=T,sep='\t',stringsAsFactors=F,quote="")
 }
 
 read.exp = function(x){
     read.csv(x,header = T,stringsAsFactors=F)
+}
+
+sepExpr = function(allDataPre){
+    for (i in 1:ncol(allDataPre)){
+        if ('double'==typeof(allDataPre[,i])){
+            expBound = i
+            break
+        }
+    }
+    geneData = allDataPre[,1:(expBound-1)]
+    exprData = allDataPre[,expBound:ncol(allDataPre)]
+    return(list(geneData,exprData))
 }
 
 # for loading and normalization -----
@@ -22,12 +34,13 @@ celRegex='(GSM.*?(?=,|$))|(PC\\d....)|(Y[+].*?((?=(,))|\\d+))|((?<=:)|(?<=[,]))A
 celDir ='cel'
 outFolder='Data'
 namingCol = 'Normalize'
+namingCol2='Normalize2.0'
 tinyChip = 'mouse430a2.db'
 skipNorm = T
 # for gene selection -----
 geneOut = 'Data/Fold'
 geneOutIndex = 'Data/Index'
-groupNames = c('CellType', 'GabaDeep', 'forContanim')
+groupNames = c('GabaDeep','PyramidalDeep','JustPyra')
 contanimName = 'forContanim'
 regionNames = 'Region'
 rotationOut = 'Data/Rotation'
