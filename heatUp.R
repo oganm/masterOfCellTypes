@@ -16,7 +16,7 @@ heatUp = function(expLoc,
                   Rowv = T, Colv = T,...){
     #heatColors is a list
     allDataPre = read.csv(expLoc, header = T)
-    design = read.table(designLoc,header=T,sep='\t')
+    design = read.design(designLoc)
     list[geneData, exprData] = sepExpr(allDataPre)
     
 
@@ -95,8 +95,8 @@ heatUp = function(expLoc,
         exprData=exprData[geneData$Gene.Symbol %in% geneList,]
         geneData=geneData[geneData$Gene.Symbol %in% geneList,]
         
-        exprData = exprData[match(geneList, geneData$Gene.Symbol), ]
-        geneData = geneData[match(geneList, geneData$Gene.Symbol),]
+        # exprData = exprData[match(geneList, geneData$Gene.Symbol), ]
+        # geneData = geneData[match(geneList, geneData$Gene.Symbol),]
     }
     
     if (correlate == T){
