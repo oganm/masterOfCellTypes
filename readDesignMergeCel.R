@@ -93,8 +93,8 @@ readDesignMergeCel = function (desFile, namingCol, celRegex, celDir,tinyChip, ex
     
     #expr = expr[match(make.names(design$sampleName)]
     
-    design[match(colnames(exprData),make.names(design$sampleName),),]
-    
+    exp = exp[,match(make.names(newDesign$sampleName),make.names(colnames(exp)))]
+    aned = cbind(genes,exp)
     write.csv(aned, expFile, row.names=FALSE)
     
 }
