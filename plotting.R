@@ -11,7 +11,7 @@ loadCellTypes = function(correlate=F){
     system(paste0('gunzip ',outFolder,'/',qnormExp))
     system(paste0('gunzip ',outFolder,'/','rmaExp.csv'))
     
-    cores = 8
+    cores = 1
     require(foreach)
     require(doMC)
     require(parallel)
@@ -22,11 +22,11 @@ loadCellTypes = function(correlate=F){
         print(paste('set core no to',cores))
     }
     registerDoMC(cores)
-    allDataPre = read.csv(paste0(outFolder,'/',finalExp), header = T)
+    allDataPre = read.csv(paste0(outFolder,'/',finalExp), header = T)    
     allDataPre = allDataPre[!grepl('[|]',allDataPre$Gene.Symbol),]
     list[mouseGene, mouseExpr]=sepExpr(allDataPre)
     rm(allDataPre)
-    mouseDes = read.table('Data/meltedDesign.tsv',header=T,sep='\t', stringsAsFactors=F)
+    mouseDes = read.design('Data/meltedDesign.tsv')
     mouseDes = mouseDes[match(colnames(mouseExpr),make.names(mouseDes$sampleName),),]
     
     rownames(mouseExpr) = mouseGene$Gene.Symbol
@@ -124,8 +124,7 @@ plotAll = function(genes, coloring, prop){
 }
 
 
-
-plotSingle = function(gene, prop, coloring, region, field = 'Gene.Symbol',data=c('final','qNorm','rma')){
+plotSingle = function(gene, prop, coloring, region, field = 'Gene.Symbol',data=c('final','qNorm','rma'), filename = NULL){
     
     if (data[1]=='final'){
         mouseExpr = mouseExpr[,!is.na(mouseDes[,prop])]
@@ -178,9 +177,12 @@ plotSingle = function(gene, prop, coloring, region, field = 'Gene.Symbol',data=c
         p = p +  scale_shape_manual(values=c(0:10,35,12:18)) # someone will call me antisemite for this...
         p = p +  theme(legend.box = "horizontal")
     }
+
     
+    if (!is.null(filename)){
+        ggsave(file= filename,plot = p ,height = 8, width = 10)
+    }
     (p)
-    
 }
 
 
@@ -218,12 +220,20 @@ plotHumans = function(genes,prop='Region',mouse=F){
 
 plotSimple = function(expData, design, gene=NULL,probeset=NULL){
     list[geneData,exprData]=sepExpr(expData)
-    toPlot = data.frame(t(exprData[geneData$Gene.Symbol %in% gene,]), design)
+    if (is.null(probeset)){
+        toPlot = data.frame(t(exprData[geneData$Gene.Symbol %in% gene,]), design)
+        yTitle  = ylab(paste(gene,"log2 expression"))
+    }
+    if (is.null(gene)){
+        toPlot = data.frame(t(exprData[geneData$Probe %in% probeset,]), design)
+        yTitle  = ylab(paste(probeset,"log2 expression"))
+    }
     names(toPlot) = c('gene','group')
     toPlot[,1] = as.numeric(as.character(toPlot[,1]))
     p = ggplot(toPlot, aes(x =group,y=gene)) + geom_point() + 
-        ylab(paste(gene,"log2 expression")) +
+        yTitle +
         theme(axis.text.x = element_text(angle = 90, hjust = 1, size =20))
+    
     (p)
 }
 
