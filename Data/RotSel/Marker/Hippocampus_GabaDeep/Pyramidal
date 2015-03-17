@@ -1,11 +1,11 @@
 Dcn	1
-Fezf2	0.22
+Fezf2	0.33
 Grp	1
 Ldb2	1
-Neurod6	0.01
+Neurod6	0.05
 Nov	1
-Npr3	0.946
-Nr4a2	0.996
+Npr3	0.98
+Nr4a2	1
 Pde1a	1
-Rspo2	0.1
-Sorcs3	1
+Rasgrp1	0.324
+Sorcs3	0.76
