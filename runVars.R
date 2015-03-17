@@ -6,6 +6,10 @@ eval( expr = parse( text = getURL(
 
 # getGemmaAnnotGoogle('GPL339','Data/GPL339Annotation')
 
+write.design = function(x, file){
+    write.table(x,file= file, sep = '\t', quote=F, row.names = F)
+}
+
 read.design  = function(x){
     read.table(x,header=T,sep='\t',stringsAsFactors=F,quote="")
 }
@@ -63,17 +67,17 @@ qnormExp= 'qnormExp.csv'
 
 #  for heatMap ----
 heatFile = 'images/heatmap.png'
-heatProps = c('CellType',
+heatProps = c('GabaDeep',
               'MajorType',
               'Reference',
               'Age')
-heatGenes = 'CellType'
+heatGenes = 'GabaDeep'
 heatPalette = colorRampPalette(c("darkred",'white', "blue"))(n = 1000)
 # long coloring var for heatmap. modify to your heart's content ----
 # extra cell types will not cause problems if in list
 namingColors = c(method = 'direct',
                  legendLoc = 'bottomleft',
-                 cex = 1.5,
+                 cex = 2.3,
                  Oligo = 'darkgreen',
                  Bergmann = 'palegreen',
                  MotorCholin = 'darkorange4',
@@ -88,7 +92,7 @@ namingColors = c(method = 'direct',
                  CerebGranule = 'thistle',
                  DentateGranule = 'thistle3',
                  Microglia = 'white',
-                 Gaba = 'firebrick4',
+                 # Gaba = 'firebrick4',
                  Astrocyte = 'yellow',
                  GabaPV = 'firebrick2',
                  Stem = 'blue' ,
@@ -96,16 +100,20 @@ namingColors = c(method = 'direct',
                  Serotonergic = 'darkolivegreen',
                  Hypocretinergic = 'cadetblue',
                  Dopaminergic = 'gray0',
-                 Th_positive_LC = 'blueviolet')
+                 Th_positive_LC = 'blueviolet',
+                 GabaVIPReln = 'firebrick4',
+                 GabaRelnCalb = 'firebrick3',
+                 GabaSSTReln = 'firebrick1',
+                 GabaReln = 'firebrick')
 
 
 ageColors = c(method = 'gradFactor', lo = 'blue', hi = 'red',
               legendLoc = 'bottomright',factorOrd = NA,
-              cex = 1.5)
+              cex = 2.3)
 
 typeColors = c(method = 'def', legendLoc = 'none')
 
-refColors = c(method = 'def', legendLoc = 'topleft', cex = 1.5)
+refColors = c(method = 'def', legendLoc = 'topleft', cex = 2.3)
 # names are not important
 heatColors = list(CellType = namingColors, typeColors = typeColors, Reference = refColors, Age = ageColors)
 
