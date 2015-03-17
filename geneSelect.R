@@ -78,7 +78,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
     }
 
     # data prep. you transpose exprData -----
-    design = read.table(designLoc,header=T,sep='\t')
+    design = read.design(designLoc)
     
     allDataPre = read.csv(exprLoc, header = T)
     list[geneData, exprData] = sepExpr(allDataPre)
