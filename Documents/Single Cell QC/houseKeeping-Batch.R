@@ -5,19 +5,33 @@ require(gplots)
 require(reshape2)
 source('plotting.R')
 require('VennDiagram')
+require(stringr)
+source('runVars.R')
 # load our data ----
 loadCellTypes()
 
 
 # load RNA seq data -------------
-rnaSeq = read.table('Data/modGSE60361LOL', sep = '\t')
-rnaGenes = rnaSeq[2:nrow(rnaSeq),1]
-rnaExp = as.matrix(rnaSeq[2:nrow(rnaSeq),3:ncol(rnaSeq)])
-class(rnaExp) = 'numeric'
-rnaCelIDs = rnaSeq[2:nrow(rnaSeq),2]
-rnaCelIDs = as.double(as.character((rnaCelIDs)))
-colnames(rnaExp) = unlist(rnaSeq[1,2:(ncol(rnaSeq)-1),drop=T])
-rownames(rnaExp) =  rnaSeq[2:nrow(rnaSeq),1]
+# rnaSeq = read.table('Data/modGSE60361LOL', sep = '\t')
+# rnaGenes = rnaSeq[2:nrow(rnaSeq),1]
+# rnaExp = as.matrix(rnaSeq[2:nrow(rnaSeq),3:ncol(rnaSeq)])
+# class(rnaExp) = 'numeric'
+# rnaCelIDs = rnaSeq[2:nrow(rnaSeq),2]
+# rnaCelIDs = as.double(as.character((rnaCelIDs)))
+# colnames(rnaExp) = unlist(rnaSeq[1,2:(ncol(rnaSeq)-1),drop=T])
+# rownames(rnaExp) =  rnaSeq[2:nrow(rnaSeq),1]
+
+rnaSeq = read.table('Data/expression_mRNA_17-Aug-2014.txt', sep= '\t', comment.char= "",stringsAsFactors=F)
+rnaMeta = rnaSeq[1:10,3:ncol(rnaSeq)]
+rnaMeta = as.data.frame(t(rnaMeta))
+colnames(rnaMeta) = rnaSeq[1:10,2]
+
+rnaExp = rnaSeq[12:nrow(rnaSeq),3:ncol(rnaSeq)]
+rnaExp = apply(rnaExp,2,as.numeric)
+rnaExp = matrix(unlist(rnaExp), nrow = nrow(rnaExp))
+rownames(rnaExp) = rnaSeq[12:nrow(rnaSeq),1]
+rnaCelIDs = as.numeric(as.character(rnaSeq[12:nrow(rnaSeq), 2]))
+
 rnaExpAll = rnaExp 
 # remove low expressed ones
 maximExp = apply(rnaExp,1,max)
@@ -110,19 +124,22 @@ phyper(q = len(intersect(abaKeep,ourKeep)),
 # check batch effects in RNA seq data -------------------------
 genes = list(all=rn(rnaExpCeil),abaKeep=abaKeep,ourKeep=ourKeep,mouseKeep= mouseKeep)
 
-
-
-batches  = as.numeric(factor(str_extract(colnames(rnaExp),perl('.*?(?=_)'))))
+batches = as.numeric(factor(str_extract(rnaMeta$cell_id,perl('.*?(?=_)'))))
+rnaMeta$batches = batches
+# batches  = as.numeric(factor(str_extract(colnames(rnaExp),perl('.*?(?=_)'))))
 cors = matrix(NA,nrow = 4 , ncol = 5)
 rownames(cors) = names(genes)
 
-for (j in 2:len(genes)){
+for (j in 1:len(genes)){
+    relevant = rnaExpCeil[rownames(rnaExpCeil) %in% genes[[j]],rnaMeta$tissue %in% 'ca1hippocampus']
+    keep = apply(relevant,1,function(x){max(x)>0})
+    relevant= relevant[keep,]
     pcaHouse = prcomp (
-        t(rnaExpCeil[rownames(rnaExpCeil) %in% genes[[j]],]),
+        t(relevant),
         scale = T)
     
     for (i in 1:5){
-        toAov = data.frame(comp = pcaHouse$x[,i], batches)
+        toAov = data.frame(comp = pcaHouse$x[,i], rnaMeta$batches[rnaMeta$tissue %in% 'ca1hippocampus',])
         corRes = cor.test(toAov[,1],as.numeric(factor(toAov[,2])),method='spearman')
         print(i)
         print(corRes$estimate)
@@ -132,7 +149,70 @@ for (j in 2:len(genes)){
         #print(summary(a))
     }
 }
-svg('PC-MouseKeep')
+svg('Documents/Single Cell QC/PC-MouseKeepHippocampus.svg')
 heatmap.2(abs(cors[,]),trace='none',dendrogram='none',Rowv=F,Colv=F,cexRow=1,
           main = 'PC correlations to housekeeping gene lists')
 dev.off()
+
+cors = matrix(NA,nrow = 4 , ncol = 5)
+rownames(cors) = names(genes)
+
+# cortex
+for (j in 1:len(genes)){
+    relevant = rnaExpCeil[rownames(rnaExpCeil) %in% genes[[j]],rnaMeta$tissue %in% 'sscortex']
+    keep = apply(relevant,1,function(x){max(x)>0})
+    relevant= relevant[keep,]
+    pcaHouse = prcomp (
+        t(relevant),
+        scale = T)
+    
+    for (i in 1:5){
+        toAov = data.frame(comp = pcaHouse$x[,i], rnaMeta$batches[rnaMeta$tissue %in% 'sscortex',])
+        corRes = cor.test(toAov[,1],as.numeric(factor(toAov[,2])),method='spearman')
+        print(i)
+        print(corRes$estimate)
+        print(corRes$p.value)
+        cors[j,i] = corRes$estimate
+        #a=aov(comp~batches,toAov)
+        #print(summary(a))
+    }
+}
+svg('Documents/Single Cell QC/PC-MouseKeepHippocampus.svg')
+heatmap.2(abs(cors[,]),trace='none',dendrogram='none',Rowv=F,Colv=F,cexRow=1,
+          main = 'PC correlations to housekeeping gene lists')
+dev.off()
+# batch counts -----------------
+counts = table(rnaMeta[rnaMeta$tissue %in% 'sscortex',c('batches','level1class')])
+counts = counts[,apply(counts,2,sum)>0]
+svg(paste0('Documents/Single Cell QC/','cortexAll','.svg'))
+cellTypePal = toColor(cn(counts),c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"))
+barplot(t(counts[,]),col= cellTypePal$col)
+legend('topright',legend = names(cellTypePal$palette), fill = cellTypePal$palette)
+dev.off()
+
+sapply(1:ncol(counts),function(x){
+    svg(paste0('Documents/Single Cell QC/','cortex-',cn(counts)[x],'.svg'))
+    toPlot = rbind(counts[,x], apply(counts,1,sum)-counts[,x])
+    barplot(toPlot,main =paste('cortex', cn(counts)[x]), beside = F, col = c('red','gray'),space=0.5)
+    legend('topleft',legend = c('all cells',paste0()))
+    dev.off()
+    
+    })
+
+
+counts = table(rnaMeta[rnaMeta$tissue %in% 'ca1hippocampus',c('batches','level1class')])
+counts=counts[,apply(counts,2,sum)>0]
+svg(paste0('Documents/Single Cell QC/','hippocampus-all','.svg'))
+cellTypePal = toColor(cn(counts),c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"))
+barplot(t(counts[,]),col= cellTypePal$col)
+legend('topright',legend = names(cellTypePal$palette), fill = cellTypePal$palette)
+dev.off()
+
+sapply(1:ncol(counts),function(x){
+    svg(paste0('Documents/Single Cell QC/','hippocampus-',cn(counts)[x],'.svg'))
+    toPlot = rbind(counts[,x], apply(counts,1,sum)-counts[,x])
+    barplot(toPlot,main =paste('hippocampus', cn(counts)[x]), beside = F, col = c('red','gray'),space=0.5)
+    dev.off()
+    
+})
+
