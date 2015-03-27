@@ -63,6 +63,10 @@ tresholds = sapply(gaus,function(x){
     prob2=pnorm(0:max(x$x),mean = x$mu[2], x$sigma[2],lower.tail=T)
     return(min(which(prob2>prob1)))
  })
- 
-write.table(tresholds,file='Data/RNASeq/tresholds')
+
+tresholds = data.frame(tresholds)
+rownames(tresholds)  =rn(rnaExpAll)
+
+
+write.table(tresholds,file='Data/RNASeq/tresholds',col.names=F,row.names=F)
 
