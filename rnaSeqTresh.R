@@ -38,7 +38,7 @@ registerDoMC(cores)
 gaus = foreach(x = 1:nrow(rnaExpAll)) %dopar% {
     print(x)
     tryCatch({
-        normalmixEM(rnaExp[x,],maxrestarts=5, verb = F)
+        normalmixEM(rnaExpAll[x,],maxrestarts=5, verb = F)
     }, error = function(e){
         return(NA)
     })
@@ -64,8 +64,8 @@ tresholds = sapply(gaus,function(x){
     return(min(which(prob2>prob1)))
  })
 
-tresholds = data.frame(tresholds)
-rownames(tresholds)  =rn(rnaExpAll)
+tresholds = as.matrix(tresholds)
+rownames(tresholds) = rn(rnaExpAll)
 
 
 write.table(tresholds,file='Data/RNASeq/tresholds',col.names=F,row.names=F)
