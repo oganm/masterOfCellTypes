@@ -2,33 +2,37 @@ require(RCurl)
 eval( expr = parse( text = getURL(
     "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
     ssl.verifypeer=FALSE) ))
+source('predictAmount.R')
 source('puristOut.R')
+source('runVars.R')
 require('reshape2')
 require(ggplot2)
+source('mostVariable.R')
 # for human regions ------
 puristList = puristOut('Data/RotSel/Relax/Cortex_GabaDeep/')
 # filtering shit for human data
 softFile = read.design('Data/hugeHumanSoft.tsv')
-softExpr = read.exp('Data/HumanRegionExpr/cortex-white')
+softExpr = read.exp('Data/HumanRegionExpr/Mixed/cortex-white')
 
 names(softExpr)[4:len(softExpr)] = sub('_.*','',names(softExpr)[4:len(softExpr)] )
 # determine groups based on sample names from soft file
-groups = softFile$Region[match( names(softExpr)[4:len(softExpr)], softFile$GSM)]
+list[softGenes,softExp] = sepExpr(softExpr)
+groups = softFile$Region[match(names(softExp), softFile$GSM)]
 
 
-medExpr = median(unlist(softExpr[4:len(softExpr)]))
-keep = apply(softExpr[4:len(softExpr)],1,function(row){
+medExpr = median(unlist(softExp))
+keep = apply(softExp,1,function(row){
     return(mean(row[groups %in% unique(groups)[1]])>medExpr & mean(row[groups %in% unique(groups)[2]])>medExpr)
 })
-
-mostVarSoft = mostVariable(softExpr,'Gene_Symbol')
+softExpr=softExpr[keep,]
+mostVarSoft = mostVariable(softExpr,'Gene.Symbol')
 
 
 
 
 fullEstimate(mostVarSoft,
              genes=puristList,
-             geneColName="Gene_Symbol",
+             geneColName="Gene.Symbol",
              groups=groups,
              outDir='Data/Estimates/Cortex-White/',
              seekConsensus=T,

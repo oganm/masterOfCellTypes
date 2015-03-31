@@ -78,7 +78,7 @@ plotEstimates = function(estimates,groups,plotNames, sigTest =  wilcox.test,
     for (i in 1:len(estimates)) {
         
         for (j in 1:ncol(comparisons)){
-            pList[i, j] = sig.test(estimates[[i]][groups[[i]] %in% comparisons[1,j]],
+            pList[i, j] = sigTest(estimates[[i]][groups[[i]] %in% comparisons[1,j]],
                                    estimates[[i]][groups[[i]] %in% comparisons[2,j]])$p.value
         }
     }
@@ -192,7 +192,7 @@ cellTypeEstimate = function(exprData,
             next
         }
         rownames(relevantData) = relevantData[, geneColName]
-        relevantExpr = relevantData[4:len(relevantData)]
+        list[,relevantExpr] = sepExpr(relevantData)
         
         
         if (!is.na(indivGenePlot[1])){
@@ -298,7 +298,7 @@ groupRotations = function(exprData, genes,geneColName, groups, outDir,
         }
     
         rownames(relevantData) = relevantData[, geneColName]
-        relevantExpr = relevantData[4:len(relevantData)]
+        list[,relevantExpr] = sepExpr(relevantData)
         
         for (j in 1:len(unique(groups))){
             pca = prcomp(t(relevantExpr[groups %in% unique(groups)[j]]), scale = T)
