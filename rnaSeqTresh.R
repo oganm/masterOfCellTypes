@@ -35,10 +35,10 @@ if (detectCores()<cores){
 registerDoMC(cores)
 # to every gene, fit two gaussians, lower one is counted as non expressed,
 # higher is expressed
-gaus = foreach(x = 1:nrow(rnaExpAll)) %dopar% {
+gaus = foreach(x = 1:nrow(rnaExp)) %dopar% {
     print(x)
     tryCatch({
-        normalmixEM(rnaExpAll[x,],maxrestarts=5, verb = F)
+        normalmixEM(rnaExp[x,],maxrestarts=5, verb = F)
     }, error = function(e){
         return(NA)
     })
@@ -65,7 +65,7 @@ tresholds = sapply(gaus,function(x){
  })
 
 tresholds = as.matrix(tresholds)
-rownames(tresholds) = rn(rnaExpAll)
+rownames(tresholds) = rn(rnaExp)
 
 
 write.table(tresholds,file='Data/RNASeq/tresholds',col.names=F,row.names=F)
