@@ -23,7 +23,7 @@ microglialException = function(restDir, updateList = F, cores = 1){
     fileNames = fileNames[grepl('Microglia',fileNames)]
     foreach (i = fileNames) %dopar% {
         micro = read.table(paste0(restDir,'/',i))
-        micro = micro[!micro$V1 %in% effectedGenes,]
+        micro = micro[!toupper(micro$V1) %in% effectedGenes,]
         write.table(micro, quote = F, row.names = F, col.names = F, paste0(restDir,'/',i))
     }
 }
