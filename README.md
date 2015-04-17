@@ -1,6 +1,7 @@
 masterOfCellTypes
 =================
 **Disclaimer:** I haven't been updating this file for a while now. So everything is likely to be extremely out of date. I'll fix it at some point. I promise...
+![I honestly didn't think you could even USE emoji in variable names. Or that there were so many different crying ones](http://imgs.xkcd.com/comics/code_quality.png)
 
 Use and modify run.R to do stuff. Variables in the first lines dictate what will it do. Most are self explanatory
 
