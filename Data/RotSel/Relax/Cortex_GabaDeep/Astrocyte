@@ -3,7 +3,6 @@
 2810459M11Rik
 4931406C07Rik
 Aass
-Abca1
 Abhd3
 Acaa2
 Acsbg1
@@ -30,19 +29,16 @@ Car8
 Cbs
 Ccdc80
 Cd38
-Cd44
 Cldn10
 Clu
 Col4a5
 Cpq
 Crot
 Cth
-Ctsc
 Cyp2d22
 Cyp2j9
 Cyp4f14
 Cyp4f15
-Cyp4v3
 Cyp7b1
 Cyr61
 Dennd4c
@@ -88,8 +84,6 @@ Hsd11b1
 Igdcc4
 Igfbp2
 Igfbp5
-Itga6
-Itgb5
 Itih5
 Itpr2
 Kctd5
@@ -99,12 +93,11 @@ Lcat
 Lgi4
 Lhx2
 Lmcd1
-Lpcat3
 Lpp
 Lrig1
 Lrp4
 Lxn
-Mertk
+Mdk
 Metrn
 Mfge8
 Mgst1
@@ -127,7 +120,6 @@ Oaf
 Oplah
 Papss2
 Pax6
-Pbxip1
 Pdgfrb
 Pdk4
 Pdlim5
@@ -135,7 +127,6 @@ Phka1
 Phkg1
 Pla2g7
 Pnp
-Pnpla7
 Ppap2b
 Ppara
 Ppic
@@ -179,7 +170,6 @@ Tgfb2
 Timp3
 Timp4
 Tlcd1
-Tlr3
 Tmem47
 Tmem51
 Tnfrsf19
@@ -188,7 +178,6 @@ Trps1
 Tspan7
 Ttpa
 Ttyh1
-Txnip
 Vcam1
 Vcl
 Vegfa

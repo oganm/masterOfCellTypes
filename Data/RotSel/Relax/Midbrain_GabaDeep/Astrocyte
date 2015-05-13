@@ -72,7 +72,6 @@ Htra1
 Id3
 Igfbp2
 Itga6
-Itgb5
 Itih5
 Kcnk1
 Kcnn2
@@ -83,7 +82,6 @@ Lhx2
 Lmcd1
 Lpp
 Lrig1
-Mertk
 Mfge8
 Mgst1
 Mlc1
@@ -137,6 +135,7 @@ Slc7a10
 Slc9a3r1
 Slco1c1
 Smpdl3a
+Soat1
 Sorcs2
 Sox5
 Sox9
@@ -149,6 +148,7 @@ Timp3
 Tlcd1
 Tlr3
 Tmem47
+Tmem51
 Tnfrsf19
 Tril
 Trps1
@@ -158,4 +158,3 @@ Vcl
 Vegfa
 Wnt7a
 Wwtr1
-Zbtb20
