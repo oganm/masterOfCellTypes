@@ -155,8 +155,8 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
     
     # the main loop around groups ------
     
-    #foreach (i = 1:len(nameGroups)) %dopar% {
-    for (i in 1:len(nameGroups)){
+    foreach (i = 1:len(nameGroups)) %dopar% {
+    # for (i in 1:len(nameGroups)){
          #debub point for groups
 
         typeNames = trimNAs(unique(nameGroups[[i]]))
