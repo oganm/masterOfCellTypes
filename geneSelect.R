@@ -214,10 +214,8 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         groupAverages = list()
         #take average of every group, tryCatch is for groups with a single member
         for (j in realGroupsRepMean){
-            groupAverage = tryCatch({apply(repMeanExpr[j,], 2, mean)}, #if by itself just output it
-                                    error = function(cond){
-                                        return(repMeanExpr[j,])
-                                    })
+            groupAverage = apply(repMeanExpr[j,,drop=F], 2, mean)
+                                 
             groupAverages = c(groupAverages, list(groupAverage))
         }
         
@@ -247,7 +245,7 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
                 all(x[-j] + log(10, base=2) < x[j])
             })  
   
-            fMarker = data.frame(geneData$Gene.Symbol[isMarker], groupAverages[j,isMarker], tryCatch({apply(groupAverages[-j,isMarker],2,max)}, error = function(e){max(groupAverages[-j,isMarker])}),tryCatch({apply(groupAverages[-j,isMarker],2,min)}, error = function(e){min(groupAverages[-j,isMarker])}))
+            fMarker = data.frame(geneData$Gene.Symbol[isMarker], groupAverages[j,isMarker], apply(groupAverages[-j,isMarker,drop=F],2,max), apply(groupAverages[-j,isMarker,drop=F],2,min))
             fChange = foldChange(groupAverages[j, ], groupAverages[-j,] )
             fChangePrint = data.frame(geneNames = geneData$Gene.Symbol[fChange$index], geneFoldChange= fChange$foldChange )
             fChangePrint = fChangePrint[order(fChangePrint$geneFoldChange, decreasing=T) ,]
