@@ -155,8 +155,8 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
     
     # the main loop around groups ------
     
-    foreach (i = 1:len(nameGroups)) %dopar% {
-    #for (i in 1:len(nameGroups)){
+    #foreach (i = 1:len(nameGroups)) %dopar% {
+    for (i in 1:len(nameGroups)){
          #debub point for groups
 
         typeNames = trimNAs(unique(nameGroups[[i]]))
@@ -180,23 +180,21 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         
         # replicateMeans ------
         # inefficient if not rotating but if you are not rotating you are only doing it once anyway
-        repMeanExpr = as.data.frame(
-            matrix(rep(0,ncol(tempExpr)*len(unique(tempDesign$originalIndex))),
-                   ncol = ncol(tempExpr)))
         
         indexes = unique(tempDesign$originalIndex)
-        for (j in 1:length(indexes)){
-            repMeanExpr[j, ] = tryCatch({
+        repMeanExpr = sapply(1:len(indexes), function(j){
+            tryCatch({
                 apply(tempExpr[tempDesign$originalIndex == indexes[j],], 2,mean)},
                 error= function(e){
                     if (is.na(rotate)){
-                     print('unless you are rotating its not nice that you have single replicate groups')
-                     print('you must be ashamed!')
-                     print(j)
+                        print('unless you are rotating its not nice that you have single replicate groups')
+                        print('you must be ashamed!')
+                        print(j)
                     }
-                     tempExpr[tempDesign$originalIndex == indexes[j],]
+                    tempExpr[tempDesign$originalIndex == indexes[j],]
                 })
-        }
+        })
+        repMeanExpr = t(repMeanExpr)
         repMeanDesign = tempDesign[match(indexes,tempDesign$originalIndex),]
         
         # since realGroups is storing the original locations required for
@@ -211,16 +209,13 @@ geneSelect = function(designLoc,exprLoc,outLoc,groupNames, regionNames, rotate =
         names(realGroupsRepMean) = typeNames
         
         # groupMeans ----
-        groupAverages = list()
-        #take average of every group, tryCatch is for groups with a single member
-        for (j in realGroupsRepMean){
-            groupAverage = apply(repMeanExpr[j,,drop=F], 2, mean)
-                                 
-            groupAverages = c(groupAverages, list(groupAverage))
-        }
+        #take average of every group
         
-        names(groupAverages)= typeNames
-        groupAverages = t(as.data.frame(groupAverages))
+        groupAverages = sapply(realGroupsRepMean, function(j){
+            groupAverage = apply(repMeanExpr[j,,drop=F], 2, mean)
+            
+        })
+        groupAverages = t(groupAverages)
         
         # creation of output directories ----
         dir.create(paste0(outLoc ,'/Marker/' , names(nameGroups)[i] , '/'), showWarnings = F,recursive = T)
