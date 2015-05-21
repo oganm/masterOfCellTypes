@@ -1,61 +1,172 @@
-Acot7
-Adamts4
-Ank3
-Anln
-Apod
-Aspa
-Bcat1
-Cacnb4
-Cldn11
-Ddc
-Dusp26
-Edil3
-Efnb3
-Ell2
-Fa2h
-Gal3st1
-Gamt
-Ggct
-Gpr85
-Grb14
-Josd2
-Kcna1
-Larp6
-Lims2
-Lpar1
-Mag
-Mal
-Mbp
-Mobp
-Mog
-Ndrg1
-Ninj2
-Nkain1
-Nkx6-2
-Olig2
-Pdlim2
-Plekhh1
-Pllp
-Plp1
-Pou3f1
-Ppp1r14a
-Prkcz
-Rab33a
-Rnf112
-S1pr5
-Sept4
-Sez6l2
-Sgk2
-Sh3gl3
-Slain1
-Sox10
-Stmn4
-Sytl2
-Tmeff2
-Tmem163
-Tnni1
-Tppp3
-Trim59
-Tspan2
-Tubb4a
-Ugt8a
+3632451O06Rik 0.01
+Acot7 1
+Acsl1 0.138
+Adamts4 0.998
+Adssl1 0.79
+Ank3 1
+Anln 1
+Apod 1
+Arhgef10 0.06
+Arsg 0.006
+Asns 0.812
+Aspa 1
+Atp9a 0.942
+B3gnt9 0.012
+Bcat1 1
+Bex1 0.002
+Bhlhe22 0.15
+Bin1 0.412
+Brinp1 0.002
+C1ql3 0.542
+C1qtnf4 0.002
+Cacnb4 1
+Calb1 0.002
+Car10 0.002
+Car14 0.586
+Cdc42ep1 0.412
+Cdk18 0.42
+Cldn11 1
+Cryab 0.594
+Ctsk 0.15
+Dbndd2 0.538
+Ddc 1
+Dnm1 0.618
+Dusp26 1
+Dynll2 0.008
+Edil3 1
+Efhd1 0.002
+Efnb3 1
+Ell2 1
+Elovl7 0.594
+Evi2a 0.03
+Fa2h 1
+Frmd5 0.808
+Gabra1 0.002
+Gal3st1 1
+Gamt 1
+Ggct 0.998
+Gjb1 0.784
+Gnai1 0.002
+Gnb4 0.402
+Gng11 0.58
+Gng3 0.01
+Gpr85 0.972
+Grb14 1
+Gsn 0.91
+Gstm7 0.008
+Gsto1 0.038
+Hapln2 0.592
+Hpca 0.002
+Hs3st1 0.002
+Il1rap 0.008
+Josd2 1
+Kalrn 0.018
+Kazn 0.338
+Kcna1 1
+Kctd4 0.02
+Klhl2 0.362
+Klk6 0.092
+Lad1 0.002
+Lamp5 0.002
+Larp6 1
+Lims2 1
+Lpar1 0.998
+Lrrn1 0.896
+Lrrtm1 0.002
+Mag 0.998
+Mal 1
+Map1b 0.006
+Map7 0.004
+Mbp 1
+Mfsd6 0.932
+Mobp 1
+Mog 1
+Myrf 0.008
+Nap1l2 0.01
+Ncald 0.002
+Ndrg1 1
+Nefl 0.052
+Neto1 0.028
+Ninj2 1
+Nkain1 1
+Nkx2-2 0.776
+Nkx6-2 1
+Olfm1 0.002
+Olig2 1
+Oprl1 0.002
+Pcbp4 0.066
+Pcolce2 0.028
+Pcp4 0.228
+Pdlim2 1
+Pex5l 0.002
+Phldb1 0.828
+Pla2g16 0.104
+Plekha2 0.542
+Plekhf1 0.544
+Plekhh1 0.998
+Pllp 1
+Plp1 0.986
+Pnlip 0.002
+Polr3k 0.002
+Pou3f1 1
+Ppap2c 0.012
+Ppp1r14a 1
+Prickle1 0.754
+Prkar1b 0.002
+Prkcq 0.008
+Prkcz 1
+Prkg2 0.002
+Ptgds 0.794
+Ptpla 0.136
+Qdpr 0.206
+Qpct 0.02
+Rab33a 1
+Rbfox1 0.002
+Rhog 0.01
+Rit2 0.036
+Rnf112 1
+Rtkn 0.642
+S1pr5 1
+Selm 0.014
+Sema5a 0.006
+Sept4 1
+Sez6l2 1
+Sgk2 1
+Sh3d19 0.036
+Sh3gl3 1
+Sirt2 0.194
+Slain1 1
+Slc12a5 0.002
+Slc1a1 0.736
+Slc44a1 0.542
+Slco3a1 0.86
+Snap25 0.016
+Sox10 1
+St6galnac3 0.008
+Stmn1 0.008
+Stmn3 0.002
+Stmn4 1
+Stxbp6 0.002
+Sulf2 0.024
+Susd4 0.19
+Sytl2 1
+Tac1 0.002
+Tcfl5 0.002
+Thbs3 0.002
+Tmcc2 0.254
+Tmeff1 0.002
+Tmeff2 1
+Tmem141 0.058
+Tmem163 1
+Tmem63a 0.01
+Tnni1 1
+Tppp3 0.994
+Trf 0.104
+Trim59 1
+Tspan17 0.464
+Tspan2 1
+Tubb4a 1
+Uchl1 0.072
+Ugt8a 1
+Unc5b 0.012
+Vsnl1 0.112

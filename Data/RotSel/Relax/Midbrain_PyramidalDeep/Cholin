@@ -1,39 +1,80 @@
-2310030G06Rik
-Cabp1
-Cacnb3
-Ccdc109b
-Cxcl11
-Cxx1c
-Cytip
-Ebf1
-Htr5b
-Irx2
-Irx3
-Irx5
-Kcnd2
-Kcnip1
-Kcnma1
-Kitl
-Lhx9
-Lrrc3b
-Mab21l1
-Map3k6
-Mme
-Necab2
-Necab3
-Neurod1
-Nppa
-Nptx2
-Pkib
-Rbfox3
-Sh3bgrl2
-Slc18a3
-Sostdc1
-Synpr
-Syt9
-Tac2
-Tesc
-Tnfaip2
-Tspan13
-Vav3
-Zic4
+2310030G06Rik 1
+Agmat 0.236
+Atp1a3 0.164
+Atp6v1g2 0.02
+Avpi1 0.32
+Cabp1 0.958
+Cacnb3 1
+Ccdc109b 1
+Cend1 0.55
+Chrna3 0.044
+Copz2 0.912
+Ctnnbip1 0.008
+Cxcl11 1
+Cxx1c 1
+Cygb 0.042
+Cytip 1
+Dhps 0.528
+Ebf1 0.976
+Eno3 0.016
+Epha7 0.886
+Fgf14 0.816
+Flywch2 0.092
+Fzd7 0.268
+Gabrb3 0.008
+Galm 0.022
+Htr5b 1
+Irx2 1
+Irx3 1
+Irx5 1
+Kcnd2 1
+Kcnip1 1
+Kcnma1 0.996
+Kitl 1
+Lhx9 1
+Lmo1 0.004
+Lrrc3b 1
+Mab21l1 1
+Map3k6 1
+Mme 1
+Ndufa7 0.322
+Necab2 1
+Necab3 1
+Neurod1 1
+Nnat 0.096
+Nppa 1
+Nptx2 1
+Nrg3 0.05
+Olfm1 0.002
+Otx2 0.54
+Pafah1b3 0.01
+Pde1a 0.914
+Pkib 1
+Prkag2 0.002
+Rab40b 0.196
+Rbfox3 1
+Scube1 0.038
+Sema3e 0.12
+Sh3bgrl2 1
+Shroom3 0.002
+Slc17a6 0.032
+Slc18a3 1
+Socs2 0.35
+Sostdc1 1
+Spa17 0.572
+Sstr2 0.85
+St6galnac5 0.136
+Synpr 1
+Syt9 1
+Tac2 1
+Tesc 1
+Tex15 0.68
+Tmem56 0.1
+Tnfaip2 1
+Tomm6 0.312
+Tspan13 1
+Vav3 1
+Zic1 0.54
+Zic3 0.002
+Zic4 1
+Znhit1 0.31

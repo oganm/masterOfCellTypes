@@ -1,61 +1,137 @@
-Abhd5
-Anln
-Apod
-Arhgef10
-Aspa
-Car2
-Carhsp1
-Cldn11
-Ddc
-Efhd1
-Efnb3
-Elovl7
-Enpp2
-Evi2a
-Fa2h
-Gamt
-Gatm
-Gjc3
-Gltp
-Gng11
-Gpr37
-Grb14
-Gsn
-Hapln2
-Il33
-Kctd4
-Klk6
-Litaf
-Lpar1
-Mag
-Mal
-Mobp
-Mog
-Nfe2l3
-Nkx2-2
-Nkx6-2
-Olig1
-Olig2
-Pcolce2
-Pdlim2
-Pex5l
-Pla2g16
-Pllp
-Pou3f1
-Ppp1r14a
-Psat1
-Rapgef3
-Rhog
-S1pr5
-Serpinb1a
-Slain1
-Slc44a1
-Sox10
-St6galnac3
-Tmeff1
-Tmem98
-Tnfaip6
-Tppp3
-Trim59
-Vamp3
-Wipf1
+1190005I06Rik 0.01
+2900097C17Rik 0.01
+Abhd5 0.996
+Adamtsl4 0.016
+Anln 1
+Apod 1
+Arhgef10 0.99
+Arid4b 0.016
+Arsg 0.022
+Aspa 1
+B3gnt9 0.042
+Bin1 0.01
+Car2 0.964
+Carhsp1 1
+Cd82 0.01
+Cd9 0.002
+Cdk18 0.01
+Cers2 0.74
+Cldn11 0.976
+Cryab 0.004
+Csrp1 0.242
+Ddc 1
+Depdc7 0.016
+Dock5 0.004
+Efhd1 1
+Efnb3 1
+Elovl1 0.774
+Elovl7 1
+Enpp2 0.998
+Epb4.1l3 0.006
+Epn2 0.016
+Etv1 0.918
+Evi2a 1
+Fa2h 1
+Fbxo32 0.004
+Fgfr2 0.066
+Gab1 0.658
+Gamt 1
+Gatm 1
+Gjb1 0.032
+Gjc3 1
+Gltp 0.968
+Glul 0.178
+Gng11 1
+Gpr37 1
+Gprc5b 0.006
+Grb14 1
+Gsn 1
+Gstm7 0.906
+Hapln2 0.998
+Hebp1 0.008
+Il33 1
+Jam3 0.026
+Josd2 0.114
+Kazn 0.014
+Kctd4 0.984
+Klk6 0.982
+Limd1 0.016
+Lims2 0.39
+Litaf 1
+Lpar1 1
+Mag 1
+Mal 1
+Map4k4 0.012
+Mobp 1
+Mog 1
+Ncald 0.038
+Nde1 0.02
+Ndrg1 0.944
+Nfe2l3 1
+Ninj2 0.356
+Nkx2-2 1
+Nkx6-2 1
+Olig1 1
+Olig2 1
+Pcolce2 1
+Pde8a 0.034
+Pdgfra 0.014
+Pdk4 0.01
+Pdlim2 1
+Pex5l 1
+Phactr1 0.008
+Pip4k2a 0.7
+Pla2g16 1
+Plekhb1 0.738
+Plekhh1 0.946
+Pllp 1
+Plp1 0.45
+Pmp22 0.028
+Pou3f1 1
+Ppp1r14a 1
+Prkacb 0.03
+Psat1 1
+Ptgds 0.868
+Ptprd 0.652
+Rapgef3 0.974
+Rassf2 0.028
+Rffl 0.008
+Rhog 1
+S100a1 0.268
+S100a16 0.558
+S1pr5 1
+Scd1 0.552
+Scd2 0.016
+Serpinb1a 1
+Sgk2 0.004
+Slain1 1
+Slc12a2 0.908
+Slc44a1 1
+Snap23 0.048
+Sox10 1
+St6galnac3 0.994
+Stk39 0.012
+Stxbp3a 0.822
+Sulf2 0.702
+Sypl 0.02
+Syt11 0.004
+Tgfa 0.894
+Thrap3 0.014
+Tmbim1 0.768
+Tmeff1 1
+Tmem163 0.102
+Tmem63a 0.016
+Tmem98 1
+Tnfaip6 0.99
+Tnni1 0.01
+Tpm3 0.016
+Tppp3 0.982
+Trf 0.322
+Trim59 1
+Ttyh2 0.002
+Tyro3 0.422
+Vamp3 0.992
+Wipf1 0.986
+Wipi1 0.026
+Zdhhc20 0.078
+Zeb2 0.006

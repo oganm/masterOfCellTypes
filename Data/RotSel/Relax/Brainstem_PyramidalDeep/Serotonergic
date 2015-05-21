@@ -1,36 +1,84 @@
-2010204K13Rik
-Asb4
-Baiap3
-Ceacam10
-Cgref1
-Cited1
-Ctla2a
-Dbndd1
-Fev
-Gata2
-Gata3
-Gch1
-Grb10
-H2-Q1
-Hs6st2
-Htr1a
-Htr5b
-Klk1b27
-Lor
-Mal2
-Myh7
-Myh7|Myh6
-Necab2
-Pcdha4|Pcdha12|Pcdhac1|Pcdha8|Pcdha10|Pcdha7|Pcdhac2|Pcdha9|Pcdha2|Pcdha3|Pcdha6|Pcdha1|Pcdha5|Pcdha11
-Pcdha5|Pcdha7|Pcdha4|Pcdha6|Pcdhac1|Pcdha10|Pcdha3|Pcdha12|Pcdha1|Pcdha11|Pcdha8|Pcdhac2|Pcdha9|Pcdha2
-Pcsk1
-Ptger3
-Rpp25
-Scg2
-Slc22a3
-Slc6a4
-Sln
-Spint2
-Syt9
-Trh
-Usp29
+1700037H04Rik 0.082
+2010204K13Rik 1
+Apol9a|Apol9b 0.946
+Arhgap12 0.01
+Arhgdig 0.012
+Asb4 1
+Baiap3 1
+Bex4 0.01
+Calb1 0.002
+Calb2 0.366
+Ccdc109b 0.228
+Ceacam10 1
+Celf4 0.006
+Cgref1 1
+Chd3os 0.004
+Chga 0.036
+Chgb 0.076
+Cited1 1
+Cntnap2 0.002
+Coprs 0.124
+Cplx2 0.346
+Ctla2a 1
+Ctla2b|Ctla2a 0.796
+Cygb 0.256
+Dbndd1 1
+Dlk1 0.404
+Dnajc12 0.89
+Fabp3 0.004
+Fev 1
+Flywch2 0.002
+Gap43 0.364
+Gata2 0.98
+Gata3 1
+Gch1 1
+Gng4 0.03
+Gpx3 0.846
+Grb10 1
+H2-Q1 1
+Hoxb5 0.654
+Hs6st2 1
+Htr1a 1
+Htr5b 1
+Kcna5 0.654
+Kcnj9 0.02
+Klhdc8a 0.07
+Klk1b27 1
+Lin7b 0.002
+Lor 0.98
+Lrrc3b 0.198
+Ly6h 0.352
+Lypd1 0.562
+Mal2 0.99
+Myh7 1
+Myh7|Myh6 1
+Napb 0.002
+Necab2 1
+Pcbd1 0.71
+Pcdha11|Pcdha3|Pcdha9|Pcdhac2|Pcdha8|Pcdha5|Pcdha7|Pcdha10|Pcdha4|Pcdha1|Pcdhac1|Pcdha6|Pcdha12|Pcdha2 0.44
+Pcdha4|Pcdha12|Pcdhac1|Pcdha8|Pcdha10|Pcdha7|Pcdhac2|Pcdha9|Pcdha2|Pcdha3|Pcdha6|Pcdha1|Pcdha5|Pcdha11 1
+Pcdha5|Pcdha7|Pcdha4|Pcdha6|Pcdhac1|Pcdha10|Pcdha3|Pcdha12|Pcdha1|Pcdha11|Pcdha8|Pcdhac2|Pcdha9|Pcdha2 0.98
+Pcsk1 1
+Penk 0.002
+Ptger3 1
+Ptprn 0.002
+Rab27b 0.678
+Rasgrf1 0.008
+Resp18 0.546
+Rpp25 0.972
+Scg2 1
+Scn3b 0.02
+Slc22a3 1
+Slc6a4 1
+Sln 1
+Snurf|Snrpn 0.02
+Spint2 1
+Svop 0.002
+Syngr3 0.51
+Synj2bp 0.002
+Syt4 0.004
+Syt9 1
+Tac1 0.826
+Tfr2 0.024
+Trh 1
+Usp29 1

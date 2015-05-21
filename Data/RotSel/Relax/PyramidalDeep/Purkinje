@@ -1,42 +1,66 @@
-Asph
-Atp2a3
-B3gnt5
-Car7
-Car8
-Casq2
-Col18a1
-Cox6b2
-Ebf1
-Ebf2
-Eps8l2
-Fam117a
-Fam21
-Gng13
-Grid2
-Hdc
-Homer3
-Icmt
-Il22|Iltifb
-Inpp5a
-Krt25
-Lhx1
-Lhx5
-Nrk
-Pcp2
-Pcsk6
-Plxdc1
-Ppp1r17
-Ptpn2
-Ptprr
-Ryr1
-Sbk1
-Scd3
-Slc1a6
-Slc5a1
-Smpx
-Spag5
-Stac
-Stk17b
-Sycp1
-Trpc3
-Tuba8
+Aff1 0.072
+Asph 1
+Atp2a3 1
+B3gnt5 1
+Bcar1 0.178
+Cacna1g 0.028
+Car7 1
+Car8 1
+Casq2 1
+Col18a1 1
+Corin 0.006
+Cox6b2 0.998
+Cox7a1 0.15
+Dgkg 0.01
+Ebf1 1
+Ebf2 1
+Ebf3 0.336
+Eps8l2 1
+Fam107b 0.172
+Fam117a 1
+Fam21 1
+Gng13 1
+Grid2 0.976
+Grik1 0.282
+Hdc 1
+Homer3 1
+Icmt 1
+Igfbp3 0.926
+Il22|Iltifb 1
+Inpp5a 1
+Kitl 0.078
+Krt25 1
+Lhx1 1
+Lhx5 1
+Mtss1 0.002
+Myo10 0.444
+Nrk 1
+Paxbp1 0.004
+Pcp2 1
+Pcsk6 0.958
+Phactr2 0.012
+Plxdc1 1
+Ppp1r17 1
+Prkg1 0.598
+Prl2c5|Prl2c2|Prl2c4|Prl2c3 0.002
+Ptpn2 1
+Ptprr 1
+Rgs8 0.088
+Rora 0.254
+Ryr1 0.97
+Sbk1 1
+Scd3 1
+Slc1a6 1
+Slc41a3 0.4
+Slc5a1 1
+Smpx 1
+Spag5 1
+Stac 1
+Stil 0.002
+Stk17b 1
+Sycp1 1
+Tm6sf1 0.012
+Tpm2 0.136
+Trpc3 1
+Tuba8 1
+Zdhhc14 0.122

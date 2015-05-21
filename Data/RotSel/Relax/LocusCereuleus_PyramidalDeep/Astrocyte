@@ -1,148 +1,281 @@
-1700019G17Rik
-2610034M16Rik
-Abca1
-Abhd3
-Acsbg1
-Acsl6
-Add3
-Adhfe1
-Agt
-AI464131
-Aldh1l1
-Aldh6a1
-Amot
-Antxr1
-Aox1
-Aqp4
-Atp1a2
-Atp1b2
-Axl
-Bcar3
-Bhlhe40
-Btbd17
-C1qtnf5|Mfrp
-Cbs
-Ccdc80
-Ccnd2
-Cd38
-Cldn10
-Clu
-Col4a5
-Csgalnact1
-Cspg5
-Cth
-Cyp2d22
-Cyp2j9
-Cyp4f14
-Cyp4f15
-Cyp4v3
-Cyp7b1
-Cyr61
-Dag1
-Dclk1
-Dio2
-Dtna
-Ednrb
-Egfr
-Elovl2
-Emp2
-Entpd2
-Ephx2
-Eva1a
-Ezr
-F3
-Fads2
-Farp1
-Fgfr3
-Fjx1
-Fkbp10
-Fmo1
-Fstl1
-Fxyd1
-Fzd2
-Gabrg1
-Gdf10
-Gjb6
-Gldc
-Gli2
-Gpld1
-Grin2c
-Gstm1
-Hapln1
-Hsd11b1
-Igdcc4
-Igfbp2
-Igfbp5
-Itga6
-Itih5
-Kcnk1
-Kcnn2
-Lcat
-Lgi4
-Lhx2
-Lpp
-Lrig1
-Mertk
-Mfge8
-Mlc1
-Ncan
-Ndp
-Nkain4
-Notch1
-Ntrk2
-Ntsr2
-Oaf
-Papss2
-Pax6
-Pbxip1
-Pdgfrb
-Phka1
-Phkg1
-Pla2g7
-Ppara
-Ppic
-Ppp1r3c
-Prdx6
-Prkd1
-Prodh
-Ptprz1
-Pygb
-Pygm
-S1pr1
-Sash1
-Scara3
-Scg3
-Sdc4
-Serpinh1
-Slc14a1
-Slc15a2
-Slc1a2
-Slc1a3
-Slc1a4
-Slc38a3
-Slc41a1
-Slc4a4
-Slc6a1
-Slc7a10
-Slco1c1
-Smpdl3a
-Sorcs2
-Sox5
-Sox9
-Sparcl1
-Stk17b
-Tgfb2
-Timp3
-Tlcd1
-Tlr3
-Tmem47
-Tnfrsf19
-Tril
-Trps1
-Tspan7
-Ttpa
-Vcam1
-Vegfa
-Wnt7a
-Wwtr1
-Yap1
+1700019G17Rik 1
+2610034M16Rik 1
+2810459M11Rik 0.27
+Aass 0.926
+Abat 0.114
+Abca1 1
+Abhd3 0.968
+Acaa2 0.934
+Acsbg1 1
+Acsl6 1
+Acss1 0.818
+Adcy2 0.112
+Add3 1
+Adhfe1 1
+Adora2b 0.02
+Agt 0.982
+Ahcyl1 0.284
+AI464131 1
+Aldh1a1 0.718
+Aldh1l1 1
+Aldh6a1 0.99
+Amot 1
+Antxr1 1
+Aox1 1
+Appl2 0.006
+Aqp4 1
+Arx 0.786
+Asph 0.338
+Astn1 0.052
+Atp1a2 1
+Atp1b2 1
+Axl 1
+Bcan 0.452
+Bcar3 1
+Bhlhe40 1
+Btbd17 1
+C1qtnf5|Mfrp 0.976
+C4b|C4a 0.536
+Car8 0.004
+Cbs 1
+Ccdc80 1
+Ccnd2 0.99
+Cd38 1
+Cd44 0.888
+Celsr1 0.772
+Chst2 0.772
+Cldn10 1
+Clu 1
+Col4a5 1
+Crot 0.004
+Crym 0.008
+Csgalnact1 0.998
+Cspg5 1
+Cth 1
+Cxcl14 0.708
+Cyp2d22 1
+Cyp2j9 0.998
+Cyp4f14 1
+Cyp4f15 1
+Cyp4v3 0.998
+Cyp7b1 1
+Cyr61 1
+Dag1 0.98
+Dbp 0.002
+Dbt 0.006
+Dclk1 1
+Ddit4l 0.374
+Dio2 1
+Dmd 0.056
+Dtna 0.96
+Dusp1 0.002
+Ednrb 0.998
+Efemp1 0.706
+Egfr 1
+Elovl2 1
+Emp2 1
+Entpd2 1
+Ephx2 1
+Eps8 0.11
+Eva1a 1
+Ezr 1
+F3 1
+Fads2 1
+Fam181b 0.472
+Fam213a 0.002
+Farp1 0.99
+Fbln1 0.004
+Fcgrt 0.414
+Fgd6 0.398
+Fgfr3 1
+Fgfrl1 0.328
+Fjx1 1
+Fkbp10 1
+Fmn2 0.792
+Fmo1 1
+Fstl1 1
+Fxyd1 1
+Fzd2 1
+Gabrg1 1
+Galnt4 0.118
+Gas1 0.764
+Gbp3 0.01
+Gdf10 1
+Gem 0.13
+Gfap 0.664
+Gjb6 1
+Gldc 1
+Gli2 1
+Glud1 0.174
+Gpc4 0.064
+Gpld1 1
+Gpm6a 0.218
+Gpr56 0.784
+Gpx8 0.216
+Grhl1 0.086
+Grin2c 1
+Gstm1 0.976
+Gyk 0.494
+Hapln1 1
+Hbegf 0.062
+Heph 0.76
+Hes5 0.034
+Hnrnpa2b1 0.674
+Hopx 0.418
+Hrsp12 0.102
+Hsd11b1 1
+Htra1 0.092
+Id3 0.308
+Id4 0.534
+Igdcc4 0.998
+Igfbp2 1
+Igfbp5 1
+Itga6 1
+Itga7 0.36
+Itgb5 0.07
+Itih5 1
+Itpr2 0.002
+Kcnk1 1
+Kcnk2 0.352
+Kcnn2 1
+Kctd5 0.016
+Klf15 0.618
+Klf4 0.006
+Lamb2 0.018
+Lcat 1
+Lgi4 1
+Lhx2 1
+Lmcd1 0.91
+Lpp 1
+Lrig1 1
+Lxn 0.916
+Mdk 0.082
+Mertk 1
+Metrn 0.104
+Mfge8 1
+Mgst1 0.51
+Mlc1 1
+Mmp14 0.798
+Myo10 0.102
+Myo6 0.36
+Myoc 0.01
+Naaa 0.238
+Ncan 1
+Ndp 0.976
+Ndrg2 0.614
+Neat1 0.004
+Nfib 0.354
+Ngef 0.43
+Nhsl1 0.144
+Nkain4 0.958
+Notch1 0.994
+Notch2 0.636
+Nrarp 0.692
+Nrcam 0.02
+Nrp1 0.62
+Ntrk2 0.968
+Ntsr2 1
+Oaf 1
+Oplah 0.908
+Osmr 0.516
+Papss2 1
+Pax6 1
+Pbxip1 1
+Pdgfrb 1
+Pdk4 0.95
+Pdlim4 0.02
+Pdlim5 0.002
+Pdpn 0.542
+Pfkm 0.008
+Phka1 0.998
+Phkg1 1
+Pla2g7 1
+Plagl1 0.152
+Pnpla7 0.296
+Ppap2b 0.948
+Ppara 1
+Ppargc1a 0.002
+Ppic 0.974
+Ppp1r3c 1
+Prdx6 1
+Prelp 0.758
+Prkd1 1
+Prodh 1
+Prrx1 0.084
+Ptprz1 1
+Pygb 1
+Pygm 1
+Rasa2 0.1
+Rbpms2 0.014
+Rftn2 0.582
+Rhbdf1 0.028
+Rora 0.124
+Rorb 0.526
+S1pr1 1
+Sash1 1
+Scara3 1
+Scd2 0.024
+Scg3 1
+Sdc4 1
+Sec14l2 0.164
+Selenbp1|Selenbp2 0.006
+Selenbp2|Selenbp1 0.114
+Sema4a 0.212
+Sept8 0.01
+Serpinh1 1
+Slc12a4 0.232
+Slc14a1 1
+Slc15a2 1
+Slc16a1 0.006
+Slc1a2 1
+Slc1a3 1
+Slc1a4 1
+Slc20a2 0.028
+Slc27a1 0.064
+Slc38a3 1
+Slc41a1 1
+Slc4a4 1
+Slc6a1 0.996
+Slc7a10 1
+Slco1c1 1
+Smo 0.02
+Smpdl3a 1
+Soat1 0.022
+Sorcs2 1
+Sox21 0.694
+Sox5 1
+Sox9 1
+Sparcl1 1
+Spon1 0.506
+Srebf1 0.296
+St6galnac5 0.732
+Stk17b 0.956
+Swap70 0.016
+Tenm3 0.806
+Tfcp2l1 0.042
+Tgfb2 1
+Timp3 1
+Tlcd1 1
+Tlr3 1
+Tmem47 1
+Tmem51 0.826
+Tmem87a 0.008
+Tnc 0.376
+Tnfrsf19 1
+Trib2 0.004
+Tril 1
+Trps1 1
+Tspan7 0.99
+Ttpa 1
+Tulp3 0.186
+Txnip 0.052
+Vcam1 1
+Vcl 0.932
+Vegfa 1
+Vim 0.002
+Wnt7a 1
+Wwtr1 1
+Xist 0.02
+Yap1 1
+Zic1 0.018
+Zic3 0.068

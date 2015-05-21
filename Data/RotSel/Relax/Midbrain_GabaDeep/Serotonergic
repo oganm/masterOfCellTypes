@@ -1,24 +1,49 @@
-2010204K13Rik
-Ceacam10
-Chodl
-Cited1
-Ctla2a
-Ctla2b|Ctla2a
-Fev
-Gata3
-H2-Q1
-Hoxb5
-Htr1a
-Kcna5
-Klk1b27
-Mal2
-Myh7|Myh6
-Pcdha5|Pcdha7|Pcdha4|Pcdha6|Pcdhac1|Pcdha10|Pcdha3|Pcdha12|Pcdha1|Pcdha11|Pcdha8|Pcdhac2|Pcdha9|Pcdha2
-Ptger3
-Rpp25
-S100a10
-Slc22a3
-Slc6a4
-Sln
-Synj2bp
-Trh
+2010204K13Rik 1
+Apol9a|Apol9b 0.948
+Ceacam10 1
+Cgref1 0.002
+Chodl 1
+Cited1 1
+Coprs 0.006
+Ctla2a 1
+Ctla2b|Ctla2a 1
+Dnajc12 0.006
+Fev 1
+Flywch2 0.204
+Gata3 1
+Gng2 0.03
+Gng4 0.126
+Gpx3 0.922
+H2-Q1 1
+Hoxb5 0.996
+Htr1a 1
+Inadl 0.006
+Kcna5 1
+Kcnj9 0.916
+Klk1b27 1
+Lor 0.15
+Mal2 1
+Myh7 0.48
+Myh7|Myh6 0.998
+Nenf 0.2
+Pcdha4|Pcdha12|Pcdhac1|Pcdha8|Pcdha10|Pcdha7|Pcdhac2|Pcdha9|Pcdha2|Pcdha3|Pcdha6|Pcdha1|Pcdha5|Pcdha11 0.03
+Pcdha5|Pcdha7|Pcdha4|Pcdha6|Pcdhac1|Pcdha10|Pcdha3|Pcdha12|Pcdha1|Pcdha11|Pcdha8|Pcdhac2|Pcdha9|Pcdha2 0.984
+Prr15 0.318
+Ptger3 1
+Rab27b 0.04
+Rpp25 1
+S100a10 1
+S100a11 0.376
+Slc22a3 1
+Slc6a4 1
+Sln 1
+Snurf|Snrpn 0.676
+Spock3 0.444
+Spp1 0.168
+Sult4a1 0.036
+Synj2bp 0.998
+Tac1 0.742
+Timm8b 0.06
+Tpd52l1 0.312
+Trh 1
+Ykt6 0.776

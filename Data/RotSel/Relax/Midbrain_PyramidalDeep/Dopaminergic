@@ -1,42 +1,145 @@
-AF357355
-Arhgap6
-Atp2b2
-Cacna2d2
-Cadm3
-Cadps2
-Card10
-Celf4
-Chrna6
-Cntnap2
-Col11a1
-Col6a1
-Dlk1
-Elavl2
-Foxa1
-Foxa2
-Grb10
-Grem2
-Kifc2
-L1cam
-Mapk8ip2
-Meg3
-Ncam1
-Pisd-ps2|Pisd|Pisd-ps1
-Prkcg
-Ptpru
-Rgs11
-Rreb1
-Ryr3
-Scn2a1
-Slc2a3
-Slc6a3
-Slc8a1
-Snhg11
-Stx3
-Susd2
-Tacr3
-Tenm1
-Th
-Tsks
-Ubr4
-Zfhx3
+Adam19 0.002
+AF357355 1
+Ahi1 0.152
+Aldh1a1 0.882
+Amy1 0.598
+Arhgap6 1
+Arhgdig 0.006
+Atp2a3 0.38
+Atp2b2 0.986
+Bcl9l 0.184
+Cacna2d1 0.294
+Cacna2d2 1
+Cacna2d3 0.208
+Cacng2 0.484
+Cadm3 0.998
+Cadps 0.412
+Cadps2 1
+Calb1 0.068
+Calb2 0.002
+Caln1 0.022
+Card10 1
+Cd200 0.542
+Cdc7 0.074
+Celf4 1
+Celsr3 0.058
+Chd6 0.364
+Chga 0.38
+Chgb 0.64
+Chrna6 1
+Clstn3 0.588
+Cntn1 0.034
+Cntnap2 1
+Cntnap4 0.256
+Col11a1 1
+Col4a1 0.034
+Col6a1 0.99
+Cplx1 0.056
+Cplx2 0.152
+Cpne6 0.078
+Crim1 0.032
+Csf1r 0.002
+Cyb561 0.29
+Dlk1 1
+Dpp6 0.624
+Dst 0.754
+Ebf3 0.004
+Elavl2 1
+Eml5 0.004
+Eno2 0.854
+Epha5 0.026
+F2r 0.892
+Fgf13 0.65
+Foxa1 0.996
+Foxa2 1
+Gabra1 0.02
+Gch1 0.002
+Ghr 0.008
+Grb10 1
+Grem2 0.986
+Grin1 0.122
+Grp 0.002
+Hap1 0.016
+Hpca 0.25
+Igf1 0.472
+Ina 0.034
+Inha 0.546
+Kcnc4 0.002
+Kcnq2 0.026
+Kifc2 1
+Klhdc8a 0.01
+Klhl1 0.03
+Krtap5-1 0.012
+Krtap5-1|Gm4559 0.458
+L1cam 1
+Lce1i 0.712
+Lppr4 0.294
+Lypd1 0.012
+Malat1 0.002
+Mapk8ip2 0.978
+March5 0.006
+Meg3 1
+Mpp3 0.552
+Napb 0.688
+Ncam1 0.998
+Neat1 0.846
+Nefh 0.008
+Ntn1 0.008
+Ntng1 0.042
+Ogt 0.542
+Olfm3 0.344
+Parm1 0.794
+Pclo 0.766
+Pisd|Pisd-ps1 0.038
+Pisd-ps1 0.006
+Pisd-ps1|Pisd 0.372
+Pisd-ps2|Pisd|Pisd-ps1 1
+Pkd1 0.156
+Plec 0.164
+Prkcg 1
+Prr12 0.022
+Ptbp2 0.058
+Ptpru 1
+Rasd2 0.052
+Rasgrf1 0.072
+Resp18 0.016
+Rgs11 1
+Rgs8 0.002
+Rian 0.858
+Rreb1 1
+Ryr3 1
+Scg2 0.114
+Scn1a 0.348
+Scn2a1 1
+Scn3b 0.046
+Sema4f 0.026
+Sept3 0.002
+Sept6 0.3
+Sez6l 0.742
+Slc12a5 0.016
+Slc2a3 1
+Slc4a10 0.082
+Slc6a3 1
+Slc8a1 1
+Slco1a4 0.302
+Sncg 0.004
+Snhg11 1
+Sptbn1 0.004
+Sptbn2 0.118
+Stx3 1
+Stxbp1 0.002
+Susd2 1
+Syne1 0.002
+Syngr1 0.118
+Syt4 0.136
+Tacr3 1
+Tcf20 0.078
+Tenm1 1
+Tfr2 0.074
+Th 1
+Tro 0.13
+Tsks 0.998
+Tspan8 0.004
+Ubr4 1
+Vsnl1 0.13
+Zfhx3 1

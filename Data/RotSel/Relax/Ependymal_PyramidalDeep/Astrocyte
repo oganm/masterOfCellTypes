@@ -1,118 +1,260 @@
-Aass
-Acsbg1
-Acsl6
-Adcy2
-Adhfe1
-Agt
-AI464131
-Aldh1l1
-Amot
-Aox1
-Aqp4
-Atp1a2
-Atp1b2
-Axl
-Bcan
-Btbd17
-Cbs
-Ccdc80
-Cd38
-Cldn10
-Clu
-Col4a5
-Cth
-Cyp2d22
-Cyp2j9
-Cyp4f14
-Cyp4f15
-Cyp7b1
-Cyr61
-Dag1
-Dclk1
-Dio2
-Dkk3
-Dtna
-Egfr
-Elovl2
-Emp2
-Entpd2
-Ephx2
-Eva1a
-Ezr
-F3
-Fads2
-Fgf1
-Fgfr1
-Fgfr3
-Fjx1
-Fkbp10
-Fmn2
-Fmo1
-Fstl1
-Fzd2
-Gabrb1
-Gabrg1
-Gdf10
-Ghr
-Gjb6
-Gldc
-Gli2
-Gpld1
-Grhl1
-Grin2c
-Gyk
-Hapln1
-Hsd11b1
-Igdcc4
-Igfbp2
-Igfbp5
-Itih5
-Kcnk1
-Kcnn2
-Lcat
-Lhx2
-Lrig1
-Mlc1
-Ncan
-Ndp
-Ntsr2
-Papss2
-Pdgfrb
-Phka1
-Phkg1
-Pla2g7
-Ppp1r3c
-Prodh
-Ptprz1
-Pygb
-Pygm
-S1pr1
-Scara3
-Scg3
-Sema4a
-Serpinh1
-Slc14a1
-Slc15a2
-Slc1a2
-Slc1a3
-Slc1a4
-Slc38a3
-Slc41a1
-Slc4a4
-Slc7a10
-Slco1c1
-Smpdl3a
-Sorcs2
-Tgfb2
-Timp3
-Tlcd1
-Tlr3
-Tmem47
-Tmem51
-Tnfrsf19
-Tril
-Ttpa
-Vcam1
-Vcl
-Vegfa
-Wwtr1
+1700019G17Rik 0.024
+2610034M16Rik 0.542
+4933431E20Rik 0.254
+Aass 0.956
+Abat 0.152
+Abhd3 0.542
+Acaa2 0.542
+Acsbg1 1
+Acsl6 1
+Adcy2 0.956
+Add3 0.918
+Adhfe1 1
+Adk 0.926
+Agt 0.994
+AI464131 1
+Ak4 0.542
+Aldh1a1 0.72
+Aldh1l1 1
+Aldh6a1 0.256
+Aldh7a1 0.19
+Amot 1
+Aox1 1
+Aqp4 1
+Asph 0.104
+Astn1 0.532
+Atp1a2 1
+Atp1b2 1
+Axl 1
+Baalc 0.012
+Bcan 1
+Bcar3 0.95
+Bhlhe40 0.542
+Btbd17 1
+C1qtnf5|Mfrp 0.536
+C4b|C4a 0.098
+Cbs 1
+Ccdc80 1
+Ccdc85a 0.72
+Ccnd2 0.096
+Cd38 1
+Cd44 0.38
+Cdh10 0.002
+Celsr1 0.774
+Chst1 0.008
+Chst2 0.512
+Cldn10 1
+Clu 1
+Cml1 0.542
+Col4a1 0.196
+Col4a5 1
+Csdc2 0.236
+Csgalnact1 0.466
+Cspg5 0.858
+Cth 1
+Cxcl14 0.332
+Cyp2d22 1
+Cyp2j9 0.982
+Cyp4f14 1
+Cyp4f15 1
+Cyp7b1 1
+Cyr61 1
+Dag1 0.986
+Dclk1 1
+Ddit4l 0.026
+Dio2 1
+Dkk3 0.998
+Dmd 0.886
+Dtna 0.962
+Ednrb 0.018
+Efemp1 0.244
+Egfr 1
+Elovl2 1
+Emp2 1
+Entpd2 1
+Ephx2 0.998
+Eps8 0.116
+Eva1a 1
+Ezr 1
+F3 1
+Fads2 1
+Fam181b 0.142
+Farp1 0.364
+Fcgrt 0.142
+Fgd6 0.216
+Fgf1 1
+Fgfr1 0.98
+Fgfr3 1
+Fgfrl1 0.086
+Fjx1 1
+Fkbp10 1
+Fmn2 0.98
+Fmo1 1
+Fstl1 0.998
+Fxyd1 0.724
+Fzd2 1
+Fzd4 0.002
+Gabra2 0.034
+Gabrb1 1
+Gabrg1 1
+Gas1 0.152
+Gdf10 1
+Gdf1|Cers1 0.236
+Gfap 0.304
+Ghr 1
+Gjb2 0.09
+Gjb6 1
+Gldc 1
+Gli2 0.998
+Glud1 0.19
+Gpld1 0.998
+Gpm6a 0.002
+Gpr37l1 0.002
+Gpr56 0.846
+Gpx8 0.092
+Grhl1 0.99
+Grin2c 1
+Gstm1 0.014
+Gyk 0.99
+Hapln1 1
+Hbegf 0.348
+Heph 0.8
+Hes5 0.002
+Hey1 0.008
+Hopx 0.09
+Hrh1 0.792
+Hrsp12 0.098
+Hsd11b1 1
+Htra1 0.076
+Id3 0.424
+Id4 0.002
+Igdcc4 0.998
+Igfbp2 1
+Igfbp5 1
+Inhbb 0.02
+Itga6 0.7
+Itga7 0.93
+Itih5 1
+Kcnk1 1
+Kcnn2 1
+Klf15 0.69
+Lama2 0.056
+Lcat 1
+Lgi4 0.914
+Lhx2 1
+Lmcd1 0.822
+Lpp 0.502
+Lrig1 1
+Lxn 0.526
+Mertk 0.542
+Mfge8 0.55
+Mgst1 0.35
+Mlc1 1
+Msmo1 0.264
+Mt2 0.01
+Myo10 0.008
+Myo6 0.346
+Naaa 0.118
+Ncan 1
+Ndp 0.988
+Neat1 0.002
+Ngef 0.01
+Nhsl1 0.146
+Nkain4 0.432
+Notch2 0.172
+Nrarp 0.332
+Nrcam 0.834
+Ntm 0.542
+Ntsr2 1
+Oaf 0.638
+Oplah 0.62
+Osmr 0.502
+Pacrg 0.124
+Papss2 0.998
+Paqr7 0.058
+Pbxip1 0.648
+Pcdh10 0.546
+Pdgfrb 1
+Pdk4 0.1
+Pdpn 0.024
+Pfkm 0.432
+Pgm2 0.248
+Phka1 0.996
+Phkg1 1
+Pla2g7 1
+Plagl1 0.046
+Pmm1 0.04
+Ppara 0.006
+Ppic 0.642
+Ppp1r3c 0.952
+Prdx6 0.542
+Prelp 0.698
+Prkd1 0.466
+Prodh 1
+Prom1 0.004
+Ptger4 0.324
+Ptprz1 1
+Pygb 1
+Pygm 1
+Rasa2 0.134
+Rhbdf1 0.008
+Rora 0.104
+S1pr1 1
+Sash1 0.542
+Scara3 1
+Scd2 0.004
+Scg3 1
+Sdc2 0.544
+Sec14l2 0.114
+Selenbp2|Selenbp1 0.122
+Sema4a 1
+Serpinh1 0.976
+Slc12a4 0.152
+Slc13a3 0.036
+Slc14a1 1
+Slc15a2 1
+Slc1a2 1
+Slc1a3 1
+Slc1a4 1
+Slc20a2 0.032
+Slc25a53 0.27
+Slc27a1 0.186
+Slc38a3 1
+Slc41a1 1
+Slc4a4 1
+Slc6a1 0.698
+Slc7a10 1
+Slc9a3r1 0.006
+Slco1c1 1
+Smpdl3a 0.988
+Soat1 0.008
+Sorcs2 1
+Sorl1 0.146
+Sox21 0.134
+Sox9 0.846
+Sparcl1 0.896
+Sptbn1 0.048
+Srebf1 0.252
+Syne1 0.42
+Tenm3 0.784
+Tfcp2l1 0.168
+Tgfb2 1
+Timp3 1
+Tlcd1 1
+Tlr3 1
+Tmem47 1
+Tmem51 1
+Tmem56 0.768
+Tnc 0.372
+Tnfrsf19 1
+Tril 1
+Tspan7 0.798
+Ttpa 1
+Ttyh1 0.002
+Vcam1 1
+Vcl 1
+Vegfa 1
+Wnt7a 0.8
+Wnt7b 0.276
+Wwtr1 1
+Zic3 0.062

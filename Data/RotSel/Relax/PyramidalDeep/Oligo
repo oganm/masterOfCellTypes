@@ -1,46 +1,88 @@
-Adssl1
-Anln
-Apod
-Aspa
-Cd9
-Cers2
-Cldn11
-Efhd1
-Elovl1
-Elovl7
-Fa2h
-Gab1
-Gamt
-Gatm
-Gltp
-Gng11
-Gpr37
-Grb14
-Gsn
-Josd2
-Lpar1
-Mag
-Mal
-Mobp
-Mog
-Nkx2-2
-Nkx6-2
-Olig2
-Pdlim2
-Plekhh1
-Pllp
-Ppp1r14a
-S1pr5
-Serpinb1a
-Slain1
-Slc44a1
-Sox10
-Stxbp3a
-Tmbim1
-Tmem98
-Tnfaip6
-Trf
-Trim59
-Tspan2
-Ugt8a
-Vamp3
+Abhd5 0.748
+Adssl1 0.988
+Anln 1
+Apod 1
+Arhgef10 0.008
+Arsg 0.004
+Aspa 1
+Asrgl1 0.004
+B3gnt9 0.008
+Car14 0.004
+Cd82 0.096
+Cd9 0.98
+Cers2 1
+Cldn11 0.992
+Csrp1 0.036
+Efhd1 1
+Efs 0.02
+Elovl1 0.998
+Elovl7 1
+Etv1 0.028
+Fa2h 1
+Gab1 1
+Gal3st1 0.914
+Gamt 1
+Gatm 0.994
+Gjb1 0.004
+Gltp 1
+Gng11 0.998
+Gpr37 1
+Gprc5b 0.516
+Grb14 1
+Gsn 0.998
+Gstm7 0.592
+Hapln2 0.894
+Il33 0.042
+Jam3 0.726
+Josd2 1
+Klk6 0.048
+Lims2 0.93
+Litaf 0.052
+Lpar1 1
+Mag 1
+Mal 1
+Mobp 1
+Mog 1
+Nfe2l3 0.07
+Ninj2 0.582
+Nkx2-2 1
+Nkx6-2 1
+Olig1 0.648
+Olig2 1
+Pcolce2 0.19
+Pdgfra 0.002
+Pdlim2 1
+Piga 0.01
+Pla2g16 0.848
+Plekhh1 0.998
+Pllp 1
+Ppp1r14a 1
+Prkd3 0.086
+Psat1 0.276
+Ptgds 0.208
+Rffl 0.864
+Rhog 0.682
+Rhpn2 0.046
+S100a1 0.76
+S100a16 0.752
+S1pr5 1
+Serpinb1a 0.99
+Sgk2 0.006
+Slain1 1
+Slc12a2 0.894
+Slc44a1 1
+Sox10 1
+Sspn 0.004
+St6galnac3 0.02
+Stxbp3a 0.996
+Tmbim1 1
+Tmem163 0.06
+Tmem63a 0.008
+Tmem98 1
+Tnfaip6 0.974
+Trf 1
+Trim59 1
+Tspan2 1
+Ugt8a 1
+Vamp3 1
+Wipf1 0.08

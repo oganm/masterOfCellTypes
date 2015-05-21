@@ -1,48 +1,112 @@
-1110008P14Rik
-Anxa2
-Cabp1
-Calca
-Calcb
-Caln1
-Cartpt
-Ccdc28a
-Ccdc92
-Cd24a
-Cd55
-Cda
-Cdh22
-Chodl
-Ecel1
-Fxyd7
-Gal
-Hcn1
-Hebp2
-Hspb1
-Hspb8
-Inadl
-Irx3
-Isl1
-Kazald1
-Kcnj14
-Lgals1
-Medag
-Nefh
-Nefm
-Nts
-Pcp4l1
-Popdc3
-Prph
-Prss12
-Rspo2
-Sh3bgr
-Slc18a3
-Slc29a4
-Spp1
-Sult4a1
-Susd2
-Tdrp
-Tesc
-Trhr
-Uts2
-Vamp1
-Ykt6
+1110008P14Rik 1
+Aard 0.008
+Adcyap1 0.332
+Anxa2 1
+Anxa4 0.9
+Arl16 0.94
+Atp1a3 0.372
+Cabp1 0.986
+Cacna2d3 0.166
+Calca 1
+Calcb 1
+Caln1 1
+Cartpt 1
+Cbln1 0.262
+Ccdc28a 1
+Ccdc92 1
+Cd24a 1
+Cd55 0.996
+Cd59a|Cd59b 0.024
+Cda 1
+Cdh22 1
+Cela1 0.484
+Cend1 0.522
+Chga 0.084
+Chodl 1
+Ckmt1 0.386
+Clvs1 0.028
+Csrp2 0.044
+Cyb561 0.188
+Dcn 0.818
+Dmtn 0.364
+Ecel1 1
+Emb 0.57
+Etl4 0.004
+Fabp3 0.016
+Fgf11 0.188
+Fgf18 0.898
+Fhod3 0.01
+Fkbp1b 0.204
+Fxyd7 1
+Gal 1
+Gng13 0.092
+Habp4 0.202
+Hcn1 1
+Hebp2 1
+Hoxb5 0.346
+Hoxc4 0.346
+Hspb1 1
+Hspb8 1
+Inadl 1
+Irx3 1
+Isl1 1
+Kazald1 1
+Kcna5 0.122
+Kcnab2 0.25
+Kcnh2 0.654
+Kcnip4 0.576
+Kcnj14 1
+Kcnk3 0.366
+Lgals1 1
+Lin7b 0.002
+Lrrc49 0.654
+Lynx1 0.708
+Mapk12 0.622
+Mcam 0.014
+Medag 1
+Mgst3 0.222
+Necab3 0.172
+Nefh 1
+Nefl 0.334
+Nefm 1
+Nell2 0.668
+Nol3 0.026
+Nrip3 0.572
+Nsg1 0.008
+Ntng1 0.424
+Nts 1
+Pacsin1 0.068
+Pcp4l1 1
+Pdlim7 0.388
+Pip5k1b 0.012
+Pip5kl1 0.746
+Popdc3 1
+Prph 1
+Prss12 1
+Pvalb 0.44
+Rab3b 0.384
+Rasl10a 0.282
+Rerg 0.282
+Rgs11 0.004
+Rgs4 0.062
+Rhov 0.624
+Rph3a 0.606
+Rspo2 1
+S100a10 0.254
+Scn1a 0.122
+Sh3bgr 1
+Slc17a6 0.734
+Slc18a3 1
+Slc29a4 1
+Slc6a15 0.024
+Snurf|Snrpn 0.004
+Spp1 1
+Stmn2 0.674
+Sult4a1 1
+Susd2 1
+Tdrp 1
+Tesc 1
+Trhr 1
+Uts2 1
+Vamp1 1
+Ykt6 1
