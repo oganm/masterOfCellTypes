@@ -62,6 +62,7 @@ ourGenesEx = lapply(ourGenes, function(x){
 
 simuProbs = 
     sapply(1:len(ourGenesEx),function(x){
+        print(x)
         if (len(ourGenesEx[[x]])<2){
             return(NA)
         }
@@ -93,16 +94,16 @@ names(simuProbs) = names(ourGenesEx)
 # plot simulation results -------------------
 dir.create('Data/SingleCelCoExists')
 
-lapply(1:len(simuProbs),function(x){
+lapply(1:ncol(simuProbs),function(x){
     if (is.na(simuProbs[[x]])){
         return(NULL)
     }
     svg(paste0('Data/SingleCelCoExists/', names(simuProbs)[x],'.svg'))
-    plot(density(simuProbs[[x]]), main= names(simuProbs)[[x]],
-         xlim=c(min(min(density(simuProbs[[x]])$x),  realProbs[x]),max(max(density(simuProbs[[x]])$x), realProbs[x]))
-        )
-   abline(v=realProbs[x],col='red')
-   dev.off()
+    plot(density(simuProbs[,x]), main= names(simuProbs)[x],
+         xlim=c(min(min(density(simuProbs[,x])$x),  realProbs[x]),max(max(density(simuProbs[,x])$x), realProbs[x])),
+        xlab='',cex.axis = 1.3, cex.main = 1.5, cex.lab = 1.5)
+   abline(v=realProbs[x],col='red', lwd = 3)
+  dev.off()
 })
 
 
