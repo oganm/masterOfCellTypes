@@ -1,0 +1,12 @@
+# Site settings
+title: masterOfCellTypes
+email: ogan.mancarci+moct@gmail.com
+description: "masterOfCellTypes project page"
+#baseurl: "//oganm.github.io/masterOfCellTypes"
+url: "//oganm.github.io/masterOfCellTypes"
+# twitter_username:
+github_username:  oganm
+
+# Build settings
+markdown: kramdown
+permalink: pretty

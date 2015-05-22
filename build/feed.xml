@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>oganm</title>
+    <description>Yet another blog</description>
+    <link>//oganm.github.io/</link>
+    <atom:link href="//oganm.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>2015-02-16 14:41:34 -0800</pubDate>
+    <lastBuildDate>2015-02-16 14:41:34 -0800</lastBuildDate>
+    <generator>Jekyll v</generator>
+    
+      <item>
+        <title>First post</title>
+        <description>&lt;p&gt;Trial
+and something completely different&lt;/p&gt;
+</description>
+        <pubDate>2015-02-15 00:00:00 -0800</pubDate>
+        <link>//oganm.github.io/2015/02/15/first-post/</link>
+        <guid isPermaLink="true">//oganm.github.io/2015/02/15/first-post/</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>
