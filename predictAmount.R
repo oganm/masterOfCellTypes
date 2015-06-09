@@ -19,7 +19,8 @@ fullEstimate = function(exprData,
                         groupRotations=F,
                         outlierSampleRemove=T,
                         controlBased = NA,
-                        pAdjMethod = p.adjust.methods
+                        pAdjMethod = p.adjust.methods,
+                        PC = 1
 ){
     estimates = cellTypeEstimate(exprData=exprData,
                                  genes=genes,
@@ -29,12 +30,14 @@ fullEstimate = function(exprData,
                                  controlBased= controlBased,
                                  tableOut = paste0(outDir,'/',names(genes),' rotTable.tsv'),
                                  indivGenePlot= paste0(outDir,'/',names(genes),' indivExp','.svg'),
-                                 seekConsensus = seekConsensus)
+                                 seekConsensus = seekConsensus,
+                                 PC = PC)
     estimates$estimates = trimNAs(estimates$estimates)
     estimates$groups = trimNAs(estimates$groups)
     
     if (groupRotations){
-        groupRotations(exprData, 
+        groupRotations(exprData,
+                       geneTransform=geneTransform,
                        genes=genes,
                        geneColName = geneColName,
                        groups=groups,
@@ -149,10 +152,12 @@ cellTypeEstimate = function(exprData,
                             tableOut = NA,
                             indivGenePlot = NA,
                             seekConsensus = F,
-                            plotType = c('groupBased','cummulative')){
-    
-    toCreate = unique(c(dirname(indivGenePlot), dirname(tableOut)))
-    sapply(toCreate,dir.create,showWarnings = F,recursive=T)
+                            plotType = c('groupBased','cummulative'),
+                            PC = 1){
+    if (!is.na(indivGenePlot[1])){
+        toCreate = unique(c(dirname(indivGenePlot), dirname(tableOut)))
+        sapply(toCreate,dir.create,showWarnings = F,recursive=T)
+    }
     
     if (typeof(genes)!='list'){
         genes = list(genes)
@@ -161,12 +166,13 @@ cellTypeEstimate = function(exprData,
     if(seekConsensus){
         groupRotations = groupRotations(exprData, genes, 
                                         geneColName, groups, outDir=NA,
-                                        geneTransform = function(x){mouse2human(x)$humanGene},
+                                        geneTransform = geneTransform,
                                         synonymTaxID = NA)
     }
     
-    estimateOut = vector(mode = 'list', length=len(genes))
-    groupsOut = vector(mode = 'list', length=len(genes))
+    estimateOut = vector(mode = 'list', length = len(genes))
+    groupsOut = vector(mode = 'list', length = len(genes))
+    rotations = vector(mode = 'list', length = len(genes))
     for (i in 1:len(genes)){
         if(!is.na(geneTransform)){
             genes[[i]] = geneTransform(genes[[i]])
@@ -228,8 +234,8 @@ cellTypeEstimate = function(exprData,
         }
 
         # get the final rotations, make sure everything is positive
-        pca$rotation = pca$rotation * ((sum(pca$rotation[,1])<0)*(-2)+1)
-        
+        pca$rotation = pca$rotation * ((sum(pca$rotation[,PC])<0)*(-2)+1)
+        rotations[[i]] = pca$rotation
         
         # output the rotation tables
         if (!is.na(tableOut[1])){
@@ -241,7 +247,7 @@ cellTypeEstimate = function(exprData,
                               paste(summary(pca)$importance[2,], collapse=' ')), 
                        fileConn)
             close(fileConn)
-            write.table(pca$rotation[,1,drop=F],
+            write.table(pca$rotation[,PC,drop=F],
                         file = tableOut[i],
                         quote = F, row.names = T, col.names = F, sep='\t',
                         append = T)
@@ -253,7 +259,7 @@ cellTypeEstimate = function(exprData,
         # outlier removal
         if (outlierSampleRemove){
             groupData = sapply(unique(groups),function(x){
-                pca$x[groups %in% x,1]
+                pca$x[groups %in% x,PC]
             },simplify=F)
             names(groupData) = unique(groups)
             box = boxplot(groupData, plot = F)
@@ -262,11 +268,12 @@ cellTypeEstimate = function(exprData,
             groupsOut[[i]] = groups[!rownames(pca$x) %in% names(box$out)]
             pca$x = pca$x[!rownames(pca$x) %in% names(box$out),,drop=F]
         }
-        estimateOut[[i]]=(pca$x[,1])
-    }
+        estimateOut[[i]]=(pca$x[,PC])
+    } # end of main loop over genes
     names(estimateOut) = names(genes)
     names(groupsOut) = names(genes)
-    output = list(estimates=estimateOut,groups=groupsOut)
+    names(rotations) = names(genes)
+    output = list(estimates=estimateOut,groups=groupsOut, rotations  = rotations)
         
     return(output)
 }
