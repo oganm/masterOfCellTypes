@@ -1,14 +1,15 @@
-require(RCurl)
-eval( expr = parse( text = getURL(
-    "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
-    ssl.verifypeer=FALSE) ))
 
 
 
-allPuristOut = function(genesLoc,lilah=F,prop='*'){
+allPuristOut = function(genesLoc,lilah=F,regex='*'){
+    require(RCurl)
+    eval( expr = parse( text = getURL(
+        "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
+        ssl.verifypeer=FALSE) ))
+    
     allGenLocs = list.dirs(genesLoc)
     allGenLocs = allGenLocs[-1]
-    allGenLocs = grep(prop,allGenLocs,value=T)
+    allGenLocs = grep(regex,allGenLocs,value=T)
     geneLists = lapply(allGenLocs, puristOut)
     names(geneLists) = basename(allGenLocs)
     return(geneLists)
@@ -16,6 +17,11 @@ allPuristOut = function(genesLoc,lilah=F,prop='*'){
 
 
 puristOut = function(geneLoc, lilah = F){
+    require(RCurl)
+    eval( expr = parse( text = getURL(
+        "https://raw.githubusercontent.com/oganm/toSource/master/ogbox.R",
+        ssl.verifypeer=FALSE) ))
+    
     filenames = list.files(geneLoc,include.dirs = FALSE)
     fileContents = lapply(paste0(geneLoc,'/', filenames), function(x){
         tryCatch(
@@ -30,14 +36,23 @@ puristOut = function(geneLoc, lilah = F){
     if (ncol(fileContents[[1]])==3 & lilah == F){
         # this if for a combination of fold change and silhouette coefficient
         for (i in 1:length(fileContents)){
-            geneList[[i]] = as.character(fileContents[[i]]$V1[as.numeric(as.character(fileContents[[i]]$V3))>0.5
-                                                              & as.numeric(as.character(fileContents[[i]]$V2))>log(10,base=2)])
+            tempContent = fileContents[[i]][!fileContents[[i]][,1] %in% 
+                                                      unlist(sapply((1:len(fileContents))[-i], function(x){
+                                                          fileContents[[x]][,1]
+                                                          })),]
+                
+            geneList[[i]] = as.character(tempContent$V1[as.numeric(as.character(tempContent$V3))>0.5
+                                                              & as.numeric(as.character(tempContent$V2))>log(10,base=2)])
         }
     }else if (ncol(fileContents[[1]])==3 & lilah == T){
         # this if for lilah's selection method
         for (i in 1:length(fileContents)){
-            geneList[[i]] = as.character(fileContents[[i]]$V1[as.numeric(as.character(fileContents[[i]]$V3))*
-                                                              as.numeric(as.character(fileContents[[i]]$V2))>2])
+            tempContent = fileContents[[i]][!fileContents[[i]][,1] %in% 
+                                                unlist(sapply((1:len(fileContents))[-i], function(x){
+                                                    fileContents[[x]][,1]
+                                                })),]
+            geneList[[i]] = as.character(tempContent$V1[as.numeric(as.character(tempContent$V3))*
+                                                              as.numeric(as.character(tempContent$V2))>2])
         }
     } else if (ncol(fileContents[[1]])==1){
         # this is for a mere gene list
