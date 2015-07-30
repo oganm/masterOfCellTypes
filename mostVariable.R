@@ -31,7 +31,8 @@ mostVariableCT = function(whichFile,outFile=NULL,selectionNaming, design='Data/m
     
     # add the multiple matching probesets back
     allDataPre = rbind(allDataPre,allDataMulti)
-
+    allDataPre = allDataPre[!allDataPre$Gene.Symbol=='',]
+    
     write.csv(allDataPre, file = outFile, row.names=FALSE)
 }
 
@@ -47,5 +48,6 @@ mostVariable = function(allDataPre,genes = 'Gene.Symbol'){
     decreasingVar = order(apply(exprData,1,var), decreasing = T)
     allDataPre = allDataPre[decreasingVar,]
     allDataPre = allDataPre[!duplicated(allDataPre[,genes]),]
+    allDataPre = allDataPre[!allDataPre[,genes]=='',]
     return(allDataPre)
 }
