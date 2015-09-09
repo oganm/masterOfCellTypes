@@ -2,7 +2,7 @@ masterOfCellTypes
 =================
 [![Join the chat at https://gitter.im/oganm/masterOfCellTypes](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/oganm/masterOfCellTypes?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-**Disclaimer:** I haven't been updating this file for a while now. So everything is likely to be extremely out of date. I'll fix it at some point. I promise...
+**Disclaimer:** I haven't been updating this file for a while now. So everything is likely to be extremely out of date. This directory is currently being migrated to [here](https://github.com/oganm/brainCellTypeSpecificGenes) to improve organisation and prepare the code for publication. There won't be further updates here.
 ![I honestly didn't think you could even USE emoji in variable names. Or that there were so many different crying ones](http://imgs.xkcd.com/comics/code_quality.png)
 
 Use and modify run.R to do stuff. Variables in the first lines dictate what will it do. Most are self explanatory
